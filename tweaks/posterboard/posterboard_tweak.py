@@ -1,67 +1,23 @@
 import os
-import zipfile
 import uuid
 from random import randint
 from shutil import copytree
 from PySide6 import QtWidgets
 
-from .tweak_classes import Tweak
+from ..tweak_classes import Tweak
+from .tendie_file import TendieFile
+from .template_file import TemplateFile
 from Sparserestore.restore import FileToRestore
 from controllers.plist_handler import set_plist_value
 from controllers.files_handler import get_bundle_files
 from controllers import video_handler
 from controllers.aar.aar import wrap_in_aar
 
-class TendieFile:
-    path: str
-    name: str
-    descriptor_cnt: int
-    is_container: bool
-    unsafe_container: bool
-    loaded: bool
-
-    def __init__(self, path: str):
-        self.path = path
-        self.name = os.path.basename(path)
-        self.descriptor_cnt = 0
-        self.is_container = False
-        self.unsafe_container = False
-        self.loaded = False
-
-        # read the contents
-        with zipfile.ZipFile(path, mode="r") as archive:
-            for option in archive.namelist():
-                if "__macosx/" in option.lower():
-                    continue
-                if "container" in option.lower():
-                    self.is_container = True
-                    # check for the unsafe file that requires prb reset
-                    if "PBFPosterExtensionDataStoreSQLiteDatabase.sqlite3" in option:
-                        self.unsafe_container = True
-                if "descriptor/" in option.lower():
-                    item = option.lower().split("descriptor/")[1]
-                    if item.count('/') == 1 and item.endswith('/'):
-                        self.descriptor_cnt += 1
-                elif "descriptors/" in option.lower():
-                    item = option.lower().split("descriptors/")[1]
-                    if item.count('/') == 1 and item.endswith('/'):
-                        self.descriptor_cnt += 1
-
-    def get_icon(self):
-        if self.is_container:
-            # container
-            return ":/icon/shippingbox.svg"
-        elif self.descriptor_cnt == 1:
-            # single descriptor
-            return ":/icon/photo.svg"
-        else:
-            # multiple descriptors
-            return ":/icon/photo-stack.svg"
-
 class PosterboardTweak(Tweak):
     def __init__(self):
         super().__init__(key=None)
         self.tendies: list[TendieFile] = []
+        self.templates: list[TemplateFile] = []
         self.videoThumbnail = None
         self.videoFile = None
         self.loop_video = True
@@ -72,10 +28,12 @@ class PosterboardTweak(Tweak):
         self.resetType = 0 # 0 for descriptor, 1 for prb, 2 for suggested photos
         self.structure_version = 61
 
-    def add_tendie(self, file: str):
-        new_tendie = TendieFile(path=file)
+    def verify_tendie(self, new_tendie: TendieFile, is_template: bool = False) -> bool:
         if new_tendie.descriptor_cnt + self.get_descriptor_count() <= 10:
-            self.tendies.append(new_tendie)
+            if is_template:
+                self.templates.append(new_tendie)
+            else:
+                self.tendies.append(new_tendie)
             # alert if prb reset is needed
             if new_tendie.unsafe_container:
                 detailsBox = QtWidgets.QMessageBox()
@@ -85,6 +43,21 @@ class PosterboardTweak(Tweak):
                 detailsBox.exec()
             return True
         return False
+
+    def add_tendie(self, file: str):
+        new_tendie = TendieFile(path=file)
+        return self.verify_tendie(new_tendie)
+    def add_template(self, file: str):
+        try:
+            new_template = TemplateFile(path=file)
+        except Exception as e:
+            detailsBox = QtWidgets.QMessageBox()
+            detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
+            detailsBox.setWindowTitle("Error")
+            detailsBox.setText(f"Failed to load template {file}\n\n{str(e)}")
+            detailsBox.exec()
+            return True
+        return self.verify_tendie(new_template, is_template=True)
 
     def get_descriptor_count(self):
         cnt = 0
@@ -258,12 +231,14 @@ class PosterboardTweak(Tweak):
             return
         update_label("Generating PosterBoard Video...")
         self.create_video_loop_files(output_dir, update_label=update_label)
+        # extract tendies
         for tendie in self.tendies:
-            update_label(f"Extracting {tendie.name}...")
-            zip_output = os.path.join(output_dir, str(uuid.uuid4()))
-            os.makedirs(zip_output)
-            with zipfile.ZipFile(tendie.path, 'r') as zip_ref:
-                zip_ref.extractall(zip_output)
+            update_label(f"Extracting tendie {tendie.name}...")
+            tendie.extract(output_dir=output_dir)
+        # extract templates
+        for template in self.templates:
+            update_label(f"Configuring template {template.name}...")
+            template.extract(output_dir=output_dir)
         # add the files
         update_label("Adding tendies...")
         self.recursive_add(files_to_restore, curr_path=output_dir)
