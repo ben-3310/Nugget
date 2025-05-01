@@ -1,81 +1,40 @@
 import os
-import zipfile
 import uuid
+import traceback
 from random import randint
 from shutil import copytree
 from PySide6 import QtWidgets
 
-from .tweak_classes import Tweak
-from Sparserestore.restore import FileToRestore
+from ..tweak_classes import Tweak
+from .tendie_file import TendieFile
+from .template_file import TemplateFile
+from restore.restore import FileToRestore
 from controllers.plist_handler import set_plist_value
 from controllers.files_handler import get_bundle_files
 from controllers import video_handler
 from controllers.aar.aar import wrap_in_aar
-
-class TendieFile:
-    path: str
-    name: str
-    descriptor_cnt: int
-    is_container: bool
-    unsafe_container: bool
-    loaded: bool
-
-    def __init__(self, path: str):
-        self.path = path
-        self.name = os.path.basename(path)
-        self.descriptor_cnt = 0
-        self.is_container = False
-        self.unsafe_container = False
-        self.loaded = False
-
-        # read the contents
-        with zipfile.ZipFile(path, mode="r") as archive:
-            for option in archive.namelist():
-                if "__macosx/" in option.lower():
-                    continue
-                if "container" in option.lower():
-                    self.is_container = True
-                    # check for the unsafe file that requires prb reset
-                    if "PBFPosterExtensionDataStoreSQLiteDatabase.sqlite3" in option:
-                        self.unsafe_container = True
-                if "descriptor/" in option.lower():
-                    item = option.lower().split("descriptor/")[1]
-                    if item.count('/') == 1 and item.endswith('/'):
-                        self.descriptor_cnt += 1
-                elif "descriptors/" in option.lower():
-                    item = option.lower().split("descriptors/")[1]
-                    if item.count('/') == 1 and item.endswith('/'):
-                        self.descriptor_cnt += 1
-
-    def get_icon(self):
-        if self.is_container:
-            # container
-            return ":/icon/shippingbox.svg"
-        elif self.descriptor_cnt == 1:
-            # single descriptor
-            return ":/icon/photo.svg"
-        else:
-            # multiple descriptors
-            return ":/icon/photo-stack.svg"
+from exceptions.nugget_exception import NuggetException
 
 class PosterboardTweak(Tweak):
     def __init__(self):
         super().__init__(key=None)
         self.tendies: list[TendieFile] = []
+        self.templates: list[TemplateFile] = []
         self.videoThumbnail = None
         self.videoFile = None
         self.loop_video = True
         self.reverse_video = False
         self.use_foreground = False
         self.bundle_id = "com.apple.PosterBoard"
-        self.resetting = False
-        self.resetType = 0 # 0 for descriptor, 1 for prb, 2 for suggested photos
+        self.resetModes = []
         self.structure_version = 61
 
-    def add_tendie(self, file: str):
-        new_tendie = TendieFile(path=file)
+    def verify_tendie(self, new_tendie: TendieFile, is_template: bool = False) -> bool:
         if new_tendie.descriptor_cnt + self.get_descriptor_count() <= 10:
-            self.tendies.append(new_tendie)
+            if is_template:
+                self.templates.append(new_tendie)
+            else:
+                self.tendies.append(new_tendie)
             # alert if prb reset is needed
             if new_tendie.unsafe_container:
                 detailsBox = QtWidgets.QMessageBox()
@@ -85,6 +44,22 @@ class PosterboardTweak(Tweak):
                 detailsBox.exec()
             return True
         return False
+
+    def add_tendie(self, file: str):
+        new_tendie = TendieFile(path=file)
+        return self.verify_tendie(new_tendie)
+    def add_template(self, file: str):
+        try:
+            new_template = TemplateFile(path=file)
+        except Exception as e:
+            print(traceback.format_exc())
+            detailsBox = QtWidgets.QMessageBox()
+            detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
+            detailsBox.setWindowTitle("Error")
+            detailsBox.setText(f"Failed to load template {file}\n\n{str(e)}")
+            detailsBox.exec()
+            return True
+        return self.verify_tendie(new_template, is_template=True)
 
     def get_descriptor_count(self):
         cnt = 0
@@ -98,7 +73,7 @@ class PosterboardTweak(Tweak):
         elif file_name == "com.apple.posterkit.provider.contents.userInfo":
             return set_plist_value(file=os.path.join(file_path, file_name), key="wallpaperRepresentingIdentifier", value=randomizedID)
         elif file_name == "Wallpaper.plist":
-            return set_plist_value(file=os.path.join(file_path, file_name), key="identifier", value=randomizedID)
+            return set_plist_value(file=os.path.join(file_path, file_name), key="identifier", value=randomizedID, recursive=False)
         return None
     
 
@@ -114,6 +89,11 @@ class PosterboardTweak(Tweak):
         ):
         if not os.path.isdir(curr_path):
             return
+        if isAdding and randomizeUUID and ("ordered-descriptor" in curr_path or "ordered-descriptors" in curr_path):
+            # PosterBoard orders wallpapers by wallpaper id in reverse order
+            r_id = randint(9999, 99999)
+            r_id_list = sorted([r_id + i for i in range(len(os.listdir(curr_path)))], reverse=True)
+        counter = 0
         for folder in sorted(os.listdir(curr_path)):
             if folder.startswith('.') or folder == "__MACOSX":
                 continue
@@ -122,8 +102,13 @@ class PosterboardTweak(Tweak):
                 folder_name = folder
                 curr_randomized_id = randomizedID
                 if randomizeUUID:
-                    folder_name = str(uuid.uuid4()).upper()
-                    curr_randomized_id = randint(9999, 99999)
+                    if "ordered-descriptor" in curr_path or "ordered-descriptors" in curr_path:
+                        folder_name = str(uuid.uuid4()).upper()
+                        curr_randomized_id = r_id_list[counter]
+                        counter += 1
+                    else:
+                        folder_name = str(uuid.uuid4()).upper()
+                        curr_randomized_id = randint(9999, 99999)
                 # if file then add it, otherwise recursively call again
                 if os.path.isfile(os.path.join(curr_path, folder)):
                     try:
@@ -150,7 +135,7 @@ class PosterboardTweak(Tweak):
                 if name == "container":
                     self.recursive_add(files_to_restore, os.path.join(curr_path, folder), restore_path="/", isAdding=True)
                     return
-                elif name == "descriptor" or name == "descriptors":
+                elif name == "descriptor" or name == "descriptors" or name == "ordered-descriptor" or name == "ordered-descriptors":
                     self.recursive_add(
                         files_to_restore,
                         os.path.join(curr_path, folder),
@@ -197,7 +182,7 @@ class PosterboardTweak(Tweak):
                 with open(self.videoThumbnail, "rb") as thumb:
                     thumb_contents = thumb.read()
             else:
-                raise Exception("No thumbnail heic selected!")
+                raise NuggetException("No thumbnail heic selected!")
                 # get the thumbnail from the video
                 thumb_contents = video_handler.get_thumbnail_from_contents(contents=video_contents)
                 del video_contents
@@ -228,25 +213,28 @@ class PosterboardTweak(Tweak):
 
     def apply_tweak(self, files_to_restore: list[FileToRestore], output_dir: str, version: str, update_label=lambda x: None):
         # unzip the file
-        if not self.enabled:
-            return
         if version.startswith("16"):
             # iOS 16 has a different number for the structure
             self.structure_version = 59
         else:
             self.structure_version = 61
-        if self.resetting:
+        if len(self.resetModes) > 0:
             # null out the folder
             file_paths = []
-            if self.resetType == 0:
-                # resetting descriptors
-                file_paths.append(f"/{self.structure_version}/Extensions/com.apple.WallpaperKit.CollectionsPoster/descriptors")
-                file_paths.append(f"/{self.structure_version}/Extensions/com.apple.MercuryPoster/descriptors")
-            elif self.resetType == 2:
-                # resetting suggested photos
-                file_paths.append(f"/{self.structure_version}/Extensions/com.apple.PhotosUIPrivate.PhotosPosterProvider/descriptors")
-            else:
-                file_paths.append("")
+            for mode in self.resetModes:
+                if mode == "Collections":
+                    # resetting collections
+                    file_paths.append(f"/{self.structure_version}/Extensions/com.apple.WallpaperKit.CollectionsPoster/descriptors")
+                    file_paths.append(f"/{self.structure_version}/Extensions/com.apple.MercuryPoster/descriptors")
+                elif mode == "Suggested Photos":
+                    # resetting suggested photos
+                    file_paths.append(f"/{self.structure_version}/Extensions/com.apple.PhotosUIPrivate.PhotosPosterProvider/descriptors")
+                elif mode == "Gallery Cache":
+                    # resetting gallery cache
+                    file_paths.append(f"/{self.structure_version}/GalleryCache")
+                else:
+                    # resetting prb extensions
+                    file_paths.append("")
             for file_path in file_paths:
                 files_to_restore.append(FileToRestore(
                     contents=b"",
@@ -254,16 +242,19 @@ class PosterboardTweak(Tweak):
                     domain=f"AppDomain-{self.bundle_id}"
                 ))
             return
-        elif (self.tendies == None or len(self.tendies) == 0) and (self.videoFile == None):
+        elif len(self.tendies) == 0 and len(self.templates) == 0 and self.videoFile == None:
             return
         update_label("Generating PosterBoard Video...")
+        self.create_live_photo_files(output_dir)
         self.create_video_loop_files(output_dir, update_label=update_label)
+        # extract tendies
         for tendie in self.tendies:
-            update_label(f"Extracting {tendie.name}...")
-            zip_output = os.path.join(output_dir, str(uuid.uuid4()))
-            os.makedirs(zip_output)
-            with zipfile.ZipFile(tendie.path, 'r') as zip_ref:
-                zip_ref.extractall(zip_output)
+            update_label(f"Extracting tendie {tendie.name}...")
+            tendie.extract(output_dir=output_dir)
+        # extract templates
+        for template in self.templates:
+            update_label(f"Configuring template {template.name}...")
+            template.extract(output_dir=output_dir)
         # add the files
         update_label("Adding tendies...")
         self.recursive_add(files_to_restore, curr_path=output_dir)

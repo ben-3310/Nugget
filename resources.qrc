@@ -39,5 +39,9 @@
         <file>gui/pb_tutorial1.png</file>
         <file>gui/pb_tutorial2.png</file>
         <file>icon/arrow.clockwise.svg</file>
+        <file>icon/chevron.down.svg</file>
+        <file>icon/chevron.up.svg</file>
+        <file>gui/transparent.png</file>
+        <file>icon/export.svg</file>
     </qresource>
 </RCC>
