@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<TS version="2.1" language="pt">
   <context>
     <name>GestaltDialog</name>
     <message>
       <location filename="../gui/dialogs.py" line="25"/>
       <source>The gestalt file looks like it was made for a different device.
 Are you sure you want to use this one?</source>
-      <translation>A gestalt fájlod úgy néz ki, hogy másik eszközre tartozik/készült. Biztosan ezt szeretnéd használni?</translation>
+      <translation>O ficheiro gestalt parece ter sido feito para um dispositivo diferente.
+Tem a certeza que quer usar este?</translation>
     </message>
   </context>
   <context>
@@ -15,7 +16,7 @@ Are you sure you want to use this one?</source>
     <message>
       <location filename="../qt/mainwindow.ui" line="415"/>
       <source>    Home</source>
-      <translation>    Főkijelző</translation>
+      <translation>Início</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="465"/>
@@ -25,78 +26,78 @@ Are you sure you want to use this one?</source>
     <message>
       <location filename="../qt/mainwindow.ui" line="494"/>
       <source>     Mobile Gestalt</source>
-      <translation>     Mobile Gestalt</translation>
+      <translation>Mobile Gestalt</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="538"/>
       <source>    Feature Flags</source>
-      <translation>    Funkció jelzők</translation>
+      <translation>Feature Flags</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="567"/>
       <source>    Eligibility</source>
-      <translation>    Jogosultság</translation>
+      <translation>Elegibilidade</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="596"/>
       <source>    Status Bar</source>
-      <translation>    Státusz sor</translation>
+      <translation>Barra de Estado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="628"/>
       <source>    Templates</source>
-      <translation>    Sablonok</translation>
+      <translation>Templates</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="657"/>
       <source>    Miscellaneous</source>
-      <translation>    Extrák</translation>
+      <translation>Diversos</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="701"/>
       <source>    Apply</source>
-      <translation>    Alkalmazás</translation>
+      <translation>Aplicar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="730"/>
       <source>    Settings</source>
-      <translation>    Beállítások</translation>
+      <translation>Definições</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1060"/>
       <source>  Join the Discord</source>
-      <translation>  Csatlakozz a Discordunkhoz</translation>
+      <translation>Junte-se ao Discord</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1074"/>
       <source> Star on Github</source>
-      <translation> Csillagozd a GitHubon</translation>
+      <translation>Estrela no Github</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1178"/>
       <source>  LeminLimez</source>
-      <translation>  LeminLimez</translation>
+      <translation>LeminLimez</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1295"/>
       <source>Main Developer</source>
-      <translation>Főfejlesztő</translation>
+      <translation>Programador Principal</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1369"/>
       <source>With Help From</source>
-      <translation>Segítők</translation>
+      <translation>Com a Ajuda De</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1391"/>
       <source>dootskyre, dulark, forcequitOS, pengubow, Middo, and SerStars</source>
-      <translation>dootskyre, dulark, forcequitOS, pengubow, Middo, és SerStars</translation>
+      <translation>dootskyre, dulark, forcequitOS, pengubow, Middo, e SerStars</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1407"/>
       <source>PosterRestore Team
 Posterboard</source>
-      <translation>PosterRestore csapat
+      <translation>Equipa PosterRestore
 Posterboard</translation>
     </message>
     <message>
@@ -104,43 +105,43 @@ Posterboard</translation>
       <source>Snoolie
 .aar Handling</source>
       <translation>Snoolie
-.aar kezelése</translation>
+Tratamento de .aar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1461"/>
       <source>disfordottie
 Feature Flags</source>
       <translation>disfordottie
-Funkció Jelzők</translation>
+Feature Flags</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1495"/>
       <source>Mikasa
 Quiet Daemon</source>
       <translation>Mikasa
-Csöndes Daemon</translation>
+Quiet Daemon</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1538"/>
       <source>Additional Thanks</source>
-      <translation>További köszönettel</translation>
+      <translation>Agradecimentos Adicionais</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1584"/>
       <source>pymobiledevice3</source>
-      <translation>pymobiledevice3-nek,</translation>
+      <translation>pymobiledevice3</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1610"/>
       <source>JJTech
 Sparserestore</source>
-      <translation>JJTech-nek
-a Sparserestore-ért</translation>
+      <translation>JJTech
+Sparserestore</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1638"/>
       <source>Qt Creator</source>
-      <translation>Qt Creator-től</translation>
+      <translation>Qt Creator</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1739"/>
@@ -151,336 +152,336 @@ a Sparserestore-ért</translation>
       <location filename="../qt/mainwindow.ui" line="1802"/>
       <location filename="../qt/mainwindow.ui" line="2846"/>
       <source>! You will need a MobileGestalt file for this feature. Please select it in the Apply page !</source>
-      <translation>! MobileGestalt fájlra van szükséged ehhez a funkcióhoz. Kérlek válaszd ki az Alkalmazás oldalon !</translation>
+      <translation>! Irá precisar de um ficheiro MobileGestalt para esta funcionalidade. Por favor, selecione-o na página Aplicar!</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1875"/>
       <source>Device Subtype Preset</source>
-      <translation>Eszköz Altípus beállítás</translation>
+      <translation>Predefinição de Subtipo de Dispositivo</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1946"/>
       <source>2436 (iPhone X Gestures for SE phones)</source>
-      <translation>2436 (iPhone X gesztus kezelés az iPhone SE telefonokra)</translation>
+      <translation>2436 (Gestos do iPhone X para telefones SE)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1951"/>
       <source>2556 (iPhone 14 Pro Dynamic Island)</source>
-      <translation>2556 (iPhone 14 Pro Dinamikus Sziget)</translation>
+      <translation>2556 (Dynamic Island do iPhone 14 Pro)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1956"/>
       <source>2796 (iPhone 14 Pro Max Dynamic Island)</source>
-      <translation>2796 (iPhone 14 Pro Max Dinamikus Sziget)</translation>
+      <translation>2796 (Dynamic Island do iPhone 14 Pro Max)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1961"/>
       <source>2976 (iPhone 15 Pro Max Dynamic Island)</source>
-      <translation>2976 (iPhone 15 Pro Max Dinamikus Sziget)</translation>
+      <translation>2976 (Dynamic Island do iPhone 15 Pro Max)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1966"/>
       <source>2622 (iPhone 16 Pro Dynamic Island)</source>
-      <translation>2622 (iPhone 16 Pro Dinamikus Sziget)</translation>
+      <translation>2622 (Dynamic Island do iPhone 16 Pro)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1971"/>
       <source>2868 (iPhone 16 Pro Max Dynamic Island)</source>
-      <translation>2868 (iPhone 16 Pro Max Dinamikus Sziget)</translation>
+      <translation>2868 (Dynamic Island do iPhone 16 Pro Max)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1979"/>
       <source>Modifies the resolution to improve functionality of the changed device subtype. May cause weird visual bugs.</source>
-      <translation>Módosítja a felbontást a megváltozott eszköz altípusának funkcionalitásának javítása érdekében. Furcsa vizuális hibákat okozhat.</translation>
+      <translation>Modifica a resolução para melhorar a funcionalidade do subtipo de dispositivo alterado. Pode causar bugs visuais estranhos.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1989"/>
       <source>Changes the model name in the 'About' page in the Settings app.</source>
-      <translation>Megváltozatja a modell nevet a Beállítások app 'Infó' oldalán.</translation>
+      <translation>Altera o nome do modelo na página 'Acerca de' na aplicação Definições.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1992"/>
       <source>Change Device Model Name</source>
-      <translation>Eszköz modell nevének megváltoztatása</translation>
+      <translation>Alterar o Nome do Modelo do Dispositivo</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1999"/>
       <source>Model Name</source>
-      <translation>Modell név</translation>
+      <translation>Nome do Modelo</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2006"/>
       <source>Plays a sound when the device shuts down.
 
 After enabling, you can find the option to enable it in 'Accessibility' settings.</source>
-      <translation>Az eszközöd egy hangot fog lejátszani mikor kikapcsol.
+      <translation>Reproduz um som quando o dispositivo desliga.
 
-Engedélyezés után, megtalálhatod az opciót a 'Kisegítő Lehetőségekben' hogy engedélyezni tudd.</translation>
+Após ativar, pode encontrar a opção para ativá-lo nas definições de 'Acessibilidade'.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2011"/>
       <source>Enable Boot Chime</source>
-      <translation>Indulási és leállási hang engedélyezése</translation>
+      <translation>Ativar Som de Arranque</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2018"/>
       <source>Shows the charge limit menu in Settings. Actual limiting may not be functional.</source>
-      <translation>Megjeleníti a töltési limit funkciót a Beállításokban. Rendes limitálás nem biztos hogy működni fog.</translation>
+      <translation>Mostra o menu de limite de carregamento nas Definições. A limitação real pode não ser funcional.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2021"/>
       <source>Enable Charge Limit</source>
-      <translation>Töltési limit engedélyezése</translation>
+      <translation>Ativar Limite de Carregamento</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2028"/>
       <source>Enable Tap to Wake (for iPhone SEs)</source>
-      <translation>Koppintás a ébresztéshez engedélyezése (iPhone SE készülékekhez)</translation>
+      <translation>Ativar Tocar para Ativar (para iPhones SE)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2035"/>
       <source>Enables Camera Control menu in Settings app and allows for downloading A17 Pro-exclusive apps (when spoofed).</source>
-      <translation>Engedélyezi a Kameravezérlő menüt a Beállításokban, és engedélyezi az A17 Pro exkluzív appok letöltését (mikor spoofolva).</translation>
+      <translation>Ativa o menu de Controlo da Câmara na aplicação Definições e permite o download de aplicações exclusivas do A17 Pro (quando falsificado).</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2038"/>
       <source>Enable iPhone 16 Settings</source>
-      <translation>iPhone 16 beállítások engedélyezése</translation>
+      <translation>Ativar Definições do iPhone 16</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2045"/>
       <source>Disables the motion of the wallpaper.</source>
-      <translation>Háttérkép mozgásának letiltása.</translation>
+      <translation>Desativa o movimento do papel de parede.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2048"/>
       <source>Disable Wallpaper Parallax</source>
-      <translation>Háttérkép Parallax letiltása</translation>
+      <translation>Desativar Paralaxe do Papel de Parede</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2070"/>
       <source>Enable Stage Manager Supported</source>
-      <translation>Stage Manager engedélyezése ajánlott</translation>
+      <translation>Ativar Stage Manager Suportado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2077"/>
       <source>Enable Medusa (iPad Multitasking)</source>
-      <translation>Medusa engedélyezése (iPad multitasking)</translation>
+      <translation>Ativar Medusa (Multitarefa do iPad)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2084"/>
       <source>Allow iPad Apps on iPhone</source>
-      <translation>iPad appok engedéyezése iPhone-on</translation>
+      <translation>Permitir Aplicações de iPad no iPhone</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2091"/>
       <source>Sets the device's region to LL/A to bypass certain region restrictions like the forced shutter sound.</source>
-      <translation>Beállítja az eszköz régióját LL/A-ra, hogy kikerülje a régiós korlátozásokat, mint pl. a kényszerített fényképkészítés hangot.</translation>
+      <translation>Define a região do dispositivo para LL/A para contornar certas restrições de região, como o som do obturador forçado.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2094"/>
       <source>Disable Region Restrictions (ie. Shutter Sound)</source>
-      <translation>Regionális Korlátozások Kikapcsolása (pl. Kamera Zárhang)</translation>
+      <translation>Desativar Restrições de Região (ex. Som do Obturador)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2101"/>
       <source>Enable Find My Friends</source>
-      <translation>Find My Friends engedélyezése</translation>
+      <translation>Ativar Encontrar Amigos</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2108"/>
       <source>Enable Apple Pencil Settings Tab</source>
-      <translation>Apple Pencil oldal engedélyezése</translation>
+      <translation>Ativar o separador de Definições do Apple Pencil</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2115"/>
       <source>Enable Action Button Settings Tab</source>
-      <translation>Művelet gomb oldal engedélyezése</translation>
+      <translation>Ativar o separador de Definições do Botão de Ação</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2137"/>
       <source>Use the Metal HUD in any app. Enable Metal HUD through Springboard Options.
 
 Note: OTA updates will be broken until this is disabled.</source>
-      <translation>Használhatod a Metal HUD-ot bármilyen appban. Engedélyezd a Metal HUD-ot a Springboard opciók között.
+      <translation>Use o Metal HUD em qualquer aplicação. Ative o Metal HUD através das Opções do Springboard.
 
-Megjegyzés: OTA frissítések nem fognak működni amíg ezt nem kapcsolod ki.</translation>
+Nota: As atualizações OTA serão interrompidas até que isto seja desativado.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2142"/>
       <source>Set as Apple Internal Install (ie Metal HUD in any app)</source>
-      <translation>Apple Belső telepítésként beállítás (pl. Metal HUD bármilyen appban)</translation>
+      <translation>Definir como Instalação Interna da Apple (ou seja, Metal HUD em qualquer aplicação)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2149"/>
       <source>Shows internal files in storage settings.
 
 Note: OTA updates will be broken until this is disabled.</source>
-      <translation>Belsős fájlok mutatása a Tárhely beállításokban. 
+      <translation>Mostra ficheiros internos nas definições de armazenamento.
 
-Megjegyzés: Az OTA frissítések nem fognak működni amíg ezt nem kapcsolod ki.</translation>
+Nota: As atualizações OTA serão interrompidas até que isto seja desativado.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2154"/>
       <source>Enable Internal Storage (WARNING: risky for some devices, mainly iPads)</source>
-      <translation>Engedélyezi a Belső tárhelyet (FIGYELMEZTETÉS: kockázatos pár eszköznél, főként iPad-eknél</translation>
+      <translation>Ativar Armazenamento Interno (AVISO: arriscado para alguns dispositivos, principalmente iPads)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2176"/>
       <source>Shows collision detection in the SOS page in Settings.</source>
-      <translation>Mutatja az Ütközéserzékelést az SOS oldalon a Beállításokban.</translation>
+      <translation>Mostra a deteção de colisão na página SOS nas Definições.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2179"/>
       <source>Enable Collision SOS</source>
-      <translation>Ütközésérzékelés engedélyezése</translation>
+      <translation>Ativar SOS de Colisão</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2186"/>
       <source>Enable AOD on unsupported devices. May cause burn in, use with caution.</source>
-      <translation>MBK engedélyezése nem támogatott eszközökon. OLED Beégést okozhat, vigyázz használatkor.</translation>
+      <translation>Ativar AOD em dispositivos não suportados. Pode causar burn-in, use com precaução.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2189"/>
       <source>Enable Always On Display</source>
-      <translation>Mindig Bekapcsolt Kijelző engedélyezése</translation>
+      <translation>Ativar Always On Display</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2196"/>
       <source>Enable this if something is wonky when using the above toggle.</source>
-      <translation>Engedélyezd mikor valami fura vagy rozoga a fenti kapcsolóval</translation>
+      <translation>Ative isto se algo estiver estranho ao usar a opção acima.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2199"/>
       <source>Enable AOD Vibrancy</source>
-      <translation>MBK Vibrancy engedélyezése</translation>
+      <translation>Ativar Vibrância AOD</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2229"/>
       <source>Custom Gestalt Keys</source>
-      <translation>Saját Gestalt Kulcsok</translation>
+      <translation>Chaves Gestalt Personalizadas</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2239"/>
       <source>  Add Key</source>
-      <translation>  Kulcs Hozzáadása</translation>
+      <translation>Adicionar Chave</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2258"/>
       <source>Warning: Using this feature incorrectly can lead to bootloops and data loss. Only use if you know
 what you are doing.</source>
-      <translation>Figyelmeztetés: A funkció helytelen használata bootloophoz és adat vesztéshez vezethet. Csak akkord használd ha tudod,
-hogy mit csinálsz.</translation>
+      <translation>Aviso: Usar esta funcionalidade incorretamente pode levar a bootloops e perda de dados. Use apenas se souber
+o que está a fazer.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2391"/>
       <source>Feature Flags</source>
-      <translation>Funkció Jelzők</translation>
+      <translation>Feature Flags</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2466"/>
       <source>Enables an animation when the lock screen clock changes time or style.</source>
-      <translation>Engedélyez egy animációt mikor a zárolt kijelzőn lévő óra idót, vagy. stílust változtat</translation>
+      <translation>Ativa uma animação quando o relógio do ecrã de bloqueio muda de hora ou estilo.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2469"/>
       <source>Enable Lockscreen Clock Animation</source>
-      <translation>Zárolt kijelzős óra animáció engedélyezése</translation>
+      <translation>Ativar Animação do Relógio do Ecrã de Bloqueio</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2476"/>
       <source>Enables a button to duplicate the lock screen page in edit mode.
 Enables quickly switching lock screens by holding down and swiping.</source>
-      <translation>Engedélyez egy gombot a zárolt kijelző oldal duplikálására szerkesztés módban.
-Engedélyez gyors váltást a zárolt kijelzők között letartással, és húzással.</translation>
+      <translation>Ativa um botão para duplicar a página do ecrã de bloqueio no modo de edição.
+Permite alternar rapidamente os ecrãs de bloqueio mantendo pressionado e deslizando.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2480"/>
       <source>Enable Duplicate Lockscreen Button and Lockscreen Quickswitch</source>
-      <translation>Zárolt kijelző duplikálása gomb és Zárolt kijelző gyorsváltás engedélyezése</translation>
+      <translation>Ativar Botão de Duplicar Ecrã de Bloqueio e Troca Rápida de Ecrã de Bloqueio</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2505"/>
       <source>Revert the photos app to the iOS 17 style.
 
 Does not work on iOS 18.0 RC.</source>
-      <translation>iOS 17 stílusú fotó app visszaállítása.
+      <translation>Reverter a aplicação Fotos para o estilo do iOS 17.
 
-Nem működik iOS 18.0 RC-n.</translation>
+Não funciona no iOS 18.0 RC.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2510"/>
       <source>Enable Old Photo UI</source>
-      <translation>Régi fotók UI engedélyezése</translation>
+      <translation>Ativar Interface Antiga das Fotos</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2517"/>
       <source>Enable the new Siri UI.
 
 Only works on iOS 18.0 beta 1-2.</source>
-      <translation>Új Siri UI engedélyezése.
+      <translation>Ativar a nova interface do Siri.
 
-Csak iOS 18.0 beta 1-2-n működik.</translation>
+Só funciona no iOS 18.0 beta 1-2.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2522"/>
       <source>Enable Apple Intelligence</source>
-      <translation>Apple Intelligence engedélyezése</translation>
+      <translation>Ativar Apple Intelligence</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2623"/>
       <source>Eligibility Tweaks</source>
-      <translation>Jogosultsági módósítások</translation>
+      <translation>Ajustes de Elegibilidade</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2737"/>
       <source>Enable EU Enabler</source>
-      <translation>EU Engedélyező engedélyezése</translation>
+      <translation>Ativar Ativador da UE</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2744"/>
       <source>Method Type</source>
-      <translation>Módszer típusa</translation>
+      <translation>Tipo de Método</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2792"/>
       <source>Method 1</source>
-      <translation>Módszer 1</translation>
+      <translation>Método 1</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2797"/>
       <source>Method 2</source>
-      <translation>Módszer 2</translation>
+      <translation>Método 2</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2805"/>
       <source>Region Code (Should be 2 letters)</source>
-      <translation>Régió kód (Két betűsnek kell hogy legyen)</translation>
+      <translation>Código de Região (Deve ter 2 letras)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2812"/>
       <source>Region Code (Default: US)</source>
-      <translation>Régió Kód (Alapértelmezett: US)</translation>
+      <translation>Código de Região (Padrão: US)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2853"/>
       <source>Enable Apple Intelligence (for Unsupported Devices)</source>
-      <translation>Apple Intelligence engedélyezése (nem támogatott eszközöknek)</translation>
+      <translation>Ativar Apple Intelligence (para Dispositivos Não Suportados)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2875"/>
       <source>Enable Eligibility File</source>
-      <translation>Jogosultsági fájl engedélyezése</translation>
+      <translation>Ativar Ficheiro de Elegibilidade</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2882"/>
       <source>Language Code (not needed for English)</source>
-      <translation>Nyelv kód (nincs szükség rá, ha angol nyelv)</translation>
+      <translation>Código de Língua (não é necessário para Inglês)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2889"/>
       <source>Language Code (i.e. en)</source>
-      <translation>Nyelv kód (pl. EN)</translation>
+      <translation>Código de Língua (ex: en)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2923"/>
@@ -493,25 +494,25 @@ Entering the menu on your original device model will cause a re-download and may
 restore to fix. Furthermore, if you switch between model groups, like spoofing from the iPhone 16s
 to the iPhone 15 Pro series, a re-download may also occur. 
 Please be careful!</source>
-      <translation>Annak érdekében, hogy letöltsed az AI modelleket, muszály spoofolnod az eszköz modelledet.
-Viszont, ez tönkreteheti a
-Face ID-t amíg nem állítod vissza.
+      <translation>Para fazer o download dos modelos de IA, deve falsificar o modelo do seu dispositivo. No entanto, isto pode danificar
+o Face ID até que reverta.
 
-FIGYELMEZTETÉS: Ne menj az Apple Intelligence menüre a Beállítások appban unspoofing után.
-
-Ha belépsz a menübe az eredeti eszköz modelleddel, újra le fog tölteni az összes modell, és lehetséges hogy szükséged lesz teljes visszaállításra hogy meg tudd javítani. Továbbá, ha a modell csoportok mellett váltasz, pl. iPhone 16-ról iPhone 15 Pro szériára mész, egy újra letöltés megtörténhet.
-Légy óvatos!</translation>
+AVISO: Não aceda ao menu Apple Intelligence na aplicação Definições após desfalsificar.
+Entrar no menu no modelo original do seu dispositivo causará um novo download e pode exigir um restauro
+completo para corrigir. Além disso, se alternar entre grupos de modelos, como falsificar do iPhone 16s
+para a série iPhone 15 Pro, um novo download também pode ocorrer.
+Por favor, tenha cuidado!</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2944"/>
       <source>Spoofed Device Model</source>
-      <translation>Spoofolt eszköz modell</translation>
+      <translation>Modelo de Dispositivo Falsificado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="2991"/>
       <location filename="../qt/mainwindow.ui" line="2998"/>
       <source>Original</source>
-      <translation>Eredeti</translation>
+      <translation>Original</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3003"/>
@@ -556,82 +557,82 @@ Légy óvatos!</translation>
     <message>
       <location filename="../qt/mainwindow.ui" line="3043"/>
       <source>iPad Pro (13-inch) (M4) (W) (iPad16,5)</source>
-      <translation>iPad Pro (13-inch) (M4) (W) (iPad16,5)</translation>
+      <translation>iPad Pro (13 polegadas) (M4) (W) (iPad16,5)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3048"/>
       <source>iPad Pro (13-inch) (M4) (C) (iPad16,6)</source>
-      <translation>iPad Pro (13-inch) (M4) (C) (iPad16,6)</translation>
+      <translation>iPad Pro (13 polegadas) (M4) (C) (iPad16,6)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3053"/>
       <source>iPad Pro (11-inch) (M4) (W) (iPad16,3)</source>
-      <translation>iPad Pro (11-inch) (M4) (W) (iPad16,3)</translation>
+      <translation>iPad Pro (11 polegadas) (M4) (W) (iPad16,3)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3058"/>
       <source>iPad Pro (11-inch) (M4) (C) (iPad16,4)</source>
-      <translation>iPad Pro (11-inch) (M4) (C) (iPad16,4)</translation>
+      <translation>iPad Pro (11 polegadas) (M4) (C) (iPad16,4)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3063"/>
       <source>iPad Pro (12.9-inch) (M2) (W) (iPad14,5)</source>
-      <translation>iPad Pro (12.9-inch) (M2) (W) (iPad14,5)</translation>
+      <translation>iPad Pro (12,9 polegadas) (M2) (W) (iPad14,5)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3068"/>
       <source>iPad Pro (12.9-inch) (M2) (C) (iPad14,6)</source>
-      <translation>iPad Pro (12.9-inch) (M2) (C) (iPad14,6)</translation>
+      <translation>iPad Pro (12,9 polegadas) (M2) (C) (iPad14,6)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3073"/>
       <source>iPad Pro (11-inch) (M2) (W) (iPad14,3)</source>
-      <translation>iPad Pro (11-inch) (M2) (W) (iPad14,3)</translation>
+      <translation>iPad Pro (11 polegadas) (M2) (W) (iPad14,3)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3078"/>
       <source>iPad Pro (11-inch) (M2) (C) (iPad14,4)</source>
-      <translation>iPad Pro (11-inch) (M2) (C) (iPad14,4)</translation>
+      <translation>iPad Pro (11 polegadas) (M2) (C) (iPad14,4)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3083"/>
       <source>iPad Air (13-inch) (M2) (W) (iPad14,10)</source>
-      <translation>iPad Air (13-inch) (M2) (W) (iPad14,10)</translation>
+      <translation>iPad Air (13 polegadas) (M2) (W) (iPad14,10)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3088"/>
       <source>iPad Air (13-inch) (M2) (C) (iPad14,11)</source>
-      <translation>iPad Air (13-inch) (M2) (C) (iPad14,11)</translation>
+      <translation>iPad Air (13 polegadas) (M2) (C) (iPad14,11)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3093"/>
       <source>iPad Air (11-inch) (M2) (W) (iPad14,8)</source>
-      <translation>iPad Air (11-inch) (M2) (W) (iPad14,8)</translation>
+      <translation>iPad Air (11 polegadas) (M2) (W) (iPad14,8)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3098"/>
       <source>iPad Air (11-inch) (M2) (C) (iPad14,9)</source>
-      <translation>iPad Air (11-inch) (M2) (C) (iPad14,9)</translation>
+      <translation>iPad Air (11 polegadas) (M2) (C) (iPad14,9)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3103"/>
       <source>iPad Pro (11-inch) (M1) (W) (iPad13,4)</source>
-      <translation>iPad Pro (11-inch) (M1) (W) (iPad13,4)</translation>
+      <translation>iPad Pro (11 polegadas) (M1) (W) (iPad13,4)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3108"/>
       <source>iPad Pro (11-inch) (M1) (C) (iPad13,5)</source>
-      <translation>iPad Pro (11-inch) (M1) (C) (iPad13,5)</translation>
+      <translation>iPad Pro (11 polegadas) (M1) (C) (iPad13,5)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3113"/>
       <source>iPad Pro (12.9-inch) (M1) (W) (iPad13,8)</source>
-      <translation>iPad Pro (12.9-inch) (M1) (W) (iPad13,8)</translation>
+      <translation>iPad Pro (12,9 polegadas) (M1) (W) (iPad13,8)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3118"/>
       <source>iPad Pro (12.9-inch) (M1) (C) (iPad13,9)</source>
-      <translation>iPad Pro (12.9-inch) (M1) (C) (iPad13,9)</translation>
+      <translation>iPad Pro (12,9 polegadas) (M1) (C) (iPad13,9)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3123"/>
@@ -646,38 +647,38 @@ Légy óvatos!</translation>
     <message>
       <location filename="../qt/mainwindow.ui" line="3136"/>
       <source>Spoofs the device hardware model (ie D83AP)</source>
-      <translation>Spoofolja az eszköz Hardver modeljét (pl. D83AP)</translation>
+      <translation>Falsifica o modelo de hardware do dispositivo (ex: D83AP)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3139"/>
       <source>Spoof Hardware Model</source>
-      <translation>Hardver modell Spoofolása</translation>
+      <translation>Falsificar Modelo de Hardware</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3149"/>
       <source>Spoofs the device CPU model (ie t8130)</source>
-      <translation>Spoolfolja az eszköz CPU modelljét (pl. t8130)</translation>
+      <translation>Falsifica o modelo de CPU do dispositivo (ex: t8130)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3152"/>
       <source>Spoof CPU Model</source>
-      <translation>CPU modell spoofolása</translation>
+      <translation>Falsificar Modelo de CPU</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3257"/>
       <source>Status Bar</source>
-      <translation>Státusz Sor</translation>
+      <translation>Barra de Estado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3264"/>
       <location filename="../qt/mainwindow.ui" line="5799"/>
       <source>Modify</source>
-      <translation>Módosítás</translation>
+      <translation>Modificar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3371"/>
       <source>Primary Cellular</source>
-      <translation>Elsődleges Mobilhálózat</translation>
+      <translation>Rede Celular Primária</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3402"/>
@@ -697,49 +698,49 @@ Légy óvatos!</translation>
       <location filename="../qt/mainwindow.ui" line="5004"/>
       <location filename="../qt/mainwindow.ui" line="5069"/>
       <source>Default</source>
-      <translation>Alapértelmezett</translation>
+      <translation>Padrão</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3412"/>
       <location filename="../qt/mainwindow.ui" line="3718"/>
       <source>Force Show</source>
-      <translation>Kényszerített mutatás</translation>
+      <translation>Forçar Mostrar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3419"/>
       <location filename="../qt/mainwindow.ui" line="3725"/>
       <source>Force Hide</source>
-      <translation>Kényszerített elrejtés</translation>
+      <translation>Forçar Ocultar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3442"/>
       <location filename="../qt/mainwindow.ui" line="3748"/>
       <source>Change Carrier Text</source>
-      <translation>Szolgáltató szöveg (pl. One HU) megváltoztatása</translation>
+      <translation>Alterar Texto da Operadora</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3449"/>
       <location filename="../qt/mainwindow.ui" line="3755"/>
       <source>Carrier Text</source>
-      <translation>Szolgáltató szöveg</translation>
+      <translation>Texto da Operadora</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3456"/>
       <location filename="../qt/mainwindow.ui" line="3762"/>
       <source>Change Service Badge Text</source>
-      <translation>Szolgáltatás jelvény szöveg megváltoztatása</translation>
+      <translation>Alterar Texto do Indicador de Serviço</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3463"/>
       <location filename="../qt/mainwindow.ui" line="3769"/>
       <source>Service Badge Text</source>
-      <translation>Szolgáltatás jelvény szöveg</translation>
+      <translation>Texto do Indicador de Serviço</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3470"/>
       <location filename="../qt/mainwindow.ui" line="3776"/>
       <source>Change Data Network Type</source>
-      <translation>Adathálózat típus megváltoztatása</translation>
+      <translation>Alterar Tipo de Rede de Dados</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3530"/>
@@ -781,7 +782,7 @@ Légy óvatos!</translation>
       <location filename="../qt/mainwindow.ui" line="3560"/>
       <location filename="../qt/mainwindow.ui" line="3863"/>
       <source>Personal Hotspot</source>
-      <translation>Személyes Hotspot</translation>
+      <translation>Hotspot Pessoal</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3868"/>
@@ -834,54 +835,54 @@ Légy óvatos!</translation>
       <location filename="../qt/mainwindow.ui" line="3608"/>
       <location filename="../qt/mainwindow.ui" line="3911"/>
       <source>Change Signal Strength</source>
-      <translation>Jelerősség megváltoztatása</translation>
+      <translation>Alterar Intensidade do Sinal</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3642"/>
       <location filename="../qt/mainwindow.ui" line="3939"/>
       <location filename="../qt/mainwindow.ui" line="4130"/>
       <source>0 Bars</source>
-      <translation>0 sor</translation>
+      <translation>0 Barras</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3683"/>
       <source>Secondary Cellular</source>
-      <translation>Másodlagos Mobilhálózat</translation>
+      <translation>Rede Celular Secundária</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3980"/>
       <source>Change Status Bar Time Text*</source>
-      <translation>Státusz Sor Idő szöveg megváltoztatása</translation>
+      <translation>Alterar Texto da Hora na Barra de Estado*</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3987"/>
       <source>Status Bar Time Text</source>
-      <translation>Státusz sor idő szöveg</translation>
+      <translation>Texto da Hora na Barra de Estado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4008"/>
       <source>Change Breadcrumb Text</source>
-      <translation>Breadcrumb szöveg megváltoztatása</translation>
+      <translation>Alterar Texto do Breadcrumb</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4015"/>
       <source>Breadcrumb Text</source>
-      <translation>Breadcrumb szöveg</translation>
+      <translation>Texto do Breadcrumb</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4022"/>
       <source>Change Battery Detail Text</source>
-      <translation>Akkumulátor részlet szöveg megváltoztatása</translation>
+      <translation>Alterar Texto Detalhado da Bateria</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4029"/>
       <source>Battery Detail Text</source>
-      <translation>Akkumulátor részlet szöveg</translation>
+      <translation>Texto Detalhado da Bateria</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4036"/>
       <source>Change Battery Icon Capacity</source>
-      <translation>Akkumulátor Ikon kapacitás megváltoztatása</translation>
+      <translation>Alterar Capacidade do Ícone da Bateria</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4064"/>
@@ -891,27 +892,27 @@ Légy óvatos!</translation>
     <message>
       <location filename="../qt/mainwindow.ui" line="4102"/>
       <source>Change Wi-Fi Signal Strength</source>
-      <translation>Wi-Fi Jelerősség megváltoztatása</translation>
+      <translation>Alterar Intensidade do Sinal Wi-Fi</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4156"/>
       <source>Show Numeric Wi-Fi Strength</source>
-      <translation>Numerikus Wi-Fi erősség mutatása</translation>
+      <translation>Mostrar Intensidade Wi-Fi Numérica</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4163"/>
       <source>Show Numeric Cellular Strength</source>
-      <translation>Numerikus Mobilhálózat erősség mutatása</translation>
+      <translation>Mostrar Intensidade Celular Numérica</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4170"/>
       <source>*When set to blank on notched devices, this will display the carrier name.</source>
-      <translation>Mikor üresre állítod a notchos eszközökön, a szolgáltató nevét fogja mutatni</translation>
+      <translation>*Quando definido como vazio em dispositivos com notch, será exibido o nome da operadora.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4192"/>
       <source>Focus Mode Icon</source>
-      <translation>Fókusz mód ikon</translation>
+      <translation>Ícone do Modo de Foco</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4227"/>
@@ -929,7 +930,7 @@ Légy óvatos!</translation>
       <location filename="../qt/mainwindow.ui" line="5014"/>
       <location filename="../qt/mainwindow.ui" line="5079"/>
       <source>Always Show</source>
-      <translation>Mindig mutat</translation>
+      <translation>Sempre Mostrar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4234"/>
@@ -947,373 +948,374 @@ Légy óvatos!</translation>
       <location filename="../qt/mainwindow.ui" line="5021"/>
       <location filename="../qt/mainwindow.ui" line="5086"/>
       <source>Always Hide</source>
-      <translation>Mindig elrejt</translation>
+      <translation>Sempre Ocultar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4257"/>
       <source>Airplane Mode</source>
-      <translation>Repülőgép mód</translation>
+      <translation>Modo Avião</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4322"/>
       <source>Wi-Fi Icon</source>
-      <translation>Wi-Fi ikon</translation>
+      <translation>Ícone de Wi-Fi</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4387"/>
       <source>^Will also hide cellular data indicator.</source>
-      <translation>^A mobilhálózat indikátort is elrejti.</translation>
+      <translation>^Também ocultará o indicador de dados móveis.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4394"/>
       <source>Battery Icon</source>
-      <translation>Akkumulátor Ikon</translation>
+      <translation>Ícone da Bateria</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4459"/>
       <source>Bluetooth Icon</source>
-      <translation>Bluetooth Ikon</translation>
+      <translation>Ícone de Bluetooth</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4524"/>
       <source>Alarm Icon</source>
-      <translation>Ébresztő Ikon</translation>
+      <translation>Ícone de Alarme</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4589"/>
       <source>Location Icon</source>
-      <translation>Helymeghatározás Ikon</translation>
+      <translation>Ícone de Localização</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4654"/>
       <source>Rotation Lock Icon</source>
-      <translation>Forgás Zárolás Ikon</translation>
+      <translation>Ícone de Bloqueio de Rotação</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4719"/>
       <source>AirPlay Icon</source>
-      <translation>AirPlay Ikon</translation>
+      <translation>Ícone do AirPlay</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4784"/>
       <source>CarPlay Icon</source>
-      <translation>CarPlay Ikon</translation>
+      <translation>Ícone do CarPlay</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4849"/>
       <source>VPN Icon</source>
-      <translation>VPN Ikon</translation>
+      <translation>Ícone da VPN</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4914"/>
       <source>Classroom Icon</source>
-      <translation>Osztályterem Ikon</translation>
+      <translation>Ícone do Classroom</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4979"/>
       <source>Liquid Detection Warning Icon</source>
-      <translation>Folyadék érzékelve figyelmeztetés Ikon</translation>
+      <translation>Ícone de Aviso de Detecção de Líquido</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5044"/>
       <source>Voice Control Icon</source>
-      <translation>Voice Control Ikon</translation>
+      <translation>Ícone de Controlo por Voz</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5109"/>
       <source>Force enables everything</source>
-      <translation>Kényszerítve engedélyez mindent</translation>
+      <translation>Forçar a ativação de tudo</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5112"/>
       <source>Silly Mode</source>
-      <translation>Buta Mód</translation>
+      <translation>Modo Tonto</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5217"/>
       <source>Springboard Options</source>
-      <translation>Springboard opciók</translation>
+      <translation>Opções do Springboard</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5298"/>
       <source>Lock Screen Footnote Text</source>
-      <translation>Zároltkijelző lábjegyzet</translation>
+      <translation>Texto de Nota de Rodapé do Ecrã de Bloqueio</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5305"/>
       <source>Footnote Text</source>
-      <translation>Lábjegyzet</translation>
+      <translation>Texto de Nota de Rodapé</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5327"/>
       <source>Disable Lock After Respring</source>
-      <translation>Zárolás letiltása Respring után</translation>
+      <translation>Desativar o Bloqueio Após Respring</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5334"/>
       <source>Disable Screen Dimming While Charging</source>
-      <translation>Kijelző sötétítés töltés alatt letiltása</translation>
+      <translation>Desativar a Redução do Brilho do Ecrã Durante o Carregamento</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5341"/>
       <source>Disable Low Battery Alerts</source>
-      <translation>Alacsony Töltőttségű Akkumulátor jelzések letiltása</translation>
+      <translation>Desativar Alertas de Bateria Fraca</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5348"/>
       <source>Removes '&lt; PreviousAppName' glyph in Status Bar when being forwarded to another app.</source>
-      <translation>Eltávolítja az '&lt; ElőzőAppNeve' jelet a Státusz sorból mikor másik appba továbbítanak.</translation>
+      <translation>Remove o glifo '&lt; PreviousAppName' na Barra de Estado quando encaminhado para outra aplicação.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5351"/>
       <source>Disable Breadcrumbs</source>
-      <translation>Breadcrumbok letiltása</translation>
+      <translation>Desativar Breadcrumbs</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5358"/>
       <source>Shows info about the device supervision status and organization at the bottom of the lock screen.</source>
-      <translation>Mutatja az információkat az eszköz kezeltségi (supervision) státuszáról, és az organizáció nevét a zárolt képrenyő alján.</translation>
+      <translation>Mostra informações sobre o estado de supervisão do dispositivo e organização na parte inferior do ecrã de bloqueio.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5361"/>
       <source>Show Supervision Text on Lock Screen</source>
-      <translation>Kezeltségi szöveg mutatása a zárolt kijelzőn</translation>
+      <translation>Mostrar Texto de Supervisão no Ecrã de Bloqueio</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5368"/>
       <source>Enable AirPlay support for Stage Manager</source>
-      <translation>AirPlay támogatás engedélyezése Stage Manager-hez</translation>
+      <translation>Ativar suporte AirPlay para Stage Manager</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5469"/>
       <source>Internal Options</source>
-      <translation>Belső Opciók</translation>
+      <translation>Opções Internas</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5544"/>
       <source>Show Build Version in Status Bar</source>
-      <translation>Build szám mutatása a Státusz Sorban</translation>
+      <translation>Mostrar Versão da Build na Barra de Estado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5551"/>
       <source>Force Right-to-Left Layout</source>
-      <translation>Jobbra balra kinézet kényszerítése</translation>
+      <translation>Forçar Layout da Direita para a Esquerda</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5576"/>
       <source>Enable Metal HUD Debug</source>
-      <translation>Metal HUD debugolás engedélyezése</translation>
+      <translation>Ativar Metal HUD Debug</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5583"/>
       <source>Enable iMessage Debugging</source>
-      <translation>iMessage Debugging engedélyezése</translation>
+      <translation>Ativar Depuração do iMessage</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5590"/>
       <source>Enable Continuity Debugging</source>
-      <translation>Continuity Debugging Engedélyezése</translation>
+      <translation>Ativar Depuração de Continuidade</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5597"/>
       <source>Enable FaceTime Debugging</source>
-      <translation>FaceTime Debugging engedélyezése</translation>
+      <translation>Ativar Depuração do FaceTime</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5619"/>
       <source>Enable App Store Debug Gesture</source>
-      <translation>App Store debugging mozdulat</translation>
+      <translation>Ativar Gesto de Depuração da App Store</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5626"/>
       <source>Enable Notes Debug Mode</source>
-      <translation>Jegyzetek debug mód engedélyezése</translation>
+      <translation>Ativar Modo de Depuração do Notas</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5648"/>
       <source>Show Touches With Debug Info</source>
-      <translation>Érintések mutatása debug infóval</translation>
+      <translation>Mostrar Toques com Informações de Depuração</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5655"/>
       <source>Hide Respring Icon</source>
-      <translation>Respring Ikon elrejtése</translation>
+      <translation>Ocultar Ícone de Respring</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5662"/>
       <source>Vibrate on Raise-to-Wake</source>
-      <translation>Rezgés emelés-az-ébresztésre-kor</translation>
+      <translation>Vibrar ao Levantar para Ativar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5684"/>
       <source>Play Sound on Paste</source>
-      <translation>Hang lejátszása beillesztéskor</translation>
+      <translation>Reproduzir Som ao Colar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5691"/>
       <source>Show Notifications for System Pastes</source>
-      <translation>Értesítések mutatása a Rendszer beillesztésekre</translation>
+      <translation>Mostrar Notificações para Colagens do Sistema</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5792"/>
       <location filename="../qt/mainwindow.ui" line="7530"/>
       <source>Daemons</source>
-      <translation>Daemonok</translation>
+      <translation>Daemons</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5840"/>
       <source>Note: Even on Sparserestore versions, this uses regular domains. Skip Setup will be applied if you have
 it enabled.</source>
-      <translation>Megjegyzés: Sparserestore verziókon is, ez szokásos domaineket használ. Setup kihagyása engedélyezve lesz.</translation>
+      <translation>Nota: Mesmo nas versões Sparserestore, isto usa domínios regulares. Skip Setup será aplicado se tiver
+ativado.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5866"/>
       <source>Stops over-the-air updates to prevent auto-downloads.</source>
-      <translation>Megállítja az Over-The-Air frissítéseket, hogy ne legyen auto-letöltés</translation>
+      <translation>Interrompe as atualizações over-the-air para evitar downloads automáticos.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5869"/>
       <source>Disable OTA</source>
-      <translation>OTA letiltása</translation>
+      <translation>Desativar OTA</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5876"/>
       <source>Disables usage tracking for improved privacy.</source>
-      <translation>Használatkövetés letiltása a jobb biztonság érdekében.</translation>
+      <translation>Desativa o rastreamento de uso para melhorar a privacidade.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5879"/>
       <source>Disable UsageTrackingAgent</source>
-      <translation>UsageTrackingAgent letiltása</translation>
+      <translation>Desativar UsageTrackingAgent</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5886"/>
       <source>Disables Screen Time monitoring features.</source>
-      <translation>Képernyőidő monitorizálási funkciók letiltása.</translation>
+      <translation>Desativa os recursos de monitorização do Tempo de Ecrã.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5889"/>
       <source>Disable Screen Time Agent</source>
-      <translation>Képernyőidő Agent (ügynök) letiltása</translation>
+      <translation>Desativar Screen Time Agent</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5896"/>
       <source>Deletes the Screen Time Agent preferences file to prevent app lockout set via iCloud.
 
 To work properly, also disable the daemon using the toggle above.</source>
-      <translation>Kitörli a Képernyőidő Agent preferences fájlját, hogy megakadályozza az app kizárást iClouddal.
+      <translation>Exclui o ficheiro de preferências do Screen Time Agent para impedir o bloqueio de aplicações definido via iCloud.
 
-Hogy jól működjön, tiltsd le a daemont a fenti kapcsolóval.</translation>
+Para funcionar corretamente, desative também o daemon usando a opção acima.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5901"/>
       <source>Clear ScreenTimeAgent.plist file</source>
-      <translation>ScreenTimeAgent.plist fájl tisztítása</translation>
+      <translation>Limpar ficheiro ScreenTimeAgent.plist</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5908"/>
       <source>Stops logs, dumps, and crash reports collection.</source>
-      <translation>Megállítja a logokat, dumpokat, és az összeomlás jelentések gyűjtését</translation>
+      <translation>Interrompe a recolha de logs, dumps e relatórios de crash.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5911"/>
       <source>Disable Logs, Dumps, and Crash Reports</source>
-      <translation>Logok, dumpok, összeomlási reportok letiltása</translation>
+      <translation>Desativar Logs, Dumps e Relatórios de Crash</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5918"/>
       <source>Disables pinging to sleeping bluetooth devices for improved battery life.</source>
-      <translation>Letiltja az alvó bluetooth eszközöknek a pingelését jobb akkumulátor üzemidőért.</translation>
+      <translation>Desativa o ping para dispositivos Bluetooth adormecidos para melhorar a vida útil da bateria.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5921"/>
       <source>Disable ATWAKEUP</source>
-      <translation>ATWAKEUP letiltása</translation>
+      <translation>Desativar ATWAKEUP</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5943"/>
       <source>Turns off Game Center background services.</source>
-      <translation>Letilitja a Game Center háttérfolyamatait.</translation>
+      <translation>Desliga os serviços em segundo plano do Game Center.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5946"/>
       <source>Disable Game Center</source>
-      <translation>Game Center letiltása</translation>
+      <translation>Desativar Game Center</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5953"/>
       <source>Disables the Tips service and notifications.</source>
-      <translation>Letiltja a Tippek szolgáltatást és az értesítéseit</translation>
+      <translation>Desativa o serviço e as notificações de Dicas.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5956"/>
       <source>Disable Tips Services</source>
-      <translation>Tippek szolgáltatások letiltása</translation>
+      <translation>Desativar Serviços de Dicas</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5963"/>
       <source>Disables the Virtual Private Network service.</source>
-      <translation>Letiltja a Virtuális Privát Hálozat szolgáltatást.</translation>
+      <translation>Desativa o serviço de Rede Privada Virtual.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5966"/>
       <source>Disable VPN Service</source>
-      <translation>VPN szolgáltatás letiltása</translation>
+      <translation>Desativar Serviço VPN</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5973"/>
       <source>Disables the service that deals with errors with WiFi networks with Chinese characters in the name.</source>
-      <translation>Letiltja a szolgáltatást ami a Kínai karakteres nevű Wi-Fi hálózatokat kezeli.</translation>
+      <translation>Desativa o serviço que lida com erros com redes Wi-Fi com caracteres chineses no nome.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5976"/>
       <source>Disable Chinese WLAN Service</source>
-      <translation>Kínai WLAN szolgáltatás letiltása</translation>
+      <translation>Desativar Serviço WLAN Chinês</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5983"/>
       <source>Disables HealthKit services used by the health app.</source>
-      <translation>Letiltja a HomeKit szolgáltatásokat amit az Egészség app használ.</translation>
+      <translation>Desativa os serviços HealthKit usados pela aplicação Saúde.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="5986"/>
       <source>Disable HealthKit</source>
-      <translation>HealthKit letiltása</translation>
+      <translation>Desativar HealthKit</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6008"/>
       <source>Disable AirPrint</source>
-      <translation>AirPrint letiltása</translation>
+      <translation>Desativar AirPrint</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6015"/>
       <source>Disable Assistive Touch</source>
-      <translation>Assistive Touch letiltása</translation>
+      <translation>Desativar Assistive Touch</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6022"/>
       <source>Disable iCloud</source>
-      <translation>iCloud letiltása</translation>
+      <translation>Desativar iCloud</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6029"/>
       <source>Disable Internet Tethering (Hotspot)</source>
-      <translation>Hotspot letiltása</translation>
+      <translation>Desativar Partilha de Internet (Hotspot)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6036"/>
       <source>Disable Passbook</source>
-      <translation>Passbook letiltása</translation>
+      <translation>Desativar Passbook</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6043"/>
       <source>Disable Spotlight</source>
-      <translation>Spotlight letiltása</translation>
+      <translation>Desativar Spotlight</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6050"/>
       <source>Disable Voice Control</source>
-      <translation>Voice Control letiltása</translation>
+      <translation>Desativar Controlo por Voz</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6151"/>
@@ -1323,103 +1325,102 @@ Hogy jól működjön, tiltsd le a daemont a fenti kapcsolóval.</translation>
     <message>
       <location filename="../qt/mainwindow.ui" line="6190"/>
       <source>   Discover Wallpapers</source>
-      <translation>   Háttérképek felfedezése</translation>
+      <translation>Descobrir Wallpapers</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6281"/>
       <source>  Tendies</source>
-      <translation>  Tendies</translation>
+      <translation>Tendies</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6301"/>
       <source>   Templates</source>
-      <translation>Sablonok</translation>
+      <translation>Templates</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6324"/>
       <source>   Video</source>
-      <translation>   Videó</translation>
+      <translation>Vídeo</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6354"/>
       <source>Clear Action:</source>
-      <translation>Művelet tisztítása:</translation>
+      <translation>Limpar Ação:</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6410"/>
       <location filename="../qt/mainwindow.ui" line="6497"/>
       <location filename="../qt/mainwindow.ui" line="6831"/>
       <source>Select a wallpaper file with the .tendies extension.</source>
-      <translation>Válassz ki egy háttérképet a .tendies formátummal.</translation>
+      <translation>Selecione um ficheiro de wallpaper com a extensão .tendies.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6416"/>
       <source>  Import Files (.tendies)</source>
-      <translation>  Importálj Fájlokat (.tendies)</translation>
+      <translation>Importar Ficheiros (.tendies)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6503"/>
       <location filename="../qt/mainwindow.ui" line="6837"/>
       <source>  Import Templates (.batter)</source>
-      <translation>  Importálj Sablonokat (.batter)</translation>
+      <translation>Importar Templates (.batter)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6560"/>
       <source>Uses the CoreAnimation file to play the video (300 fps limit)
 Will show up in Collections</source>
-      <translation>CoreAnimation fájlt használja a videó lejátszásához
-(300 fps limit)
-A Gyűjtemények között fog megjelenni</translation>
+      <translation>Usa o ficheiro CoreAnimation para reproduzir o vídeo (limite de 300 fps)
+Irá aparecer em Coleções</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6564"/>
       <source>Loop (use CoreAnimation method)</source>
-      <translation>Loop (CoreAnimation módszer)</translation>
+      <translation>Loop (usar método CoreAnimation)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6574"/>
       <source>Reverse on Loop</source>
-      <translation>Loopon megfordítás</translation>
+      <translation>Inverter no Loop</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6581"/>
       <source>Make Foreground (hides clock)</source>
-      <translation>Foreground csinálása (elrejti az órát)</translation>
+      <translation>Tornar Primeiro Plano (esconde o relógio)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6590"/>
       <source>Choose a photo for the wallpaper to freeze on when finished (.heic files only)</source>
-      <translation>Válassz egy fotót a háttérképet a fagyáshoz mikor kész (csak .heic fájlok)</translation>
+      <translation>Escolha uma foto para o wallpaper congelar quando terminar (apenas ficheiros .heic)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6593"/>
       <source>Choose Freeze Frame (.HEIC)</source>
-      <translation>Fagyás képkocka kiválasztása (.HEIC)</translation>
+      <translation>Escolher Frame Congelado (.HEIC)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6600"/>
       <source>Choose a video file for the wallpaper (.mov or .mp4)</source>
-      <translation>Válassz egy videó fájlt a háttérképhez (.mov vagy .mp4)</translation>
+      <translation>Escolha um ficheiro de vídeo para o wallpaper (.mov ou .mp4)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6603"/>
       <source>Choose Video</source>
-      <translation>Video kiválasztása</translation>
+      <translation>Escolher Vídeo</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6623"/>
       <source>   Export Video as Descriptor</source>
-      <translation>   Videó exportálása Descriptorként</translation>
+      <translation>Exportar Vídeo como Descriptor</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6748"/>
       <source>Templates</source>
-      <translation>Sablonok</translation>
+      <translation>Templates</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="6970"/>
       <source>Risky Options</source>
-      <translation>Kockázatos Opciók</translation>
+      <translation>Opções Arriscadas</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7045"/>
@@ -1429,70 +1430,71 @@ The options on this page may be unsafe for your device. Use these options at you
 your device resolution has the potential to brick your device when used improperly.
 
 Nugget is not responsible if you mess up your device, especially with resolution changer.</source>
-      <translation>Figyelmeztetés:
+      <translation>Aviso:
 
-Az ezen az oldalon található beállítások nem biztos, hogy biztonságosak \n az eszközödön. Ezeket a beállításokat saját felelősségedre használd. Az eszköz felbontásának megváltoztatása helytelen használat esetén károsíthatja az eszközödet.
+As opções nesta página podem ser inseguras para o seu dispositivo. Use estas opções por sua conta e risco. Alterar
+a resolução do seu dispositivo tem o potencial de danificar o seu dispositivo quando usado incorretamente.
 
-A Nugget nem vállal felelősséget az eszköz meghibásodásáért, \n különösen a felbontás váltó használata esetén.</translation>
+Nugget não é responsável se você estragar o seu dispositivo, especialmente com o alterador de resolução.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7072"/>
       <source>Uses the file method. Recommended to disable the daemon instead in the Daemons tab.</source>
-      <translation>Fájl módszert használ. Ajánlott a daemon letiltása a Daemonok oldalon.</translation>
+      <translation>Usa o método de ficheiro. Recomendado desativar o daemon na aba Daemons.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7075"/>
       <source>Disable OTA Updates (file)</source>
-      <translation>OTA frissítések letiltása (fájl)</translation>
+      <translation>Desativar Atualizações OTA (ficheiro)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7082"/>
       <source>Disables temperature monitoring daemon to reduce system checks.
 
 Warning: Disabling will cause the battery to show "Unknown Part" or "Unverified" in Settings.</source>
-      <translation>Letiltja a hőmonitoring daemont a Rendszer ellenőrzések csökkentéséért.
+      <translation>Desativa o daemon de monitorização de temperatura para reduzir as verificações do sistema.
 
-Figyelmeztetés; Ezt ha letiltod, akkor az Akkumulátor beállításokban azt fogja mutatni hogy "Ismeretlen Alkatrész" vagy "Nem ellenőrött".</translation>
+Aviso: Desativar fará com que a bateria mostre "Peça Desconhecida" ou "Não Verificada" nas Definições.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7087"/>
       <source>Disable thermalmonitord</source>
-      <translation>thermalmonitord letiltása</translation>
+      <translation>Desativar thermalmonitord</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7109"/>
       <source>Set a custom device screen resolution.</source>
-      <translation>Saját eszközfelbontás beállítása.</translation>
+      <translation>Defina uma resolução de ecrã personalizada para o dispositivo.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7112"/>
       <source>Set a Custom Device Resolution</source>
-      <translation>Saját eszközfelbontás beállítása</translation>
+      <translation>Definir uma Resolução de Dispositivo Personalizada</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7140"/>
       <source>Height:</source>
-      <translation>Magasság:</translation>
+      <translation>Altura:</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7155"/>
       <source>Resolution Height</source>
-      <translation>Felbontás Magassága</translation>
+      <translation>Altura da Resolução</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7196"/>
       <source>Width:</source>
-      <translation>Szélesség:</translation>
+      <translation>Largura:</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7213"/>
       <source>Resolution Width</source>
-      <translation>Felbontás Szélessége</translation>
+      <translation>Largura da Resolução</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7353"/>
       <source>Miscellaneous Options</source>
-      <translation>Extra opciók</translation>
+      <translation>Opções Diversas</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7463"/>
@@ -1502,151 +1504,151 @@ Figyelmeztetés; Ezt ha letiltod, akkor az Akkumulátor beállításokban azt fo
     <message>
       <location filename="../qt/mainwindow.ui" line="7498"/>
       <source>Internal</source>
-      <translation>Belső</translation>
+      <translation>Interno</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7559"/>
       <source>Risky</source>
-      <translation>Kockázatos</translation>
+      <translation>Arriscado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7688"/>
       <source>Apply</source>
-      <translation>Alkalmazás</translation>
+      <translation>Aplicar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7749"/>
       <source>Current gestalt file location:</source>
-      <translation>Gestalt fájl jelenlegi helyisége</translation>
+      <translation>Localização atual do ficheiro gestalt:</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7777"/>
       <source>  Choose Gestalt File</source>
-      <translation>  Gestalt fájl kiválasztása</translation>
+      <translation>Escolher Ficheiro Gestalt</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7808"/>
       <source>  Apply Changes</source>
-      <translation>  Változtatások alkalmazása</translation>
+      <translation>Aplicar Alterações</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7825"/>
       <source>Ready!</source>
-      <translation>Készen áll!</translation>
+      <translation>Pronto!</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7863"/>
       <source>Note: Skip Setup is currently turned on.</source>
-      <translation>Megjegyzés: Setup kihagyása be van kapcsolva.</translation>
+      <translation>Nota: Omitir Configuração está atualmente ativado.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7914"/>
       <source>Remove All Tweaks</source>
-      <translation>Összes módosítás letiltása</translation>
+      <translation>Remover Todos os Tweaks</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="7921"/>
       <source>Reset Mobile Gestalt</source>
-      <translation>MobileGestalt visszaállítása</translation>
+      <translation>Repor Mobile Gestalt</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8025"/>
       <source>Nugget Settings</source>
-      <translation>Nugget beállítások</translation>
+      <translation>Definições do Nugget</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8205"/>
       <source>Allow Applying Over WiFi</source>
-      <translation>Alkalmazás a Wi-Fi-n keresztül</translation>
+      <translation>Permitir Aplicar por WiFi</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8215"/>
       <source>Auto Reboot After Applying</source>
-      <translation>Automatikus újraindítás alkalmazás után</translation>
+      <translation>Reiniciar Automaticamente Após Aplicar</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8225"/>
       <source>Show Risky Tweak Options</source>
-      <translation>Kockázatos módosítások opciók mutatása</translation>
+      <translation>Mostrar Opções de Tweak Arriscadas</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8232"/>
       <source>Show models for other device types in the AI device spoofing tab.</source>
-      <translation>További modellek mutatása az AI eszköz spoofing oldalon.</translation>
+      <translation>Mostrar modelos para outros tipos de dispositivos no separador de spoofing de dispositivo AI.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8241"/>
       <source>Show All Spoofable Models</source>
-      <translation>Mutassa az összes Spoofolható modellt</translation>
+      <translation>Mostrar Todos os Modelos Spoofáveis</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8248"/>
       <source>Ignore Posterboard Frame Limit</source>
-      <translation>Posterboard fps limit ignorálása</translation>
+      <translation>Ignorar o limite de Frame do Posterboard</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8255"/>
       <source>Disables the tendies file limit of 2. There is still the descriptor limit.
 
 DO NOT unplug your device during restores.</source>
-      <translation>2 tendies fájl limit letiltása. De még van Descriptor limit.
+      <translation>Desativa o limite de 2 ficheiros tendies. Ainda existe o limite de descritores.
 
-NE húzd ki az eszközödet a visszaállítás alatt.</translation>
+NÃO desligue o seu dispositivo durante o restauro.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8260"/>
       <source>Disable Tendies Limit</source>
-      <translation>Tendies limit letiltása</translation>
+      <translation>Desativar o Limite de Tendies</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8285"/>
       <source>If you used the rdar/status bar fix in a previous iOS version, this will revert that.</source>
-      <translation>Ha rdar/státusz sor javítást használtál korábbi iOS verzióba ez visszaállítja azt.</translation>
+      <translation>Se usou a correção rdar/barra de estado numa versão anterior do iOS, isto irá reverter essa correção.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8288"/>
       <source>Revert rdar Fix (reset resolution)</source>
-      <translation>rdar javítás visszaállítása (Reset felbontás)</translation>
+      <translation>Reverter a Correção rdar (repor a resolução)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8310"/>
       <source>Restores the SSL config that does something idk</source>
-      <translation>Visszaállítja az SSL configot ami csinál valamit nemtom</translation>
+      <translation>Restaura a configuração SSL que faz algo que eu não sei</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8313"/>
       <source>Restore TrustStore (SSL Configuration Profiles)</source>
-      <translation>TrustStore visszaállítása (SSL Config profil)</translation>
+      <translation>Restaurar TrustStore (Perfis de Configuração SSL)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8323"/>
       <source>Skip Setup * (non-exploit files only)</source>
-      <translation>Skip Setup * (nem exploitos fájlok csak)</translation>
+      <translation>Ignorar Configuração Inicial * (apenas ficheiros não exploit)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8336"/>
       <source>Enable Supervision * (requires Skip Setup)</source>
-      <translation>Eszközkezelés engedélyezése * (kell skip setup hozzá)</translation>
+      <translation>Ativar Supervisão * (requer Ignorar Configuração Inicial)</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8346"/>
       <source>Enter Organization Name</source>
-      <translation>Írd be az Organizáció nevét</translation>
+      <translation>Introduzir o Nome da Organização</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8369"/>
       <source>* Note: Skip Setup may cause issues with configuration profiles. Turn it off if you need that.</source>
-      <translation>* Megjegyzés: Setup kihagyása problémákat okozhat config profilokkal. Kapcsold ki ha kell az.</translation>
+      <translation>* Nota: Ignorar Configuração Inicial pode causar problemas com perfis de configuração. Desative se precisar disso.</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8396"/>
       <source>Reset Device Pairing</source>
-      <translation>Eszköz párosítás visszaállítása</translation>
+      <translation>Repor Emparelhamento do Dispositivo</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8410"/>
       <source>Pocket Poster Helper</source>
-      <translation>Pocket Poster segítő</translation>
+      <translation>Pocket Poster Helper</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="973"/>
@@ -1661,27 +1663,27 @@ NE húzd ki az eszközödet a visszaállítás alatt.</translation>
       <location filename="../qt/mainwindow.ui" line="1651"/>
       <source>Nugget GUI - Version %VERSION %BETATAG</source>
       <extracomment>Leave %VERSION %BETATAG the same</extracomment>
-      <translation>Nugget GUI - Verzió %VERSION %BETATAG</translation>
+      <translation>Nugget GUI - Versão %VERSION %BETATAG</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="1558"/>
       <source>Translators</source>
-      <translation>Fordítók</translation>
+      <translation>Tradutores</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="3994"/>
       <source>Change Status Bar Date Text</source>
-      <translation>Státusz sor dátum megváltoztatása</translation>
+      <translation>Alterar o Texto da Data na Barra de Estado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="4001"/>
       <source>Status Bar Date Text</source>
-      <translation>Státusz sor dátum</translation>
+      <translation>Texto da Data na Barra de Estado</translation>
     </message>
     <message>
       <location filename="../qt/mainwindow.ui" line="8165"/>
       <source>App Language</source>
-      <translation>App nyelve</translation>
+      <translation>Idioma da App</translation>
     </message>
   </context>
   <context>
@@ -1689,7 +1691,7 @@ NE húzd ki az eszközödet a visszaállítás alatt.</translation>
     <message>
       <location filename="../gui/dialogs.py" line="44"/>
       <source>PosterBoard Info</source>
-      <translation>Posterboard Infó</translation>
+      <translation>Informação do PosterBoard</translation>
     </message>
     <message>
       <location filename="../gui/dialogs.py" line="47"/>
@@ -1697,10 +1699,10 @@ NE húzd ki az eszközödet a visszaállítás alatt.</translation>
 
 If the wallpapers don't appear in the menu, you either have to wait a bit for them to load,
 or you've reached the maximum amount of wallpapers (15) and have to wipe them.</source>
-      <translation>Új háttérkép hozzáadásakor a háttérképek a Gyűjtemények részben lesznek láthatók.
+      <translation>Os descritores estarão na secção de Coleções quando adicionar um novo wallpaper.
 
-Ha a háttérképek nem jelennek meg a menüben, akkor vagy várnod kell egy kicsit, amíg betöltődnek,
-vagy elérted a háttérképek maximális számát (15), és törölnöd kell őket.</translation>
+Se os wallpapers não aparecerem no menu, ou tem de esperar um pouco para eles carregarem,
+ou atingiu a quantidade máxima de wallpapers (15) e tem de os apagar.</translation>
     </message>
   </context>
   <context>
@@ -1708,17 +1710,17 @@ vagy elérted a háttérképek maximális számát (15), és törölnöd kell ő
     <message>
       <location filename="../gui/dialogs.py" line="84"/>
       <source>Update Available</source>
-      <translation>Frissítés elérhető</translation>
+      <translation>Atualização Disponível</translation>
     </message>
     <message>
       <location filename="../gui/dialogs.py" line="92"/>
       <source>Nugget v{0} is available. </source>
-      <translation>Nugget v{0} elérhetővé vált.</translation>
+      <translation>Nugget v{0} está disponível.</translation>
     </message>
     <message>
       <location filename="../gui/dialogs.py" line="94"/>
       <source>Would you like to go to the download on GitHub?</source>
-      <translation> Le szeretnéd tölteni a GitHubon?</translation>
+      <translation>Gostaria de ir para o download no GitHub?</translation>
     </message>
   </context>
   <context>
@@ -1726,7 +1728,7 @@ vagy elérted a háttérképek maximális számát (15), és törölnöd kell ő
     <message>
       <location filename="../gui/pages/main/home.py" line="51"/>
       <source>Please connect a device.</source>
-      <translation>Kérlek csatlakoztass egy eszközt.</translation>
+      <translation>Por favor, ligue um dispositivo.</translation>
     </message>
     <message>
       <location filename="../gui/pages/main/settings.py" line="162"/>
@@ -1739,19 +1741,19 @@ vagy elérted a háttérképek maximális számát (15), és törölnöd kell ő
       <source>Your hash has been transferred to the Pocket Poster app.
 
 Open up its settings and tap "Detect".</source>
-      <translation>A Hashed át lett küldve a Pocket Poster appba.
+      <translation>O seu hash foi transferido para a app Pocket Poster.
 
-Nyisd meg a beállításait és nyomj a "Detect" gombra.</translation>
+Abre as suas definições e toque em "Detectar".</translation>
     </message>
     <message>
       <location filename="../gui/pages/main/settings.py" line="166"/>
       <source>Copy it and paste it</source>
-      <translation>Másold ki és illeszd be</translation>
+      <translation>Copie e cole</translation>
     </message>
     <message>
       <location filename="../gui/pages/main/settings.py" line="170"/>
       <source>It has been copied. Paste it</source>
-      <translation>Ki lett másolva. Illeszd be</translation>
+      <translation>Foi copiado. Cole-o</translation>
     </message>
     <message>
       <location filename="../gui/pages/main/settings.py" line="172"/>
@@ -1759,104 +1761,104 @@ Nyisd meg a beállításait és nyomj a "Detect" gombra.</translation>
 {0}
 
 {1} into the Nugget app where it says "App Hash".</source>
-      <translation>A te Hashed:
+      <translation>O seu hash é:
 {0}
 
-{1} a Nugget appba ahol azt írja hogy "app hash".</translation>
+{1} na app Nugget onde diz "App Hash".</translation>
     </message>
     <message>
       <location filename="../exceptions/posterboard_exceptions.py" line="6"/>
       <source>Videos must be under {0} frames to loop. Either reduce the frame rate or make it shorter.</source>
-      <translation>Videonak {0} frame alatt kell lennie hogy loopolhasson. Vagy vedd le a Frame rate-et, vagy csináld rövidebbre.</translation>
+      <translation>Os vídeos devem ter menos de {0} frames para fazer loop. Reduza a frame rate ou faça-o mais curto.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="58"/>
       <source>Find My must be disabled in order to use this tool.</source>
-      <translation>A lokátort le kell tiltani ahhoz hogy ezt használd.</translation>
+      <translation>O Find My deve ser desativado para usar esta ferramenta.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="59"/>
       <source>Disable Find My from Settings (Settings -&gt; [Your Name] -&gt; Find My) and then try again.</source>
-      <translation>Tiltsd le a Lokátort a Beállításokból (Beállítások -&gt; [Te neved] -&gt; Lokátor) és próbáld újra.</translation>
+      <translation>Desative o Find My nas Definições (Definições -&gt; [O Seu Nome] -&gt; Find My) e depois tente novamente.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="61"/>
       <source>Nugget cannot be used on this device. Click Show Details for more info.</source>
-      <translation>A Nuggetet nem lehet ezen az eszközon használni. Kattints a További részletek-re több infóért.</translation>
+      <translation>O Nugget não pode ser usado neste dispositivo. Clique em Mostrar Detalhes para mais informações.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="62"/>
       <source>Your device is managed and MDM backup encryption is on. This must be turned off in order for Nugget to work. Please do not use Nugget on your school/work device!</source>
-      <translation>Az eszközöd kezelt, és az MDM backup titkosítás be van kapcsolva. Ki kell kapcsolnod ahhoz hogy a Nugget működjön. Kérlek ne használd a Nuggetet a sulis/munkahelyi eszközödön!</translation>
+      <translation>O seu dispositivo é gerido e a encriptação de backup MDM está ativada. Isto tem de ser desativado para o Nugget funcionar. Por favor, não use o Nugget no seu dispositivo da escola/trabalho!</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="64"/>
       <source>The session was terminated. Refresh the device list and try again.</source>
-      <translation>A munkamenet megszakadt. Frissítse az eszközlistát, és próbálja újra.</translation>
+      <translation>A sessão foi terminada. Atualize a lista de dispositivos e tente novamente.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="66"/>
       <source>Device is password protected! You must trust the computer on your device.</source>
-      <translation>Az eszköz jelszóval védett! Megbízhatóra állítsd a számítógépet.</translation>
+      <translation>O dispositivo está protegido por password! Tem de confiar no computador no seu dispositivo.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="67"/>
       <source>Unlock your device. On the popup, click "Trust", enter your password, then try again.</source>
-      <translation>Oldd fel az eszközödet. Az ablakon, kattints a "Megbízható" gombra, írd be a jelszavadat, és próbálkozz újra.</translation>
+      <translation>Desbloqueie o seu dispositivo. No popup, clique em "Confiar", introduza a sua password e tente novamente.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="70"/>
       <source>Device failed in sending files. The file list is possibly corrupted or has duplicates. Click Show Details for more info.</source>
-      <translation>Az eszköz nem tudott fájlokat küldeni. A fájllista valószínűleg sérült, vagy ismétlődések vannak benne. További információért kattintson a Részletek megjelenítése gombra.</translation>
+      <translation>O dispositivo falhou ao enviar ficheiros. A lista de ficheiros pode estar corrompida ou ter duplicados. Clique em "Mostrar Detalhes" para mais informações.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="104"/>
       <source>If you are on Linux, make sure you have usbmuxd and libimobiledevice installed.</source>
-      <translation>Ha Linuxod van, legyen a usbmuxd és a libimobiledevice telepítve.</translation>
+      <translation>Se estiver no Linux, certifique-se de que tem o usbmuxd e o libimobiledevice instalados.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="106"/>
       <source>Make sure you have the "Apple Devices" app from the Microsoft Store or iTunes from Apple's website.</source>
-      <translation>Győződjön meg róla, hogy letöltötte az "Apple Devices" alkalmazást a Microsoft Store-ból, vagy az iTunes-t az Apple webhelyéről.</translation>
+      <translation>Certifique-se de que tem a aplicação "Dispositivos Apple" da Microsoft Store ou o iTunes do site da Apple.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="107"/>
       <source>Failed to get device list. Click "Show Details" for the traceback.</source>
-      <translation>Nem sikerült lekérni az eszközlistát. Kattintson a "Részletek megjelenítése" gombra a visszakövetéshez.</translation>
+      <translation>Falha ao obter a lista de dispositivos. Clique em "Mostrar Detalhes" para ver o traceback.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="140"/>
       <source>Click "Show Details" for the traceback.</source>
-      <translation>Kattints a "Részletek megjelenítése"-re a visszakövetéshez.</translation>
+      <translation>Clique em "Mostrar Detalhes" para ver o traceback.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="157"/>
       <source>Device is password protected! You must trust the computer on your device.
 
 Unlock your device. On the popup, click "Trust", enter your password, then try again.</source>
-      <translation>Az eszköz jelszóval védett! Megbízhatóra állítsd a számítógépet.
+      <translation>O dispositivo está protegido por password! Tem de confiar no computador no seu dispositivo.
 
-Oldd fel az eszközödet. Az ablakon, kattints a "Megbízható" gombra, írd be a jelszavadat, és próbálkozz újra.</translation>
+Desbloqueie o seu dispositivo. Na janela pop-up, clique em "Confiar", introduza a sua password e tente novamente.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="161"/>
       <source>If you keep receiving this error, try using a different cable or port.</source>
-      <translation>Ha ezt a hibát folyton megkapod, akkor használj egy másik kábelt vagy másik portot.</translation>
+      <translation>Se continuar a receber este erro, tente usar um cabo ou porta diferente.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="274"/>
       <source>Pairing Reset</source>
-      <translation>Párosítás visszaállítása</translation>
+      <translation>Reposição do Emparelhamento</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="274"/>
       <source>Your device's pairing was successfully reset. Refresh the device list before applying.</source>
-      <translation>Az eszköz párosítása sikeresen vissza lett állítva. Frissítse az eszközök listáját az alkalmazás előtt.</translation>
+      <translation>O emparelhamento do seu dispositivo foi reposto com sucesso. Atualize a lista de dispositivos antes de aplicar.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="501"/>
       <source>No mobilegestalt file provided! Please select your file to apply mobilegestalt tweaks.</source>
-      <translation>Nem adtál meg MobileGestalt fájlt! Kérlek válaszd ki a a fájlt hogy alkalmazhassad a MobileGestalt módósításokat.</translation>
+      <translation>Nenhum ficheiro mobilegestalt fornecido! Por favor, selecione o seu ficheiro para aplicar os ajustes mobilegestalt.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="628"/>
@@ -1864,21 +1866,21 @@ Oldd fel az eszközödet. Az ablakon, kattints a "Megbízható" gombra, írd be 
       <source>Your device will now restart.
 
 Remember to turn Find My back on!</source>
-      <translation>Az eszközöd most újraindul.
+      <translation>O seu dispositivo irá agora reiniciar.
 
-Emlékezz arra, hogy kapcsold vissza a Lokátort!</translation>
+Lembre-se de voltar a ativar o Encontrar!</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="630"/>
       <location filename="../devicemanagement/device_manager.py" line="664"/>
       <source>Please restart your device to see changes.</source>
-      <translation>A változások alkalmazásához indítsd újra az eszközödet.</translation>
+      <translation>Por favor, reinicie o seu dispositivo para ver as alterações.</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="630"/>
       <location filename="../devicemanagement/device_manager.py" line="664"/>
       <source>All done! </source>
-      <translation>Kész! </translation>
+      <translation>Tudo feito!</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="630"/>
@@ -1886,114 +1888,114 @@ Emlékezz arra, hogy kapcsold vissza a Lokátort!</translation>
       <location filename="../devicemanagement/device_manager.py" line="664"/>
       <location filename="../devicemanagement/device_manager.py" line="665"/>
       <source>Success!</source>
-      <translation>Siker!</translation>
+      <translation>Sucesso!</translation>
     </message>
     <message>
       <location filename="../gui/pages/main/home.py" line="67"/>
       <source>Supported!</source>
-      <translation>Támogatott!</translation>
+      <translation>Suportado!</translation>
     </message>
     <message>
       <location filename="../gui/pages/main/home.py" line="69"/>
       <source>Not Supported.</source>
-      <translation>Nem Támogatott.</translation>
+      <translation>Não Suportado.</translation>
     </message>
     <message>
       <location filename="../gui/pages/main/home.py" line="72"/>
       <source>Partially Supported.</source>
-      <translation>Részben Támogatott.</translation>
+      <translation>Parcialmente Suportado.</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="40"/>
       <source>Wrong type of file</source>
-      <translation>Rossz féle fájl</translation>
+      <translation>Tipo de ficheiro errado</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="48"/>
       <source>Warning</source>
-      <translation>Figyelmeztetés</translation>
+      <translation>Aviso</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="49"/>
       <source>NOTE: You may need to reset all wallpapers (enable Risky Options in settings) and then re-apply for this file to work.</source>
-      <translation>MEGJEGYZÉS: Lehetséges hogy vissza kell állítanod az összes háttérképeidet (engedélyezd a Kockázatos Opciókat a beállításokban) és alkalmazd újra hogy a fájl működjön.</translation>
+      <translation>NOTA: Pode ser necessário repor todos os papéis de parede (ativar as Opções Arriscadas nas configurações) e, em seguida, reaplicá-los para que este ficheiro funcione.</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="66"/>
       <location filename="../tweaks/posterboard/template_options/templates_tweak.py" line="34"/>
       <source>Error</source>
-      <translation>Hiba</translation>
+      <translation>Erro</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="67"/>
       <location filename="../tweaks/posterboard/template_options/templates_tweak.py" line="35"/>
       <source>Failed to load template</source>
-      <translation>Nem sikerült betölteni a sablont</translation>
+      <translation>Falha ao carregar o modelo</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="199"/>
       <source>No Device</source>
-      <translation>Nincs eszköz</translation>
+      <translation>Nenhum Dispositivo</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="440"/>
       <source>Restoring to device...{0}{1}</source>
-      <translation>Eszközre visszaállítás...{0}{1}</translation>
+      <translation>A restaurar para o dispositivo...{0}{1}</translation>
     </message>
     <message>
       <location filename="../devicemanagement/device_manager.py" line="445"/>
       <source>Applying changes to files...</source>
-      <translation>Változtatások alkalmazása a fájlokra</translation>
+      <translation>A aplicar alterações aos ficheiros...</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="251"/>
       <source>Generating PosterBoard Video...</source>
-      <translation>PosterBoard videó generálása...</translation>
+      <translation>A gerar o vídeo do PosterBoard...</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="256"/>
       <source>Extracting tendie {0}...</source>
-      <translation>Tendie kicsomagolása {0}...</translation>
+      <translation>A extrair tendie {0}...</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="261"/>
       <source>Configuring template {0}...</source>
-      <translation>Sablon konfigurálása {0}...</translation>
+      <translation>A configurar o modelo {0}...</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="264"/>
       <source>Adding tendies...</source>
-      <translation>Tendies hozzáadása...</translation>
+      <translation>A adicionar tendies...</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/posterboard_tweak.py" line="266"/>
       <source>Adding other tweaks...</source>
-      <translation>Többi módosítás hozzáadása...</translation>
+      <translation>A adicionar outros tweaks...</translation>
     </message>
     <message>
       <location filename="../tweaks/tweak_classes.py" line="115"/>
       <source>Revert RDAR fix</source>
-      <translation>RDAR javítás visszaállítása</translation>
+      <translation>Reverter a correção RDAR</translation>
     </message>
     <message>
       <location filename="../tweaks/tweak_classes.py" line="116"/>
       <source>RDAR Fix</source>
-      <translation>RDAR javítás</translation>
+      <translation>Correção RDAR</translation>
     </message>
     <message>
       <location filename="../tweaks/tweak_classes.py" line="119"/>
       <source>Revert Status Bar Fix</source>
-      <translation>Státusz sor javítás visszaállítása</translation>
+      <translation>Reverter a correção da Barra de Estado</translation>
     </message>
     <message>
       <location filename="../tweaks/tweak_classes.py" line="120"/>
       <source>Dynamic Island Status Bar Fix</source>
-      <translation>Dynamic Island státusz sor javítása</translation>
+      <translation>Correção da Barra de Estado da Dynamic Island</translation>
     </message>
     <message>
       <location filename="../controllers/video_handler.py" line="103"/>
       <source>Creating {0}...</source>
-      <translation>{0} készítése...</translation>
+      <translation>A criar {0}...</translation>
     </message>
   </context>
   <context>
@@ -2003,94 +2005,94 @@ Emlékezz arra, hogy kapcsold vissza a Lokátort!</translation>
       <location filename="../gui/pages/tools/posterboard.py" line="216"/>
       <location filename="../gui/pages/tools/posterboard.py" line="233"/>
       <source>Error!</source>
-      <translation>Hiba!</translation>
+      <translation>Erro!</translation>
     </message>
     <message>
       <location filename="../gui/pages/tools/posterboard.py" line="209"/>
       <source>You selected too many tendies files! The limit is 3.
 
 This is for your safety. Please apply the rest separately.</source>
-      <translation>Túl sok tendies fájlt választottál ki! A limit 3-mat enged.
+      <translation>Selecionou demasiados ficheiros tendies! O limite é 3.
 
-Ez a biztonságodért van. Kérlek a többit külön alkalmazd.</translation>
+Isto é para sua segurança. Por favor, aplique o resto separadamente.</translation>
     </message>
     <message>
       <location filename="../gui/pages/tools/posterboard.py" line="217"/>
       <location filename="../gui/pages/tools/posterboard.py" line="234"/>
       <source>You selected too many descriptors! The limit is 10.</source>
-      <translation>Túl sok descriptort választottál ki! A limit 10.</translation>
+      <translation>Selecionou demasiados descritores! O limite é 10.</translation>
     </message>
     <message>
       <location filename="../gui/pages/tools/posterboard.py" line="37"/>
       <location filename="../gui/pages/tools/posterboard.py" line="245"/>
       <location filename="../gui/pages/tools/posterboard.py" line="248"/>
       <source>Current Thumbnail: {0}</source>
-      <translation>Jelenlegi indexkép: {0}</translation>
+      <translation>Thumbnail Atual: {0}</translation>
     </message>
     <message>
       <location filename="../gui/pages/tools/posterboard.py" line="38"/>
       <location filename="../gui/pages/tools/posterboard.py" line="254"/>
       <location filename="../gui/pages/tools/posterboard.py" line="259"/>
       <source>Current Video: {0}</source>
-      <translation>Jelenlegi videó: {0}</translation>
+      <translation>Vídeo Atual: {0}</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="61"/>
       <source>No options were found in the config. Make sure that it is in the correct format.</source>
-      <translation>Nem találtunk opciókat a configban. Győződj meg arról, hogy a formátum helyes.</translation>
+      <translation>Nenhuma opção foi encontrada na configuração. Certifique-se de que está no formato correto.</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="63"/>
       <source>This config does not have a valid domain!</source>
-      <translation>Ennek a confignak nincsen érvényes domainje!</translation>
+      <translation>Esta configuração não tem um domínio válido!</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="70"/>
       <source>This config requires a newer version of Nugget.</source>
-      <translation>Ez a config újabb Nugget verziót igényel.</translation>
+      <translation>Esta configuração requer uma versão mais recente do Nugget.</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="81"/>
       <source>This template requires iOS {0}.
 Your iOS version (iOS {1}) is too outdated!</source>
-      <translation>Ennek a sablonnak iOS {0} -ra van szüksége.
-A te iOS verziód (iOS {1}) túl régi.</translation>
+      <translation>Este modelo requer iOS {0}.
+A sua versão do iOS (iOS {1}) é demasiado antiga!</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="85"/>
       <source>This template requires iOS {0}.
 Your iOS version (iOS {1}) is too new!</source>
-      <translation>Ennek a sablonnak iOS {0} verzióra van szüksége.
-A te iOS verziód túl új (iOS {1})</translation>
+      <translation>Este modelo requer iOS {0}.
+A sua versão do iOS (iOS {1}) é demasiado recente!</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="138"/>
       <source>Invalid option type in template</source>
-      <translation>Érvénytelen opció típus a sablonba</translation>
+      <translation>Tipo de opção inválido no modelo</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="140"/>
       <source>No config.json found in file!</source>
-      <translation>Nem találunk config.json -t a fájlba!</translation>
+      <translation>Nenhum config.json encontrado no ficheiro!</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_file.py" line="292"/>
       <source>Bundle id (default: {0})</source>
-      <translation>Bundle id (default: {0})</translation>
+      <translation>ID do pacote (predefinição: {0})</translation>
     </message>
     <message>
       <location filename="../tweaks/posterboard/template_options/replace_option.py" line="103"/>
       <source>Error applying template:
 
 No selected file for required option</source>
-      <translation>Hiba a sablon alkalmazásakor:
+      <translation>Erro ao aplicar o modelo:
 
-Nincs kiválasztva fájl a szükséges opcióra</translation>
+Nenhum ficheiro selecionado para a opção necessária</translation>
     </message>
     <message>
       <location filename="../gui/pages/tools/gestalt.py" line="73"/>
       <source>modifies resolution</source>
-      <translation>módósítja a felbontást</translation>
+      <translation>modifica a resolução</translation>
     </message>
   </context>
   <context>
@@ -2098,17 +2100,17 @@ Nincs kiválasztva fájl a szükséges opcióra</translation>
     <message>
       <location filename="../gui/pages/tools/posterboard.py" line="31"/>
       <source>Collections</source>
-      <translation>Gyűjtemények</translation>
+      <translation>Coleções</translation>
     </message>
     <message>
       <location filename="../gui/pages/tools/posterboard.py" line="32"/>
       <source>Suggested Photos</source>
-      <translation>Ajánlott fotók</translation>
+      <translation>Fotos Sugeridas</translation>
     </message>
     <message>
       <location filename="../gui/pages/tools/posterboard.py" line="33"/>
       <source>Gallery Cache</source>
-      <translation>Galéria gyorsítótár</translation>
+      <translation>Cache da Galeria</translation>
     </message>
   </context>
   <context>
@@ -2120,16 +2122,16 @@ Nincs kiválasztva fájl a szükséges opcióra</translation>
 This has been known to cause problems and potentially lead to bootloops.
 
 Use at your own risk!</source>
-      <translation>Figyelmeztetés: Az iOS 26 Bétán vagy.
+      <translation>Aviso: Está no iOS 26 beta.
 
-Ez köztudottan ismert, hogy bootloopokat, és problémákoz vezethet.
+Sabe-se que isto causa problemas e pode potencialmente levar a bootloops.
 
-Saját felelősségre használd! l</translation>
+Use por sua conta e risco!</translation>
     </message>
     <message>
       <location filename="../gui/main_window.py" line="48"/>
       <source>None</source>
-      <translation>Egyik sem</translation>
+      <translation>Nenhum</translation>
     </message>
   </context>
 </TS>
