@@ -238,7 +238,6 @@ class PosterboardTweak(Tweak):
             del thumb_contents
 
     def create_video_loop_files(self, output_dir: str, update_label=lambda x: None):
-        print(f"file: {self.videoFile}, looping: {self.loop_video}")
         if self.videoFile and self.loop_video:
             source_dir = get_bundle_files("files/posterboard/VideoCAML")
             video_output_dir = os.path.join(output_dir, "descriptor", "VideoCAML")
@@ -250,8 +249,9 @@ class PosterboardTweak(Tweak):
                 contents_path = os.path.join(contents_path, "9183.Custom_Floating-810w-1080h@2x~ipad.ca")
                 os.rename(contents_path, bg_path)
             else:
-                contents_path = os.path.join(contents_path, "9183.Custom_Background-810w-1080h@2x~ipad.ca")
-            print(f"path at {contents_path}, creating caml")
+                contents_path = os.path.join(
+                    contents_path, "9183.Custom_Background-810w-1080h@2x~ipad.ca"
+                )
             video_handler.create_caml(
                 video_path=self.videoFile,
                 output_file=contents_path,

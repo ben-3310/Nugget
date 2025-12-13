@@ -217,9 +217,6 @@ def restore_files(
     # create the backup
     back = backup.Backup(files=files_list, apps=apps_list)
 
-    for fi in files_list:
-        print(f"{fi.domain}, {fi.path}")
-
     try:
         if lockdown_client is not None:
             perform_restore(

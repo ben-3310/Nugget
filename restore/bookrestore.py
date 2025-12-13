@@ -245,7 +245,6 @@ def generate_bldbmanager(files: list[FileToRestore], out_file: str, afc: AfcServ
         if not file.domain == "" and not file.domain == None:
             continue
         path, file_name = os.path.split(file.restore_path)
-        print(f"including {file.restore_path}")
         media_folder = file_name
         # use the local file method for mga and local server for everything else
         if file.restore_path.startswith("/var/mobile") or file.restore_path.startswith("/private/var/mobile"):
@@ -406,7 +405,6 @@ def apply_bookrestore_files(
                 if not file.domain == "" and not file.domain == None:
                     continue
                 _, file_name = os.path.split(file.restore_path)
-                print(f"including {file.restore_path}")
                 media_folder = file_name
                 contents_bytes = (
                     file.contents
