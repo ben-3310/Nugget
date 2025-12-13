@@ -18,7 +18,6 @@ class StatusBarTweak(Tweak):
                 domain="HomeDomain"
             ))
 
-        
     ### PRIMARY CARRIER
     # CELLULAR SERVICE
     def is_cellular_service_overridden(self) -> bool:
@@ -36,7 +35,7 @@ class StatusBarTweak(Tweak):
         overrides = self.setter.get_overrides()
         overrides.overrideItemIsEnabled[StatusBarItem.CellularServiceStatusBarItem.value] = 0  # type: ignore
         self.setter.apply_changes(overrides)
-            
+
     # SERVICE STRING
     def is_carrier_overridden(self) -> bool:
         overrides = self.setter.get_overrides()
@@ -110,7 +109,6 @@ class StatusBarTweak(Tweak):
         overrides.overrideGSMSignalStrengthBars = 0  # type: ignore
         self.setter.apply_changes(overrides)
 
-
     ### SECONDARY CARRIER
     # CELLULAR SERVICE
     def is_secondary_cellular_service_overridden(self) -> bool:
@@ -131,7 +129,7 @@ class StatusBarTweak(Tweak):
         overrides.overrideItemIsEnabled[StatusBarItem.SecondaryCellularServiceStatusBarItem.value] = 0  # type: ignore
         overrides.overrideSecondaryCellularConfigured = 0  # type: ignore
         self.setter.apply_changes(overrides)
-            
+
     # SERVICE STRING
     def is_secondary_carrier_overridden(self) -> bool:
         overrides = self.setter.get_overrides()
@@ -204,7 +202,6 @@ class StatusBarTweak(Tweak):
         overrides.overrideItemIsEnabled[StatusBarItem.SecondaryCellularSignalStrengthStatusBarItem.value] = 0  # type: ignore
         overrides.overrideSecondaryGSMSignalStrengthBars = 0  # type: ignore
         self.setter.apply_changes(overrides)
-
 
     ### MISC TEXT INPUTS
     # TIME STRING
@@ -282,7 +279,6 @@ class StatusBarTweak(Tweak):
         overrides.overrideBatteryDetailString = 0  # type: ignore
         self.setter.apply_changes(overrides)
 
-
     ## MISC SLIDER INPUTS
     # BATTERY CAPACITY
     def is_battery_capacity_overridden(self) -> bool:
@@ -317,7 +313,6 @@ class StatusBarTweak(Tweak):
         overrides = self.setter.get_overrides()
         overrides.overrideWifiSignalStrengthBars = 0  # type: ignore
         self.setter.apply_changes(overrides)
-
 
     ## RAW SIGNAL STRENGTH TOGGLES
     # WIFI
@@ -361,7 +356,6 @@ class StatusBarTweak(Tweak):
         overrides = self.setter.get_overrides()
         overrides.overrideItemIsEnabled[item.value] = 0  # type: ignore
         self.setter.apply_changes(overrides)
-
 
     ## HIDE OPTION TOGGLES
     # DND

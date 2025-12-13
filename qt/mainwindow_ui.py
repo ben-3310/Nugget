@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# type: ignore
 
 ################################################################################
 ## Form generated from reading UI file 'mainwindow.ui'
@@ -6124,4 +6125,3 @@ class Ui_Nugget(object):
         self.pocketPosterHelperBtn.setText(QCoreApplication.translate("Nugget", u"Pocket Poster Helper", None))
         pass
     # retranslateUi
-

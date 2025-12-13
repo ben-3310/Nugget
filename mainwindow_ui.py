@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# type: ignore
 
 ################################################################################
 ## Form generated from reading UI file 'mainwindow.ui'
@@ -18,7 +19,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox,
     QFrame, QHBoxLayout, QLabel, QLineEdit,
     QMainWindow, QProgressBar, QScrollArea, QSizePolicy,
-    QSpacerItem, QStackedWidget, QToolButton, QVBoxLayout,
+    QSlider, QSpacerItem, QStackedWidget, QToolButton, QVBoxLayout,
     QWidget)
 import resources_rc
 
@@ -3961,4 +3962,3 @@ class Ui_Nugget(object):
         self.borderAllBtn.setText(QCoreApplication.translate("Nugget", u"Toggle All \"Border\"", None))
         self.addAllBtn.setText(QCoreApplication.translate("Nugget", u"Toggle All \"Add to Device\"", None))
     # retranslateUi
-
