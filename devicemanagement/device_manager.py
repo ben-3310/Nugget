@@ -626,24 +626,37 @@ class DeviceManager:
         """
         if isinstance(tweak, FeatureFlagTweak):
             tweak_context["flag_plist"] = tweak.apply_tweak(tweak_context["flag_plist"])
+            if getattr(tweak, "enabled", False):
+                tweak_context["applied_groups"].add("Feature Flags")
 
         elif isinstance(tweak, EligibilityTweak):
             tweak_context["eligibility_files"] = tweak.apply_tweak()
+            if getattr(tweak, "enabled", False):
+                tweak_context["applied_groups"].add("Eligibility")
 
         elif isinstance(tweak, AITweak):
             tweak_context["ai_file"] = tweak.apply_tweak()
+            if getattr(tweak, "enabled", False):
+                tweak_context["applied_groups"].add("AI Enabler")
 
         elif isinstance(tweak, (BasicPlistTweak, RdarFixTweak, AdvancedPlistTweak)):
             tweak_context["basic_plists"] = tweak.apply_tweak(
                 tweak_context["basic_plists"], self.pref_manager.allow_risky_tweaks
             )
             tweak_context["basic_plists_ownership"][tweak.file_location] = tweak.owner
+            if getattr(tweak, "enabled", False):
+                if isinstance(tweak, RdarFixTweak):
+                    tweak_context["applied_groups"].add("RDAR Fix")
+                else:
+                    tweak_context["applied_groups"].add("Plist Tweaks")
             if tweak.enabled and isinstance(tweak, RdarFixTweak):
                 if Version(self.get_current_device_version()) >= Version("26.0"):
                     tweak_context["use_bookrestore"] = True
 
         elif isinstance(tweak, NullifyFileTweak):
             tweak.apply_tweak(tweak_context["files_data"])
+            if getattr(tweak, "enabled", False):
+                tweak_context["applied_groups"].add("File Resets")
             if tweak.enabled and tweak.file_location.value.startswith("/var/mobile/"):
                 tweak_context["uses_domains"] = True
 
@@ -657,6 +670,12 @@ class DeviceManager:
                 version=self.get_current_device_version(),
                 update_label=tweak_context["update_label"],
             )
+            if isinstance(tweak, PosterboardTweak):
+                if tweak.uses_domains() or not tweak.is_empty():
+                    tweak_context["applied_groups"].add("PosterBoard")
+            else:
+                if tweak.uses_domains() or not tweak.is_empty():
+                    tweak_context["applied_groups"].add("Templates")
             if tweak.uses_domains():
                 tweak_context["uses_domains"] = True
             elif not tweak.is_empty():
@@ -666,6 +685,7 @@ class DeviceManager:
             tweak.apply_tweak(files_to_restore=tweak_context["files_to_restore"])
             if tweak.enabled:
                 tweak_context["uses_domains"] = True
+                tweak_context["applied_groups"].add("Status Bar")
 
         else:
             # MobileGestalt tweaks
@@ -675,6 +695,7 @@ class DeviceManager:
                 )
                 if tweak.enabled:
                     tweak_context["use_bookrestore"] = True
+                    tweak_context["applied_groups"].add("MobileGestalt")
             elif tweak.enabled:
                 raise NuggetException(
                     QCoreApplication.tr(
@@ -896,6 +917,7 @@ class DeviceManager:
                 "files_data": {},
                 "uses_domains": False,
                 "use_bookrestore": False,
+                "applied_groups": set(),
                 "files_to_restore": files_to_restore,
                 "tmp_dirs": tmp_dirs,
                 "update_label": update_label,
@@ -935,6 +957,19 @@ class DeviceManager:
             final_alert = self.start_restore(
                 files_to_restore, tweak_context["use_bookrestore"], update_label
             )
+            try:
+                groups = sorted(tweak_context.get("applied_groups", set()))
+                if len(groups) > 0:
+                    summary = "Applied groups:\n" + "\n".join(f"- {g}" for g in groups)
+                else:
+                    summary = "Applied groups:\n- (none)"
+                summary += f"\n\nFiles to restore: {len(files_to_restore)}"
+                if getattr(final_alert, "detailed_txt", None):
+                    final_alert.detailed_txt = f"{final_alert.detailed_txt}\n\n{summary}"
+                else:
+                    final_alert.detailed_txt = summary
+            except Exception:
+                pass
             update_label(QCoreApplication.tr("Success!"))
 
         except Exception as e:
