@@ -271,8 +271,30 @@ Sparserestore works on all versions iOS 17.0-18.1.1.
 
 BookRestore works on all versions iOS 18.2-26.1.
 
+### Compatibility matrix (quick)
+
+| iOS version | Primary method | MobileGestalt tweaks | AI Enabler tweaks | Notes |
+|---|---|---|---|---|
+| 17.0 – 18.1.1 | Sparserestore | ✅ (device-specific file may be required) | ✅ (18.1 – 18.1.1 only) | See “Getting the File” for MobileGestalt |
+| 18.2 – 26.1 | BookRestore | ✅ (26.1 and below) | ✅ (18.1 – 18.1.1 only) | BookRestore may require Developer Mode (AFC method) |
+| 26.2+ | Fully patched / limited | ❌ | ❌ | Some non-MobileGestalt tweaks may still work; see note below |
+
+For common errors (BookRestore download hangs, disconnects, PosterBoard issues), see [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
+
 > [!NOTE]
 > **Mobilegestalt and AI Enabler tweaks are not supported on iOS 26.2+.** It will never be supported, do not make issues asking for when it is supported.
+
+### iOS 26.2+ (Fully patched / limited support)
+
+On iOS 26.2+, the restore/exploit methods used for MobileGestalt and AI Enabler are no longer available. As a result:
+
+- **Will not work**:
+  - MobileGestalt-based tweaks (device spoofing, model name overrides, etc.)
+  - AI Enabler tweaks (eligibility/gestalt)
+- **May still work (varies)**:
+  - Some tweaks that operate within standard restore domains (without needing MobileGestalt writes)
+
+If you are unsure why something didn’t apply, run Apply and use the “Copy diagnostics” button in the error dialog (or see [TROUBLESHOOTING.md](TROUBLESHOOTING.md)).
 
 ## Read More
 If you would like to read more about the inner workings of the exploit and iOS restore system, I made a write up which you can read [here][ReadMoreGist].
