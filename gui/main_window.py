@@ -555,15 +555,63 @@ class MainWindow(QtWidgets.QMainWindow):
         self.apply_changes()
 
     def apply_changes(self, reset_pages: list=None):
-        if not self.apply_in_progress:
-            self.apply_in_progress = True
-            self.toggle_thread_btns(disabled=True)
-            self.worker_thread = ApplyThread(manager=self.device_manager, settings=self.settings, reset_pages=reset_pages)
-            self.worker_thread.progress.connect(self.ui.statusLbl.setText)
-            self.worker_thread.alert.connect(self.alert_message)
-            self.worker_thread.finished.connect(self.finish_apply_thread)
-            self.worker_thread.finished.connect(self.worker_thread.deleteLater)
-            self.worker_thread.start()
+        if self.apply_in_progress:
+            return
+
+        # Preflight (only for apply; resets can still run without it)
+        if reset_pages is None:
+            preflight = self.device_manager.run_preflight()
+
+            if len(preflight.checks) > 0:
+                details_lines: list[str] = []
+                has_warn = False
+                for c in preflight.checks:
+                    details_lines.append(f"[{c.status.name}] {c.title}: {c.message}")
+                    if c.remediation:
+                        details_lines.append(f"  -> {c.remediation}")
+                    if c.details:
+                        details_lines.append(f"  details: {c.details}")
+                    if c.status.value == "warn":
+                        has_warn = True
+
+                details = "\n".join(details_lines)
+
+                if preflight.has_blockers:
+                    msg = QtWidgets.QMessageBox(self)
+                    msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                    msg.setWindowTitle(self.tr("Preflight failed"))
+                    msg.setText(self.tr("Fix the following issues before applying tweaks."))
+                    msg.setDetailedText(details)
+                    msg.exec()
+                    return
+
+                if has_warn:
+                    msg = QtWidgets.QMessageBox(self)
+                    msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                    msg.setWindowTitle(self.tr("Preflight warnings"))
+                    msg.setText(self.tr("Preflight reported warnings. Do you want to continue?"))
+                    msg.setDetailedText(details)
+                    msg.setStandardButtons(
+                        QtWidgets.QMessageBox.StandardButton.Ok
+                        | QtWidgets.QMessageBox.StandardButton.Cancel
+                    )
+                    msg.button(QtWidgets.QMessageBox.StandardButton.Ok).setText(
+                        self.tr("Continue")
+                    )
+                    msg.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Cancel)
+                    if msg.exec() != QtWidgets.QMessageBox.StandardButton.Ok:
+                        return
+
+        self.apply_in_progress = True
+        self.toggle_thread_btns(disabled=True)
+        self.worker_thread = ApplyThread(
+            manager=self.device_manager, settings=self.settings, reset_pages=reset_pages
+        )
+        self.worker_thread.progress.connect(self.ui.statusLbl.setText)
+        self.worker_thread.alert.connect(self.alert_message)
+        self.worker_thread.finished.connect(self.finish_apply_thread)
+        self.worker_thread.finished.connect(self.worker_thread.deleteLater)
+        self.worker_thread.start()
     def alert_message(self, alert: ApplyAlertMessage | None, log_to_console: bool = True):
         if alert is None:
             # do sudo dialog input
