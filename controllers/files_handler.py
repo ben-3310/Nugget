@@ -22,11 +22,7 @@ def get_bundle_files(name: str) -> str:
     Returns:
         Absolute path to the file
     """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except AttributeError:
-        # Running from source
-        base_path = getcwd()
+    # PyInstaller creates a temp folder and stores path in _MEIPASS
+    base_path = getattr(sys, "_MEIPASS", getcwd())
 
     return path.join(base_path, *name.split('/'))
