@@ -1,10 +1,11 @@
 from requests import get, RequestException
 from json import JSONDecodeError
 from devicemanagement.constants import Version
+from typing import Optional
 
 Nugget_Repo = "leminlimez/Nugget/releases/latest"
 
-last_fetched_version: str = None
+last_fetched_version: Optional[str] = None
 
 _REQUEST_TIMEOUT_S = 5
 
@@ -18,7 +19,8 @@ def is_update_available(version: str, build: int) -> bool:
             return True
     return False
 
-def get_latest_version() -> str:
+
+def get_latest_version() -> Optional[str]:
     global last_fetched_version
     # get the cached version
     if last_fetched_version != None:

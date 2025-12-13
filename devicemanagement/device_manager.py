@@ -263,13 +263,20 @@ class DeviceManager:
                     hardware = str(vals.get("HardwareModel", ""))
                     cpu = str(vals.get("HardwarePlatform", ""))
                     try:
-                        product_type = settings.value(f"{serial}_model", "", type=str)
-                        hardware_type = settings.value(
-                            f"{serial}_hardware", "", type=str
+                        product_type = str(
+                            settings.value(f"{serial}_model", "", type=str) or ""
                         )
-                        cpu_type = settings.value(f"{serial}_cpu", "", type=str)
-                        books_uuid = settings.value(
-                            f"{serial}_books_container_uuid", "", type=str
+                        hardware_type = str(
+                            settings.value(f"{serial}_hardware", "", type=str) or ""
+                        )
+                        cpu_type = str(
+                            settings.value(f"{serial}_cpu", "", type=str) or ""
+                        )
+                        books_uuid = str(
+                            settings.value(
+                                f"{serial}_books_container_uuid", "", type=str
+                            )
+                            or ""
                         )
                         if product_type == "":
                             # save the new product type
@@ -635,15 +642,30 @@ class DeviceManager:
         else:
             return self.data_singleton.current_device.is_exploit_fully_patched()
 
-    def current_device_books_container_uuid_callback(self, uuid: Optional[str]=None) -> Optional[str | None]:
+    def current_device_books_container_uuid_callback(
+        self, uuid: Optional[str] = None
+    ) -> Optional[str]:
+        """
+        Getter/setter callback used by BookRestore flows to read/write the Books container UUID.
+
+        - If uuid is None: return the current value (or None if no device)
+        - If uuid is provided: persist it and return it
+        """
+        dev = self.data_singleton.current_device
+        if dev is None:
+            return None
+
         # if there is no argument, return the existing uuid
         if uuid is None:
-            return self.data_singleton.current_device.books_container_uuid
-        self.data_singleton.current_device.books_container_uuid = uuid
-        # save it to settings
-        self.pref_manager.settings.setValue(
-            f"{self.data_singleton.current_device.udid}_books_container_uuid", uuid
-        )
+            return dev.books_container_uuid
+
+        dev.books_container_uuid = uuid
+        # save it to settings (if available)
+        if self.pref_manager.settings is not None:
+            self.pref_manager.settings.setValue(
+                f"{dev.udid}_books_container_uuid", uuid
+            )
+        return uuid
 
     def get_app_hashes(self, bundle_ids: list[str]) -> dict:
         """
@@ -719,11 +741,23 @@ class DeviceManager:
         return results
 
     def send_app_hashes_afc(self, hashes: dict) -> str:
+        dev = self.data_singleton.current_device
+        if dev is None or dev.ld is None:
+            raise NuggetException(
+                QCoreApplication.translate("QCoreApplication", "No device connected."),
+                QCoreApplication.translate(
+                    "QCoreApplication",
+                    "Refresh the device list and make sure your device is unlocked and trusted.",
+                ),
+            )
+
         # create a temporary file to send it as
         with TemporaryDirectory() as tmpdir:
             # get the bundle id of Pocket Poster
             bundle_id = "com.leemin.Pocket-Poster"
-            apps = InstallationProxyService(lockdown=self.data_singleton.current_device.ld).get_apps(application_type="User", calculate_sizes=False)
+            apps = InstallationProxyService(lockdown=dev.ld).get_apps(
+                application_type="User", calculate_sizes=False
+            )
             for app in apps.values():
                 if app["CFBundleExecutable"] == "Pocket Poster":
                     bundle_id = app["CFBundleIdentifier"]
@@ -731,7 +765,9 @@ class DeviceManager:
                 elif app["CFBundleExecutable"] == "LiveContainer":
                     # fallback for live container
                     bundle_id = app["CFBundleIdentifier"]
-            afc = HouseArrestService(lockdown=self.data_singleton.current_device.ld, bundle_id=bundle_id, documents_only=True)
+            afc = HouseArrestService(
+                lockdown=dev.ld, bundle_id=bundle_id, documents_only=True
+            )
             # send each hash over
             for key in hashes.keys():
                 fname = "Nugget" + key.replace("com.apple.", "") + "Hash"
@@ -743,11 +779,12 @@ class DeviceManager:
 
     def reset_device_pairing(self):
         # first, unpair it
-        if self.data_singleton.current_device == None:
+        dev = self.data_singleton.current_device
+        if dev is None:
             return
-        self.data_singleton.current_device.ld.unpair()
+        dev.ld.unpair()
         # next, pair it again
-        self.data_singleton.current_device.ld.pair()
+        dev.ld.pair()
         QMessageBox.information(
             None,
             QCoreApplication.translate("QCoreApplication", "Pairing Reset"),
@@ -764,10 +801,14 @@ class DeviceManager:
         This adds configuration files that skip the iOS setup wizard after restore.
         See devicemanagement/skip_setup.py for implementation details.
         """
+        dev = self.data_singleton.current_device
+        if dev is None:
+            return
+
         if self.pref_manager.skip_setup and (not self.get_current_device_supported() or restoring_domains):
             add_skip_setup_files(
                 files_to_restore=files_to_restore,
-                lockdown_client=self.data_singleton.current_device.ld,
+                lockdown_client=dev.ld,
                 supervised=self.pref_manager.supervised,
                 organization_name=self.pref_manager.organization_name,
             )
@@ -776,10 +817,24 @@ class DeviceManager:
         self, path: str, owner: int = 501, use_bookrestore: bool = False
     ) -> tuple[str, str]:
         # returns (Path: str, Domain: str)
-        if ((self.get_current_device_supported() and not path.startswith("/var/mobile/")) or (not self.data_singleton.current_device.has_partial_sparserestore() and self.get_current_device_uses_bookrestore() and use_bookrestore)) and not owner == 0:
+        dev = self.data_singleton.current_device
+        if dev is None:
+            return path, ""
+
+        if (
+            (
+                self.get_current_device_supported()
+                and not path.startswith("/var/mobile/")
+            )
+            or (
+                (not dev.has_partial_sparserestore())
+                and self.get_current_device_uses_bookrestore()
+                and use_bookrestore
+            )
+        ) and owner != 0:
             # don't do anything on sparserestore versions
             return path, ""
-        fully_patched = not self.data_singleton.current_device.has_partial_sparserestore()
+        fully_patched = not dev.has_partial_sparserestore()
         # just make the Sys Containers to use the regular way (won't work for mga)
         sysSharedContainer = "SysSharedContainerDomain-"
         sysContainer = "SysContainerDomain-"
@@ -835,6 +890,33 @@ class DeviceManager:
             domain=domain,
             owner=owner, group=group
         ))
+
+    def concat_file(
+        self,
+        contents: bytes | str,
+        path: str,
+        files_to_restore: list[FileToRestore],
+        owner: int = 501,
+        group: int = 501,
+        use_bookrestore: bool = False,
+    ):
+        """
+        Backwards-compatible wrapper used throughout the codebase.
+
+        Accepts either bytes or str and normalizes to bytes before delegating
+        to `add_file_to_restore`.
+        """
+        contents_bytes = (
+            contents if isinstance(contents, bytes) else contents.encode("utf-8")
+        )
+        self.add_file_to_restore(
+            contents=contents_bytes,
+            path=path,
+            files_to_restore=files_to_restore,
+            owner=owner,
+            group=group,
+            use_bookrestore=use_bookrestore,
+        )
 
     def _load_gestalt_plist(self):
         """Load the MobileGestalt plist from file or saved data."""
@@ -1012,13 +1094,26 @@ class DeviceManager:
 
         # Raw file data
         for location, data in tweak_context["files_data"].items():
-            ownership = data.owner if isinstance(data, NullifyFileTweak) else 501
+            ownership = 501
+            group = 501
+            contents: bytes | str
+
+            if isinstance(data, NullifyFileTweak):
+                # NullifyFileTweak represents an "empty file" write with specific ownership
+                ownership = data.owner
+                group = data.group
+                contents = b""
+            elif isinstance(data, (bytes, str)):
+                contents = data
+            else:
+                # Best-effort fallback; should not normally happen
+                contents = b""
             self.concat_file(
-                contents=data,
+                contents=contents,
                 path=location.value,
                 files_to_restore=files_to_restore,
                 owner=ownership,
-                group=ownership,
+                group=group,
                 use_bookrestore=use_bookrestore,
             )
 
@@ -1048,11 +1143,21 @@ class DeviceManager:
     def start_restore(self, files_to_restore: list[FileToRestore], use_bookrestore: bool, update_label=lambda x: None):
         self.update_label = update_label
         self.do_not_unplug = ""
-        if self.data_singleton.current_device.connected_via_usb:
+        dev = self.data_singleton.current_device
+        if dev is None:
+            raise NuggetException(
+                QCoreApplication.translate("QCoreApplication", "No device connected."),
+                QCoreApplication.translate(
+                    "QCoreApplication",
+                    "Please connect a device and refresh the device list before applying.",
+                ),
+            )
+
+        if dev.connected_via_usb:
             self.do_not_unplug = "\n" + QCoreApplication.translate(
                 "QCoreApplication", "DO NOT UNPLUG"
             )
-        restore_bookrestore = use_bookrestore and not self.data_singleton.current_device.has_partial_sparserestore()
+        restore_bookrestore = use_bookrestore and not dev.has_partial_sparserestore()
         if restore_bookrestore:
             if self.pref_manager.bookrestore_apply_mode == BookRestoreApplyMethod.AFC:
                 update_label(
@@ -1061,7 +1166,13 @@ class DeviceManager:
                     )
                     + self.do_not_unplug
                 )
-                perform_bookrestore(files=files_to_restore, lockdown_client=self.data_singleton.current_device.ld, current_device_books_uuid_callback=self.current_device_books_container_uuid_callback, progress_callback=self.update_label, transfer_mode=self.pref_manager.bookrestore_transfer_mode)
+                perform_bookrestore(
+                    files=files_to_restore,
+                    lockdown_client=dev.ld,
+                    current_device_books_uuid_callback=self.current_device_books_container_uuid_callback,
+                    progress_callback=self.update_label,
+                    transfer_mode=self.pref_manager.bookrestore_transfer_mode,
+                )
             else:
                 update_label(
                     QCoreApplication.translate(
@@ -1069,13 +1180,19 @@ class DeviceManager:
                     )
                     + self.do_not_unplug
                 )
-                afc = AfcService(self.data_singleton.current_device.ld)
+                afc = AfcService(dev.ld)
                 if self.pref_manager.bookrestore_transfer_mode == BookRestoreFileTransferMethod.OnDevice:
                     # don't create a server, just add the file to the file list
                     db_path = os.path.join(br_files, "BLDatabaseManager.sqlite")
                     mga_file = [file for file in files_to_restore if file.restore_path.endswith("MobileGestalt.plist")][0]
                     _, filename = os.path.split(mga_file.restore_path)
-                    afc.set_file_contents(filename, mga_file.contents)
+                    mga_contents = mga_file.contents
+                    mga_contents_bytes = (
+                        mga_contents
+                        if isinstance(mga_contents, bytes)
+                        else mga_contents.encode("utf-8")
+                    )
+                    afc.set_file_contents(filename, mga_contents_bytes)
                 else:
                     server_folder = create_server_folder()
                     server_prefix = create_local_server()
@@ -1087,21 +1204,30 @@ class DeviceManager:
                 db_restore_path = "Documents/BLDatabaseManager/BLDatabaseManager.sqlite"
                 db_restore_domain = "SysSharedContainerDomain-systemgroup.com.apple.media.shared.books"
                 print(db_path)
-                files_to_restore.append(FileToRestore(
-                    contents=None, restore_path=db_restore_path,
-                    contents_path=db_path,
-                    domain=db_restore_domain
-                ))
-                files_to_restore.append(FileToRestore(
-                    contents=None, restore_path=f"{db_restore_path}-shm",
-                    contents_path=f"{db_path}-shm",
-                    domain=db_restore_domain
-                ))
-                files_to_restore.append(FileToRestore(
-                    contents=None, restore_path=f"{db_restore_path}-wal",
-                    contents_path=f"{db_path}-shm",
-                    domain=db_restore_domain
-                ))
+                files_to_restore.append(
+                    FileToRestore(
+                        contents=b"",
+                        restore_path=db_restore_path,
+                        contents_path=db_path,
+                        domain=db_restore_domain,
+                    )
+                )
+                files_to_restore.append(
+                    FileToRestore(
+                        contents=b"",
+                        restore_path=f"{db_restore_path}-shm",
+                        contents_path=f"{db_path}-shm",
+                        domain=db_restore_domain,
+                    )
+                )
+                files_to_restore.append(
+                    FileToRestore(
+                        contents=b"",
+                        restore_path=f"{db_restore_path}-wal",
+                        contents_path=f"{db_path}-wal",
+                        domain=db_restore_domain,
+                    )
+                )
             msg = ""
 
         if not restore_bookrestore or self.pref_manager.bookrestore_apply_mode == BookRestoreApplyMethod.Restore:
@@ -1112,9 +1238,10 @@ class DeviceManager:
                 + self.do_not_unplug
             )
             restore_files(
-                files=files_to_restore, reboot=self.pref_manager.auto_reboot,
-                lockdown_client=self.data_singleton.current_device.ld,
-                progress_callback=self.progress_callback
+                files=files_to_restore,
+                reboot=self.pref_manager.auto_reboot,
+                lockdown_client=dev.ld,
+                progress_callback=self.progress_callback,
             )
             if restore_bookrestore:
                 # wait for device reconnect and then reboot again after download (ie. specified timeout)
@@ -1284,6 +1411,18 @@ class DeviceManager:
     ## RESETTING TWEAKS
     def reset_tweaks(self, reset_pages: list[Page], settings: QSettings, update_label=lambda x: None, show_alert=lambda x: None):
         try:
+            dev = self.data_singleton.current_device
+            if dev is None:
+                raise NuggetException(
+                    QCoreApplication.translate(
+                        "QCoreApplication", "No device connected."
+                    ),
+                    QCoreApplication.translate(
+                        "QCoreApplication",
+                        "Please connect a device and refresh the device list before resetting tweaks.",
+                    ),
+                )
+
             # create the restore file list
             files_to_restore: list[FileToRestore] = []
             # Generate backup
@@ -1299,15 +1438,9 @@ class DeviceManager:
                 if page == Page.Gestalt:
                     ## MOBILE GESTALT
                     # remove the saved device model, hardware, and cpu
-                    settings.setValue(
-                        f"{self.data_singleton.current_device.udid}_model", ""
-                    )
-                    settings.setValue(
-                        f"{self.data_singleton.current_device.udid}_hardware", ""
-                    )
-                    settings.setValue(
-                        f"{self.data_singleton.current_device.udid}_cpu", ""
-                    )
+                    settings.setValue(f"{dev.udid}_model", "")
+                    settings.setValue(f"{dev.udid}_hardware", "")
+                    settings.setValue(f"{dev.udid}_cpu", "")
                     files_to_null.append(FileLocation.mga.value)
                     if self.get_current_device_uses_bookrestore():
                         use_bookrestore = True

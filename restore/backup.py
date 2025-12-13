@@ -10,7 +10,7 @@ from random import randbytes
 from typing import Optional
 
 # Default nugget file right
-# RWX:RX:RX 
+# RWX:RX:RX
 DEFAULT = _FileMode.S_IRUSR | _FileMode.S_IWUSR | _FileMode.S_IXUSR | _FileMode.S_IRGRP | _FileMode.S_IXGRP | _FileMode.S_IROTH | _FileMode.S_IXOTH
 
 @dataclass
@@ -23,21 +23,22 @@ class BackupFile:
 
 @dataclass
 class ConcreteFile(BackupFile):
-    contents: bytes
+    contents: Optional[bytes]
     src_path: Optional[str] = None
     owner: int = 0
     group: int = 0
     inode: Optional[int] = None
     mode: _FileMode = DEFAULT
 
-    hash: bytes = None
-    size: int = None
+    hash: Optional[bytes] = None
+    size: Optional[int] = None
 
     def read_contents(self) -> bytes:
-        contents = self.contents
-        if self.contents == None:
+        if self.src_path is not None:
             with open(self.src_path, "rb") as in_file:
                 contents = in_file.read()
+        else:
+            contents = self.contents or b""
         # prepopulate hash and size
         self.hash = sha1(contents).digest()
         self.size = len(contents)
@@ -48,6 +49,8 @@ class ConcreteFile(BackupFile):
             self.inode = int.from_bytes(randbytes(8), "big")
         if self.hash == None or self.size == None:
             self.read_contents()
+        assert self.hash is not None
+        assert self.size is not None
         return mbdb.MbdbRecord(
             domain=self.domain,
             filename=self.path,
@@ -94,7 +97,7 @@ class Directory(BackupFile):
             flags=4,
             properties=[]
         )
-    
+
 @dataclass
 class SymbolicLink(BackupFile):
     target: str
@@ -125,13 +128,13 @@ class SymbolicLink(BackupFile):
             flags=4,
             properties=[]
         )
-    
+
 @dataclass
 class AppBundle:
     identifier: str
     path: str
     container_content_class: str
-    version: str = 804
+    version: str = "804"
 
 @dataclass
 class Backup:
@@ -141,29 +144,28 @@ class Backup:
     def write_to_directory(self, directory: Path):
         for file in self.files:
             if isinstance(file, ConcreteFile):
-                #print("Writing", file.path, "to", directory / sha1((file.domain + "-" + file.path).encode()).digest().hex())
+                # print("Writing", file.path, "to", directory / sha1((file.domain + "-" + file.path).encode()).digest().hex())
                 with open(directory / sha1((file.domain + "-" + file.path).encode()).digest().hex(), "wb") as f:
                     f.write(file.read_contents())
-            
+
         with open(directory / "Manifest.mbdb", "wb") as f:
             f.write(self.generate_manifest_db().to_bytes())
 
         with open(directory / "Status.plist", "wb") as f:
             f.write(self.generate_status())
-        
+
         with open(directory / "Manifest.plist", "wb") as f:
             f.write(self.generate_manifest())
 
         with open(directory / "Info.plist", "wb") as f:
             f.write(plistlib.dumps({}))
-        
 
     def generate_manifest_db(self): # Manifest.mbdb
         records = []
         for file in self.files:
             records.append(file.to_record())
         return mbdb.Mbdb(records=records)
-    
+
     def generate_status(self) -> bytes: # Status.plist
         return plistlib.dumps({
             "BackupState": "new",
@@ -173,7 +175,7 @@ class Backup:
             "UUID": "00000000-0000-0000-0000-000000000000",
             "Version": "2.4"
         })
-    
+
     def generate_manifest(self) -> bytes: # Manifest.plist
         plist = {
             "BackupKeyBag": b64decode("""

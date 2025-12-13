@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as tree
 import ast
+from typing import Any
 
 tree.register_namespace('', "http://www.apple.com/CoreAnimation/1.0")
 
@@ -49,10 +50,14 @@ def parse_equation(eq: str, val: str):
     # map back to string
     return ' '.join(results)
 
-def set_xml_value(file: str, id: str, key: str, val: any, use_ca_id: bool = False):
+
+def set_xml_value(file: str, id: str, key: str, val: Any, use_ca_id: bool = False):
     set_xml_values(file=file, id=id, keys=[key], values=[val], use_ca_id=use_ca_id)
 
-def set_xml_values(file: str, id: str, keys: list[str], values: list[any], use_ca_id: bool = False):
+
+def set_xml_values(
+    file: str, id: str, keys: list[str], values: list[Any], use_ca_id: bool = False
+):
     xml = tree.parse(file)
     root = xml.getroot()
 
@@ -88,6 +93,7 @@ def set_xml_values(file: str, id: str, keys: list[str], values: list[any], use_c
     # write back to file
     xml.write(file, encoding="UTF-8", xml_declaration=True)
 
+
 def remove_from_root(root, search):
     for parent in root.findall(search + "/.."):
         for prop in parent.findall(search):
@@ -106,6 +112,6 @@ def delete_xml_value(file: str, id: str, use_ca_id: bool = False):
     if use_ca_id:
         # also remove the target ids
         remove_from_root(root, search=f".//*[@targetId='{id}']")
-    
+
     # write back to file
     xml.write(file, encoding="UTF-8", xml_declaration=True)

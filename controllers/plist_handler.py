@@ -1,6 +1,8 @@
 import plistlib
+from typing import Any
 
-def recursive_set(plist: dict, key: str, value: any):
+
+def recursive_set(plist: dict, key: str, value: Any):
     new_plist: dict = plist
     for k, v in plist.items():
         if k == key:
@@ -9,7 +11,8 @@ def recursive_set(plist: dict, key: str, value: any):
             new_plist[k] = recursive_set(v, key, value)
     return new_plist
 
-def set_plist_value(file: str, key: str, value: any, recursive: bool = True):
+
+def set_plist_value(file: str, key: str, value: Any, recursive: bool = True):
     with open(file, 'rb') as in_fp:
         plist = plistlib.load(in_fp)
     if recursive:
@@ -18,7 +21,8 @@ def set_plist_value(file: str, key: str, value: any, recursive: bool = True):
         plist[key] = value
     return plistlib.dumps(plist)
 
-def write_plist_value(file: str, key: str, value: any, recursive: bool = True):
+
+def write_plist_value(file: str, key: str, value: Any, recursive: bool = True):
     modified = set_plist_value(file, key, value, recursive)
     with open(file, "wb") as out_fp:
         out_fp.write(modified)

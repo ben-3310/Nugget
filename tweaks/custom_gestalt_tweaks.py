@@ -1,5 +1,6 @@
 from enum import Enum
 from json import loads
+from typing import Optional
 from .tweak_classes import MobileGestaltTweak
 
 class ValueType(Enum):
@@ -9,7 +10,7 @@ class ValueType(Enum):
     Array = "Array"
     Dictionary = "Dictionary"
 
-ValueTypeStrings: list[ValueType] = [
+ValueTypeStrings: list[str] = [
     ValueType.Integer.value, ValueType.Float.value,
     ValueType.String.value,
     ValueType.Array.value, ValueType.Dictionary.value
@@ -17,45 +18,56 @@ ValueTypeStrings: list[ValueType] = [
 
 class CustomGestaltTweak:
     def __init__(self, tweak: MobileGestaltTweak, value_type: ValueType):
-        self.tweak = tweak
+        self.tweak: Optional[MobileGestaltTweak] = tweak
         self.value_type = value_type
         self.deactivated = False
 
     # TODO: change everything to not return the dict since it is passed by reference
     def apply_tweak(self, plist: dict) -> dict:
-        if self.deactivated or self.tweak.key == "":
+        if self.deactivated or self.tweak is None or self.tweak.key == "":
             # key was not set, don't apply (maybe user added it by accident)
             return plist
-        self.tweak.enabled = True
+        tweak = self.tweak
+        tweak.enabled = True
         # set the value to be as the specified value type
         if self.value_type == ValueType.Integer:
-            self.tweak.value = int(self.tweak.value)
+            tweak.value = int(tweak.value)
         elif self.value_type == ValueType.Float:
-            self.tweak.value = float(self.tweak.value)
+            tweak.value = float(tweak.value)
         elif self.value_type == ValueType.Array or self.value_type == ValueType.Dictionary:
             # json convert string to array/dict
-            self.tweak.value = loads(self.tweak.value)
-        
+            tweak.value = loads(tweak.value)
+
         # apply the tweak after updating the value
-        plist = self.tweak.apply_tweak(plist)
+        plist = tweak.apply_tweak(plist)
         return plist
-            
+
 
 class CustomGestaltTweaks:
     custom_tweaks: list[CustomGestaltTweak] = []
 
+    @staticmethod
     def create_tweak(key: str="", value: str="1", value_type: ValueType = ValueType.Integer) -> int:
         new_tweak = MobileGestaltTweak(key, value=value)
         CustomGestaltTweaks.custom_tweaks.append(CustomGestaltTweak(new_tweak, value_type))
         # return the tweak id
         return len(CustomGestaltTweaks.custom_tweaks) - 1
-    
+
+    @staticmethod
     def set_tweak_key(id: int, key: str):
-        CustomGestaltTweaks.custom_tweaks[id].tweak.key = key
-            
+        tweak = CustomGestaltTweaks.custom_tweaks[id].tweak
+        if tweak is None:
+            return
+        tweak.key = key
+
+    @staticmethod
     def set_tweak_value(id: int, value: str):
-        CustomGestaltTweaks.custom_tweaks[id].tweak.value = value
-            
+        tweak = CustomGestaltTweaks.custom_tweaks[id].tweak
+        if tweak is None:
+            return
+        tweak.value = value
+
+    @staticmethod
     def set_tweak_value_type(id: int, value_type) -> str:
         new_value_type = value_type
         if isinstance(value_type, str):
@@ -81,13 +93,17 @@ class CustomGestaltTweaks:
         elif new_value_type == ValueType.Dictionary:
             new_value = {}
             new_str = "{  }"
-        CustomGestaltTweaks.custom_tweaks[id].tweak.value = new_value
+        tweak = CustomGestaltTweaks.custom_tweaks[id].tweak
+        if tweak is not None:
+            tweak.value = new_value
         return new_str
-    
+
+    @staticmethod
     def deactivate_tweak(id: int):
         CustomGestaltTweaks.custom_tweaks[id].deactivated = True
         CustomGestaltTweaks.custom_tweaks[id].tweak = None
 
+    @staticmethod
     def apply_tweaks(plist: dict):
         for tweak in CustomGestaltTweaks.custom_tweaks:
             plist = tweak.apply_tweak(plist)

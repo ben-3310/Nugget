@@ -46,7 +46,7 @@ class PreferenceManager:
             return False
         return True
 
-    def get_mga_data(self, udid: str) -> dict:
+    def get_mga_data(self, udid: str) -> Optional[dict]:
         mga_settings = self.get_mga_prefs()
         if not mga_settings.contains(udid):
             return None

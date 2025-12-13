@@ -116,7 +116,11 @@ def create_caml(video_path: str, output_file: str, auto_reverses: bool, calculat
                 # if video is still left continue creating images
                 name = 'assets/' + str(currentframe) + '.jpg'
                 if update_label:
-                    update_label(QCoreApplication.tr('Creating {0}...').format(name))
+                    update_label(
+                        QCoreApplication.translate(
+                            "QCoreApplication", "Creating {0}..."
+                        ).format(name)
+                    )
                 print('Creating...' + name)
 
                 # writing the extracted images

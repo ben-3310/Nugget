@@ -11,6 +11,8 @@ Usage:
 
 from sys import platform, argv
 import os
+import importlib
+from typing import Any, Optional
 import PyInstaller.__main__
 
 print("=" * 50)
@@ -65,12 +67,23 @@ if platform == "darwin":
         args.append('--osx-entitlements-file=entitlements.plist')
         args.append(f"--codesign-identity={codesign_hash}")
     else:
+        compile_config: Optional[Any] = None
         try:
-            import secrets_nugget.compile_config as compile_config
+            # Optional, user-provided config (not committed to the repo).
+            # Use importlib to avoid static type-check "missing import" errors.
+            compile_config = importlib.import_module("secrets_nugget.compile_config")
+        except ModuleNotFoundError:
+            compile_config = None
+        except Exception:
+            compile_config = None
+
+        if compile_config is not None and getattr(
+            compile_config, "CODESIGN_HASH", None
+        ):
             print("[+] Code signing configuration found (secrets_nugget/compile_config.py)")
             args.append('--osx-entitlements-file=entitlements.plist')
             args.append(f"--codesign-identity={compile_config.CODESIGN_HASH}")
-        except ImportError:
+        else:
             print("[!] Codesign skipped: no configuration found")
             print("    Set NUGGET_CODESIGN_HASH or create secrets_nugget/compile_config.py with CODESIGN_HASH")
 
