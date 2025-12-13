@@ -31,7 +31,7 @@ def get_mobilegestalt_tweaks() -> dict:
         TweakID.AODVibrancy: MobileGestaltTweak("ykpu7qyhqFweVMKtxNylWA")
     }
 
-def load_rdar_fix(dev: Device):
+def load_rdar_fix(dev: Device | None):
     if TweakID.RdarFix in tweaks:
         return
     tweaks.update({TweakID.RdarFix: RdarFixTweak()})
@@ -39,7 +39,7 @@ def load_rdar_fix(dev: Device):
         # load settings
         tweaks[TweakID.RdarFix].get_rdar_mode(dev.model)
 
-def load_mobilegestalt(dev: Device):
+def load_mobilegestalt(dev: Device | None):
     load_rdar_fix(dev)
     if TweakID.DynamicIsland in tweaks:
         return
@@ -47,7 +47,7 @@ def load_mobilegestalt(dev: Device):
     # add to tweaks
     tweaks.update(additional_tweaks)
 
-def load_eligibility(dev: Device):
+def load_eligibility(dev: Device | None):
     if TweakID.AIGestalt in tweaks:
         return
     additional_tweaks = {
@@ -70,7 +70,7 @@ def load_eligibility(dev: Device):
             # A17 Pro iPads
             "iPad16,1", # 8 | iPad Mini (A17 Pro) (W)
             "iPad16,2", # 9 | iPad Mini (A17 Pro) (C)
-        
+
             # M4 iPads
             "iPad16,5", # 10 | iPad Pro (13-inch) (M4) (W)
             "iPad16,6", # 11 | iPad Pro (13-inch) (M4) (C)
@@ -111,7 +111,7 @@ def load_eligibility(dev: Device):
             # A17 Pro iPads
             "J410AP", # 8 | iPad Mini (A17 Pro) (W)
             "J411AP", # 9 | iPad Mini (A17 Pro) (C)
-        
+
             # M4 iPads
             "J720AP", # 10 | iPad Pro (13-inch) (M4) (W)
             "J721AP", # 11 | iPad Pro (13-inch) (M4) (C)
@@ -152,7 +152,7 @@ def load_eligibility(dev: Device):
             # A17 Pro iPads
             "t8130", # 8 | iPad Mini (A17 Pro) (W)
             "t8130", # 9 | iPad Mini (A17 Pro) (C)
-        
+
             # M4 iPads
             "t8182", # 10 | iPad Pro (13-inch) (M4) (W)
             "t8182", # 11 | iPad Pro (13-inch) (M4) (C)
@@ -431,12 +431,12 @@ def load_daemons():
     }
     tweaks.update(additional_tweaks)
 
-def load_all_tweaks(version: str):
+def load_all_tweaks(version: str, dev: Device | None = None):
     parsed_ver = Version(version)
     if parsed_ver <= Version("18.2"):
         # load mobilegestalt + eligibility tweaks
-        load_mobilegestalt()
-        load_eligibility()
+        load_mobilegestalt(dev)
+        load_eligibility(dev)
     if parsed_ver < Version("18.1"):
         # load feature flags
         load_featureflags()

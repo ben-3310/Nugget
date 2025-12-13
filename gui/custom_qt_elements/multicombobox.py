@@ -7,7 +7,8 @@ class MultiComboBox(QComboBox):
     def __init__(self, parent=None, updateAction=lambda x: None):
         super().__init__(parent)
         self.setEditable(True)
-        self.lineEdit().setReadOnly(True)
+        if self.lineEdit() is not None:  # type: ignore
+            self.lineEdit().setReadOnly(True)  # type: ignore
         self.setModel(QStandardItemModel(self))
         self.updateAction = updateAction
         self.noneText = "None"
@@ -22,7 +23,7 @@ class MultiComboBox(QComboBox):
         item.setEnabled(True)
         item.setFlags(Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsUserCheckable)
         item.setData(Qt.CheckState.Unchecked, Qt.ItemDataRole.CheckStateRole)
-        self.model().appendRow(item)
+        self.model().appendRow(item)  # type: ignore
 
     def addItems(self, items_list: list):
         for text in items_list:
@@ -30,23 +31,26 @@ class MultiComboBox(QComboBox):
 
     def deselectAll(self):
         for i in range(self.model().rowCount()):
-            self.model().item(i).setCheckState(Qt.CheckState.Unchecked)
-    
+            self.model().item(i).setCheckState(Qt.CheckState.Unchecked)  # type: ignore
+
     def selectIndices(self, indices: list[int]):
         for idx in indices:
-            self.model().item(idx).setCheckState(Qt.CheckState.Checked)
+            self.model().item(idx).setCheckState(Qt.CheckState.Checked)  # type: ignore
 
     def updateText(self):
-        selected_items = [self.model().item(i).text() for i in range(self.model().rowCount())
-                          if self.model().item(i).checkState() == Qt.CheckState.Checked]
-        selected_data  = [self.model().item(i).data() for i in range(self.model().rowCount())
-                          if self.model().item(i).checkState() == Qt.CheckState.Checked]
+        selected_items = [self.model().item(i).text() for i in range(self.model().rowCount())  # type: ignore
+                          if self.model().item(i).checkState() == Qt.CheckState.Checked]  # type: ignore
+        selected_data  = [self.model().item(i).data() for i in range(self.model().rowCount())  # type: ignore
+                          if self.model().item(i).checkState() == Qt.CheckState.Checked]  # type: ignore
         if len(selected_items) == 0:
-            self.lineEdit().setText(self.noneText)
+            if self.lineEdit() is not None:  # type: ignore
+                self.lineEdit().setText(self.noneText)  # type: ignore
         elif len(selected_items) == 1:
-            self.lineEdit().setText(f"  {selected_items[0]}")
+            if self.lineEdit() is not None:  # type: ignore
+                self.lineEdit().setText(f"  {selected_items[0]}")  # type: ignore
         else:
-            self.lineEdit().setText(f"  ({len(selected_items)})")
+            if self.lineEdit() is not None:  # type: ignore
+                self.lineEdit().setText(f"  ({len(selected_items)})")  # type: ignore
         if self.updateAction != None:
             self.updateAction(selected_data)
 
@@ -54,19 +58,19 @@ class MultiComboBox(QComboBox):
         super().showPopup()
         # Set the state of each item in the dropdown
         for i in range(self.model().rowCount()):
-            item = self.model().item(i)
+            item = self.model().item(i)  # type: ignore
             combo_box_view = self.view()
-            combo_box_view.setRowHidden(i, False)
-            check_box = combo_box_view.indexWidget(item.index())
+            combo_box_view.setRowHidden(i, False)  # type: ignore
+            check_box = combo_box_view.indexWidget(item.index())  # type: ignore
             if check_box:
-                check_box.setChecked(item.checkState() == Qt.CheckState.Checked)
+                check_box.setChecked(item.checkState() == Qt.CheckState.Checked)  # type: ignore
 
     def hidePopup(self):
         # Update the check state of each item based on the checkbox state
         for i in range(self.model().rowCount()):
-            item = self.model().item(i)
+            item = self.model().item(i)  # type: ignore
             combo_box_view = self.view()
-            check_box = combo_box_view.indexWidget(item.index())
+            check_box = combo_box_view.indexWidget(item.index())  # type: ignore
             if check_box:
-                item.setCheckState(Qt.CheckState.Checked if check_box.isChecked() else Qt.CheckState.Unchecked)
+                item.setCheckState(Qt.CheckState.Checked if check_box.isChecked() else Qt.CheckState.Unchecked)  # type: ignore
         super().hidePopup()

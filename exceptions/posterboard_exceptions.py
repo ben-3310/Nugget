@@ -3,7 +3,7 @@ from PySide6.QtCore import QCoreApplication
 
 class VideoLengthException(NuggetException):
     def __init__(self, frame_limit: int):
-        super().__init__(QCoreApplication.tr("Videos must be under {0} frames to loop. Either reduce the frame rate or make it shorter.").format(frame_limit))
+        super().__init__(QCoreApplication.tr("Videos must be under {0} frames to loop. Either reduce the frame rate or make it shorter.", "").format(frame_limit))  # type: ignore
 
 class PBTemplateException(Exception):
     def __init__(self, file: str, message: str):

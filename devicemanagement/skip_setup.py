@@ -108,7 +108,7 @@ SKIP_SETUP_SCREENS = [
 def generate_cloud_config(
     lockdown_client: LockdownClient,
     supervised: bool = False,
-    organization_name: str = None,
+    organization_name: str | None = None,
 ) -> dict:
     """
     Generate cloud configuration plist with skip setup options.
@@ -174,7 +174,7 @@ def add_skip_setup_files(
     files_to_restore: list[FileToRestore],
     lockdown_client: LockdownClient,
     supervised: bool = False,
-    organization_name: str = None,
+    organization_name: str | None = None,
 ):
     """
     Add skip setup configuration files to the restore list.
