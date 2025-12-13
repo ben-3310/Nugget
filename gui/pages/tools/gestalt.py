@@ -71,9 +71,19 @@ class GestaltPage(Page):
     def set_rdar_fix_label(self):
         rdar_title = tweaks[TweakID.RdarFix].get_rdar_title()
         if rdar_title == "hide":
-            self.ui.rdarFixChk.hide()
+            # Keep it visible but disabled to explain why it's unavailable
+            self.ui.rdarFixChk.show()
+            self.ui.rdarFixChk.setEnabled(False)
+            self.ui.rdarFixChk.setToolTip(
+                QtCore.QCoreApplication.tr("Not available on this device / iOS version.")
+            )
+            self.ui.rdarFixChk.setText(
+                QtCore.QCoreApplication.tr("RDAR Fix (unsupported)")
+            )
         else:
             self.ui.rdarFixChk.show()
+            self.ui.rdarFixChk.setEnabled(True)
+            self.ui.rdarFixChk.setToolTip("")
             res_title = QtCore.QCoreApplication.tr("modifies resolution")
             self.ui.rdarFixChk.setText(f"{rdar_title} ({res_title})")
     

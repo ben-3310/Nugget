@@ -362,6 +362,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.stageManagerChk.setVisible(not is_iphone)
             # liquid glass low performance mode stuff
             supports_lg = device_ver >= Version("26.0")
+            if not supports_lg:
+                # Keep the page visible but disabled so users understand why it's unavailable
+                self.ui.liquidGlassPageBtn.show()
+                self.ui.liquidGlassPageBtn.setEnabled(False)
+                self.ui.liquidGlassPageBtn.setToolTip(self.tr("Requires iOS 26.0+"))
+            else:
+                self.ui.liquidGlassPageBtn.setEnabled(True)
+                self.ui.liquidGlassPageBtn.setToolTip("")
             # show the disable toggle on iPhone 12s and below (iPhone13,*)
             is_lglpm = self.device_manager.get_current_device_model().removeprefix("iPhone") < "14"
             self.ui.enableLGLPMChk.setVisible(supports_lg and not is_lglpm)
