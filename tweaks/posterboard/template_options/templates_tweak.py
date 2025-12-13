@@ -22,23 +22,20 @@ class TemplatesTweak(Tweak):
             if not template.domain.startswith("Sparserestore-"):
                 return True
         return False
-    
-    def is_empty(self) -> bool:
-        return len(self.templates) == 0
 
     def is_empty(self) -> bool:
         return len(self.templates) == 0
 
-    def add_template(self, file: str, version: str = None):
+    def add_template(self, file: str, version: str | None = None):
         try:
             new_template = TemplateFile(path=file, device_version=version)
             self.templates.append(new_template)
         except Exception as e:
             print(traceback.format_exc())
             detailsBox = QtWidgets.QMessageBox()
-            detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
-            detailsBox.setWindowTitle(QCoreApplication.tr("Error"))
-            detailsBox.setText(QCoreApplication.tr("Failed to load template") + f" {file}\n\n{str(e)}")
+            detailsBox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            detailsBox.setWindowTitle(QCoreApplication.tr("Error"))  # type: ignore
+            detailsBox.setText(QCoreApplication.tr("Failed to load template") + f" {file}\n\n{str(e)}")  # type: ignore
             detailsBox.exec()
 
     def parse_path_string(self, path: str, old_domain: str, new_domain: str) -> str:
@@ -46,7 +43,7 @@ class TemplatesTweak(Tweak):
         if old_domain.startswith("AppDomain-"):
             result_path = result_path.replace(old_domain.removeprefix("AppDomain-"), new_domain.removeprefix("AppDomain-"))
         return result_path
-        
+
     def recursive_add(self, old_bundle: str, domain: str,
                       files_to_restore: list[FileToRestore],
                       curr_path: str, restore_path: str = "",
@@ -71,7 +68,7 @@ class TemplatesTweak(Tweak):
                         restore_domain = domain
                         if domain.startswith("Sparserestore-"):
                             full_path = f"{domain.removeprefix('Sparserestore-')}{full_path}"
-                            restore_domain = None
+                            restore_domain = ""
                         full_path = self.parse_path_string(full_path, old_bundle, domain)
                         files_to_restore.append(FileToRestore(
                             contents=contents,

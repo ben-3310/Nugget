@@ -11,6 +11,7 @@ for modifying iOS system files, including:
 """
 
 import re
+from typing import Any
 
 from PySide6.QtCore import QCoreApplication
 
@@ -35,8 +36,8 @@ class Tweak:
 
     def __init__(
             self,
-            key: str,
-            value: any = 1,
+            key: str | None = None,
+            value: Any = 1,
             owner: int = 501, group: int = 501
         ):
         self.key = key
@@ -53,7 +54,7 @@ class Tweak:
         """Toggle the enabled state of this tweak."""
         self.enabled = not self.enabled
 
-    def set_value(self, new_value: any, toggle_enabled: bool = True):
+    def set_value(self, new_value: Any, toggle_enabled: bool = True):
         """Set the tweak value and optionally enable it."""
         self.value = new_value
         if toggle_enabled:
@@ -96,8 +97,8 @@ class BasicPlistTweak(Tweak):
     def __init__(
             self,
             file_location: FileLocation,
-            key: str,
-            value: any = True,
+            key: str | None,
+            value: Any = True,
             owner: int = 501, group: int = 501,
             is_risky: bool = False
         ):
@@ -109,6 +110,8 @@ class BasicPlistTweak(Tweak):
         """Apply this plist modification if enabled and allowed."""
         if not self.enabled or (self.is_risky and not risky_allowed):
             return other_tweaks
+        if self.key is None:
+            raise ValueError("BasicPlistTweak requires a non-None key")
         if self.file_location in other_tweaks:
             other_tweaks[self.file_location][self.key] = self.value
         else:
@@ -125,7 +128,7 @@ class AdvancedPlistTweak(BasicPlistTweak):
     ):
         super().__init__(file_location=file_location, key=None, value=keyValues, owner=owner, group=group, is_risky=is_risky)
 
-    def set_multiple_values(self, keys: list[str], value: any):
+    def set_multiple_values(self, keys: list[str], value: Any):
         for key in keys:
             self.value[key] = value
 
@@ -161,12 +164,12 @@ class RdarFixTweak(BasicPlistTweak):
     def get_rdar_title(self) -> str:
         if self.mode == 1 or self.mode == 3:
             if self.di_type == -1:
-                return QCoreApplication.tr("Revert RDAR fix")
-            return QCoreApplication.tr("RDAR Fix")
+                return QCoreApplication.tr("Revert RDAR fix")  # type: ignore
+            return QCoreApplication.tr("RDAR Fix")  # type: ignore
         elif self.mode == 2:
             if self.di_type == -1:
-                return QCoreApplication.tr("Revert Status Bar Fix")
-            return QCoreApplication.tr("Dynamic Island Status Bar Fix")
+                return QCoreApplication.tr("Revert Status Bar Fix")  # type: ignore
+            return QCoreApplication.tr("Dynamic Island Status Bar Fix")  # type: ignore
         return "hide"
 
     def set_di_type(self, type: int):
@@ -232,8 +235,8 @@ class MobileGestaltTweak(Tweak):
 
     def __init__(
             self,
-            key: str, subkey: str = None,
-            value: any = 1,
+            key: str, subkey: str | None = None,
+            value: Any = 1,
             owner: int = 501, group: int = 501
         ):
         super().__init__(key, value, owner, group)
@@ -243,8 +246,10 @@ class MobileGestaltTweak(Tweak):
         """Apply this MobileGestalt modification."""
         if not self.enabled:
             return plist
+        if self.key is None:
+            raise ValueError("MobileGestaltTweak requires a non-None key")
         new_value = self.value
-        if self.subkey == None:
+        if self.subkey is None:
             plist["CacheExtra"][self.key] = new_value
         else:
             plist["CacheExtra"][self.key][self.subkey] = new_value
@@ -253,7 +258,7 @@ class MobileGestaltTweak(Tweak):
 class MobileGestaltPickerTweak(Tweak):
     def __init__(
             self,
-            key: str, subkey: str = None,
+            key: str, subkey: str | None = None,
             values: list = [1]
         ):
         super().__init__(key=key, value=values)
@@ -263,8 +268,10 @@ class MobileGestaltPickerTweak(Tweak):
     def apply_tweak(self, plist: dict):
         if not self.enabled or self.value[self.selected_option] == "Placeholder":
             return plist
+        if self.key is None:
+            raise ValueError("MobileGestaltPickerTweak requires a non-None key")
         new_value = self.value[self.selected_option]
-        if self.subkey == None:
+        if self.subkey is None:
             plist["CacheExtra"][self.key] = new_value
         else:
             plist["CacheExtra"][self.key][self.subkey] = new_value
@@ -302,9 +309,9 @@ class MobileGestaltCacheDataTweak(Tweak):
         if not self.enabled:
             return plist
         data = bytes(plist["CacheData"]).hex().lower()
-        failed_str = QCoreApplication.tr("Failed to enable iPadOS:") + "\n"
+        failed_str = QCoreApplication.tr("Failed to enable iPadOS:") + "\n"  # type: ignore
         if len(data) <= self.slice_start:
-            raise NuggetException(failed_str + QCoreApplication.tr("CacheData is too short!"))
+            raise NuggetException(failed_str + QCoreApplication.tr("CacheData is too short!"))  # type: ignore
         # skip the padding and get the last 2 bytes for every instance to find the offset
         pattern = re.compile(r"0+(?:5555)*([0-9a-f]{4})")
         offset = None
@@ -318,18 +325,18 @@ class MobileGestaltCacheDataTweak(Tweak):
         # Error handling
         # Thanks Huy for the extra checks
         if offset is None:
-            raise NuggetException(failed_str + QCoreApplication.tr("Pattern not found in CacheData."))
+            raise NuggetException(failed_str + QCoreApplication.tr("Pattern not found in CacheData."))  # type: ignore
         # Check the extrema offsets
         roffset = offset + 13
         loffset = offset - 67 # real
         if roffset >= len(data) - 1 or roffset - 1 < 0:
             raise NuggetException(
-                failed_str + QCoreApplication.tr("Right offset out of range.")
+                failed_str + QCoreApplication.tr("Right offset out of range.")  # type: ignore
                 + f'\nRight Offset: {roffset}, Data Length: {len(data)}'
             )
         if loffset <= 0 or loffset + 1 >= len(data):
             raise NuggetException(
-                failed_str + QCoreApplication.tr("Left offset out of range.")
+                failed_str + QCoreApplication.tr("Left offset out of range.")  # type: ignore
                 + f'\nLeft Offset: {loffset}, Data Length: {len(data)}'
             )
 
@@ -337,14 +344,14 @@ class MobileGestaltCacheDataTweak(Tweak):
             offset_name = "Right" if side_offset == roffset else "Left"
             # check valid values
             if data[side_offset] not in ('1', '3'):
-                err_msg: str = QCoreApplication.tr("Value at %SIDE offset is not 1 or 3.")
+                err_msg: str = QCoreApplication.tr("Value at %SIDE offset is not 1 or 3.")  # type: ignore
                 raise NuggetException(
                     failed_str + err_msg.replace("%SIDE", offset_name.lower())
                     + f'\nValue[{side_offset}] = {data[side_offset]}, Data Length: {len(data)}'
                 )
             # check neighboring values
             if data[side_offset - 1] != '0' or data[side_offset + 1] != '0':
-                err_msg: str = QCoreApplication.tr("Values of %SIDE offset neighbors are not 0.")
+                err_msg: str = QCoreApplication.tr("Values of %SIDE offset neighbors are not 0.")  # type: ignore
                 raise NuggetException(
                     failed_str + err_msg.replace("%SIDE", offset_name.lower())
                     + f'\nValue[{side_offset-1}] = {data[side_offset - 1]}, Value[{side_offset+1}] = {data[side_offset + 1]}, Data Length: {len(data)}'

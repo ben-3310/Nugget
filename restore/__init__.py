@@ -9,19 +9,19 @@ from pymobiledevice3.lockdown import LockdownClient
 
 from . import backup
 
-def reboot_device(reboot: bool = False, lockdown_client: LockdownClient = None):
-    if reboot and lockdown_client != None:
+def reboot_device(reboot: bool = False, lockdown_client: LockdownClient | None = None):
+    if reboot and lockdown_client is not None:
         print("Success! Rebooting your device...")
         with DiagnosticsService(lockdown_client) as diagnostics_service:
             diagnostics_service.restart()
         print("Remember to turn Find My back on!")
 
-def perform_restore(backup: backup.Backup, reboot: bool = False, lockdown_client: LockdownClient = None, progress_callback = lambda x: None):
+def perform_restore(backup: backup.Backup, reboot: bool = False, lockdown_client: LockdownClient | None = None, progress_callback = lambda x: None):
     try:
         with TemporaryDirectory() as backup_dir:
             backup.write_to_directory(Path(backup_dir))
-            
-            if lockdown_client == None:
+
+            if lockdown_client is None:
                 lockdown_client = create_using_usbmux()
             with Mobilebackup2Service(lockdown_client) as mb:
                 mb.restore(backup_dir, system=True, reboot=False, copy=False, source=".", progress_callback=progress_callback, skip_apps=True)
