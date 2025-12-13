@@ -195,6 +195,8 @@ class MainWindow(QtWidgets.QMainWindow):
                         tag = " (@ USB)"
                     else:
                         tag = " (@ WiFi)"
+                if device.is_exploit_fully_patched():
+                    tag += f" ({self.tr('Patched')})"
                 self.ui.devicePicker.addItem(f"{device.name}{tag}")
 
             # show all pages
