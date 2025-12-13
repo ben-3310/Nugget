@@ -24,7 +24,7 @@ class HomePage(Page):
         self.ui.leminGithubBtn.clicked.connect(self.on_leminGitHubBtn_clicked)
         self.ui.leminTwitterBtn.clicked.connect(self.on_leminTwitterBtn_clicked)
         self.ui.leminKoFiBtn.clicked.connect(self.on_leminKoFiBtn_clicked)
-        
+
         self.ui.posterRestoreBtn.clicked.connect(self.on_posterRestoreBtn_clicked)
         self.ui.snoolieBtn.clicked.connect(self.on_snoolieBtn_clicked)
         self.ui.disfordottieBtn.clicked.connect(self.on_disfordottieBtn_clicked)
@@ -49,7 +49,7 @@ class HomePage(Page):
         if ver != "":
             self.show_version_text(version=ver, build=build)
         else:
-            self.ui.phoneVersionLbl.setText(QCoreApplication.tr("Please connect a device."))
+            self.ui.phoneVersionLbl.setText(QCoreApplication.tr("Please connect a device."))  # type: ignore
 
     def toggle_version_label(self):
         if self.show_uuid:
@@ -65,12 +65,12 @@ class HomePage(Page):
                 self.ui.phoneVersionLbl.setText(f"<a style=\"text-decoration:none; color: white\" href=\"#\">{uuid}</a>")
 
     def show_version_text(self, version: str, build: str):
-        support_str: str = "<span style=\"color: #32d74b;\">" + QCoreApplication.tr("Supported!") + "</span></a>"
+        support_str: str = "<span style=\"color: #32d74b;\">" + QCoreApplication.tr("Supported!") + "</span></a>"  # type: ignore
         if Version(version) < Version("17.0"):
-            support_str = "<span style=\"color: #ff0000;\">" + QCoreApplication.tr("Not Supported.") + "</span></a>"
+            support_str = "<span style=\"color: #ff0000;\">" + QCoreApplication.tr("Not Supported.") + "</span></a>"  # type: ignore
         elif self.window.device_manager.get_current_device_patched():
             # sparserestore fully patched
-            support_str = "<span style=\"color: #ffff00;\">"+ QCoreApplication.tr("Partially Supported.") + "</span></a>"
+            support_str = "<span style=\"color: #ffff00;\">"+ QCoreApplication.tr("Partially Supported.") + "</span></a>"  # type: ignore
         self.ui.phoneVersionLbl.setText(f"<a style=\"text-decoration:none; color: white;\" href=\"#\">iOS {version} ({build}) {support_str}")
 
     ## HOME PAGE LINKS

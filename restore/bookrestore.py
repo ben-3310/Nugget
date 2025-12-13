@@ -532,7 +532,8 @@ def apply_bookrestore_files(
             # respring anyway even if it is not detected that all files overwrote
             break
             # raise Exception("Timed out waiting for file, please try again.")
-    pc.kill(pid_bookassetd)
+    if pid_bookassetd is not None:
+        pc.kill(pid_bookassetd)
     if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
         close_dl_connection()
         assert temp_dl_manager is not None
@@ -556,7 +557,7 @@ def perform_bookrestore(files: list[FileToRestore], lockdown_client: LockdownCli
                               detailed_text="BookRestore tweaks with the AFC method require developer mode to apply.\n\nYou can enable this at the bottom of Settings > Privacy & Security > Developer Mode on your iPhone or iPad.")
     if os.name == 'nt':
         try:
-            asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+            asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())  # type: ignore
         except AttributeError:
             # WindowsSelectorEventLoopPolicy may not be available on all Python versions
             pass

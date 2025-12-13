@@ -124,11 +124,11 @@ class SettingsPage(Page):
         self.ui.ipadOSAlphaWarningLbl.setVisible(show_ipados)
         self.ui.euEnablerPageBtn.setVisible(show_eu)
         try:
-            self.ui.resetPBDrp.removeItem(4)
+            self.ui.resetPBDrp.removeItem(4)  # type: ignore
         except:
             pass
         if visible:
-            self.ui.resetPBDrp.addItem("PB Extensions")
+            self.ui.resetPBDrp.addItem("PB Extensions")  # type: ignore
 
     ## ACTIONS
     def on_langDrp_activated(self, index: int):
@@ -215,7 +215,7 @@ class SettingsPage(Page):
         except NuggetException as e:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Icon.Critical)
-            msg.setWindowTitle(QCoreApplication.tr("PosterBoard App Hash"))
+            msg.setWindowTitle(QCoreApplication.tr("PosterBoard App Hash"))  # type: ignore
             msg.setText(e.message)
             if e.detailed_text:
                 msg.setDetailedText(e.detailed_text)
@@ -224,8 +224,8 @@ class SettingsPage(Page):
         except Exception:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Icon.Critical)
-            msg.setWindowTitle(QCoreApplication.tr("PosterBoard App Hash"))
-            msg.setText(QCoreApplication.tr("Failed to fetch app hash from device."))
+            msg.setWindowTitle(QCoreApplication.tr("PosterBoard App Hash"))  # type: ignore
+            msg.setText(QCoreApplication.tr("Failed to fetch app hash from device."))  # type: ignore
             msg.setDetailedText(traceback.format_exc())
             msg.exec()
             return
@@ -233,14 +233,14 @@ class SettingsPage(Page):
         print(hashes)
         try:
             self.window.device_manager.send_app_hashes_afc(hashes)
-            QMessageBox.information(None, QCoreApplication.tr("PosterBoard App Hash"), QCoreApplication.tr("Your hash has been transferred to the Pocket Poster app.\n\nOpen up its settings and tap \"Detect\"."))
+            QMessageBox.information(None, QCoreApplication.tr("PosterBoard App Hash"), QCoreApplication.tr("Your hash has been transferred to the Pocket Poster app.\n\nOpen up its settings and tap \"Detect\"."))  # type: ignore
         except:
             # fall back to copy and paste
-            copytxt = QCoreApplication.tr("Copy it and paste it")
+            copytxt = QCoreApplication.tr("Copy it and paste it")  # type: ignore
             try:
                 import pyperclip
                 pyperclip.copy(hashes["com.apple.PosterBoard"])
-                copytxt = QCoreApplication.tr("It has been copied. Paste it")
+                copytxt = QCoreApplication.tr("It has been copied. Paste it")  # type: ignore
             except:
                 print("pyperclip not found, not copying to clipboard")
-            QMessageBox.information(None, QCoreApplication.tr("PosterBoard App Hash"), QCoreApplication.tr("Your hash is:\n{0}\n\n{1} into the Nugget app where it says \"App Hash\".").format(hashes["com.apple.PosterBoard"], copytxt))
+            QMessageBox.information(None, QCoreApplication.tr("PosterBoard App Hash"), QCoreApplication.tr("Your hash is:\n{0}\n\n{1} into the Nugget app where it says \"App Hash\".").format(hashes["com.apple.PosterBoard"], copytxt))  # type: ignore

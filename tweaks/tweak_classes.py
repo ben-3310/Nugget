@@ -98,7 +98,11 @@ class BasicPlistTweak(Tweak):
             self,
             file_location: FileLocation,
             key: str | None,
+<<<<<<< HEAD
             value: Any = True,
+=======
+            value: any = True,
+>>>>>>> 90b242a (fix: resolve type checking issues with Qt enums, Optional types, and CData attributes)
             owner: int = 501, group: int = 501,
             is_risky: bool = False
         ):
@@ -236,7 +240,11 @@ class MobileGestaltTweak(Tweak):
     def __init__(
             self,
             key: str, subkey: str | None = None,
+<<<<<<< HEAD
             value: Any = 1,
+=======
+            value: any = 1,
+>>>>>>> 90b242a (fix: resolve type checking issues with Qt enums, Optional types, and CData attributes)
             owner: int = 501, group: int = 501
         ):
         super().__init__(key, value, owner, group)

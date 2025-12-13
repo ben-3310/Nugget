@@ -67,7 +67,7 @@ class Setter:
         self.current_overrides = new_overrides
     def get_overrides(self):
         return self.current_overrides
-    
+
     def bool_array_to_str(self, arr: list[bool]) -> str:
         final_str = ""
         for a in arr:
@@ -85,18 +85,18 @@ class Setter:
             ffi.memmove(overrides, self.current_overrides, ffi.sizeof(self.current_overrides))
             # now turn on everything funny
             for i in range(46):
-                if overrides.overrideItemIsEnabled[i] == 1:
+                if overrides.overrideItemIsEnabled[i] == 1:  # type: ignore
                     # don't change setting
                     continue
-                overrides.overrideItemIsEnabled[i] = 1
-                overrides.values.itemIsEnabled[i] = 1
+                overrides.overrideItemIsEnabled[i] = 1  # type: ignore
+                overrides.values.itemIsEnabled[i] = 1  # type: ignore
         if os.name != 'nt':
-            return ffi.buffer(self.current_overrides)
-        
+            return bytes(ffi.buffer(self.current_overrides))  # type: ignore
+
         # --- PATH DETECTION START ---
         if getattr(sys, 'frozen', False):
             if hasattr(sys, '_MEIPASS'):
-                base_path = sys._MEIPASS
+                base_path = getattr(sys, '_MEIPASS')  # type: ignore
             else:
                 base_path = os.path.dirname(sys.executable)
                 if not os.path.exists(os.path.join(base_path, "status_setter_windows.exe")):
@@ -112,51 +112,51 @@ class Setter:
         tmpdir = tempfile.mkdtemp()
         tmpin = os.path.join(tmpdir, "sbin")
         tmpout = os.path.join(tmpdir, "status_bar_overrides")
-        
+
         try:
             # generate the input file
             with open(tmpin, "w", encoding="utf-8") as in_file:
                 for item in ([
-                    self.bool_array_to_str(overrides.overrideItemIsEnabled),
-                    self.bool_array_to_str(overrides.values.itemIsEnabled),
-                    ffi.string(overrides.values.timeString).decode(),
-                    ffi.string(overrides.values.shortTimeString).decode(),
-                    ffi.string(overrides.values.dateString).decode(),
-                    ffi.string(overrides.values.serviceString).decode(),
-                    ffi.string(overrides.values.secondaryServiceString).decode(),
-                    ffi.string(overrides.values.serviceCrossfadeString).decode(),
-                    ffi.string(overrides.values.secondaryServiceCrossfadeString).decode(),
-                    ffi.string(overrides.values.batteryDetailString).decode(),
-                    ffi.string(overrides.values.primaryServiceBadgeString).decode(),
-                    ffi.string(overrides.values.secondaryServiceBadgeString).decode(),
-                    ffi.string(overrides.values.breadcrumbTitle).decode(),
-                    int(overrides.overrideTimeString),
-                    int(overrides.overrideDateString),
-                    int(overrides.overrideServiceString),
-                    int(overrides.overrideSecondaryServiceString),
-                    int(overrides.overrideBatteryDetailString),
-                    int(overrides.overridePrimaryServiceBadgeString),
-                    int(overrides.overrideSecondaryServiceBadgeString),
-                    int(overrides.overrideBreadcrumb),
-                    int(overrides.overrideDisplayRawWifiSignal),
-                    int(overrides.overrideDisplayRawGSMSignal),
-                    int(overrides.values.displayRawWifiSignal),
-                    int(overrides.values.displayRawGSMSignal),
-                    int(overrides.overrideDataNetworkType),
-                    int(overrides.values.dataNetworkType),
-                    int(overrides.overrideSecondaryDataNetworkType),
-                    int(overrides.values.secondaryDataNetworkType),
-                    int(overrides.overrideGSMSignalStrengthBars),
-                    int(overrides.values.GSMSignalStrengthBars),
-                    int(overrides.overrideSecondaryGSMSignalStrengthBars),
-                    int(overrides.values.secondaryGSMSignalStrengthBars),
-                    int(overrides.overrideBatteryCapacity),
-                    int(overrides.values.batteryCapacity),
-                    int(overrides.overrideWifiSignalStrengthBars),
-                    int(overrides.values.wifiSignalStrengthBars)
+                    self.bool_array_to_str(overrides.overrideItemIsEnabled),  # type: ignore
+                    self.bool_array_to_str(overrides.values.itemIsEnabled),  # type: ignore
+                    ffi.string(overrides.values.timeString).decode(),  # type: ignore
+                    ffi.string(overrides.values.shortTimeString).decode(),  # type: ignore
+                    ffi.string(overrides.values.dateString).decode(),  # type: ignore
+                    ffi.string(overrides.values.serviceString).decode(),  # type: ignore
+                    ffi.string(overrides.values.secondaryServiceString).decode(),  # type: ignore
+                    ffi.string(overrides.values.serviceCrossfadeString).decode(),  # type: ignore
+                    ffi.string(overrides.values.secondaryServiceCrossfadeString).decode(),  # type: ignore
+                    ffi.string(overrides.values.batteryDetailString).decode(),  # type: ignore
+                    ffi.string(overrides.values.primaryServiceBadgeString).decode(),  # type: ignore
+                    ffi.string(overrides.values.secondaryServiceBadgeString).decode(),  # type: ignore
+                    ffi.string(overrides.values.breadcrumbTitle).decode(),  # type: ignore
+                    int(overrides.overrideTimeString),  # type: ignore
+                    int(overrides.overrideDateString),  # type: ignore
+                    int(overrides.overrideServiceString),  # type: ignore
+                    int(overrides.overrideSecondaryServiceString),  # type: ignore
+                    int(overrides.overrideBatteryDetailString),  # type: ignore
+                    int(overrides.overridePrimaryServiceBadgeString),  # type: ignore
+                    int(overrides.overrideSecondaryServiceBadgeString),  # type: ignore
+                    int(overrides.overrideBreadcrumb),  # type: ignore
+                    int(overrides.overrideDisplayRawWifiSignal),  # type: ignore
+                    int(overrides.overrideDisplayRawGSMSignal),  # type: ignore
+                    int(overrides.values.displayRawWifiSignal),  # type: ignore
+                    int(overrides.values.displayRawGSMSignal),  # type: ignore
+                    int(overrides.overrideDataNetworkType),  # type: ignore
+                    int(overrides.values.dataNetworkType),  # type: ignore
+                    int(overrides.overrideSecondaryDataNetworkType),  # type: ignore
+                    int(overrides.values.secondaryDataNetworkType),  # type: ignore
+                    int(overrides.overrideGSMSignalStrengthBars),  # type: ignore
+                    int(overrides.values.GSMSignalStrengthBars),  # type: ignore
+                    int(overrides.overrideSecondaryGSMSignalStrengthBars),  # type: ignore
+                    int(overrides.values.secondaryGSMSignalStrengthBars),  # type: ignore
+                    int(overrides.overrideBatteryCapacity),  # type: ignore
+                    int(overrides.values.batteryCapacity),  # type: ignore
+                    int(overrides.overrideWifiSignalStrengthBars),  # type: ignore
+                    int(overrides.values.wifiSignalStrengthBars)  # type: ignore
                 ]):
                     in_file.write(f"{item}\n")
-            
+
             # --- FIX: Inject PATH env variable ---
             env = os.environ.copy()
             # Prepend our base_path to the PATH so the exe finds its DLLs first
@@ -164,13 +164,13 @@ class Setter:
 
             result = subprocess.run(
                 [exe_path, tmpin, tmpout],
-                encoding="utf-8", 
-                check=True, 
+                encoding="utf-8",
+                check=True,
                 cwd=base_path,
                 env=env  # <--- Critical for finding DLLs
             )
             print(f"returned {result}")
-            
+
         except subprocess.CalledProcessError as e:
             # Enhanced Error Logging
             file_list = "Unable to list files"
@@ -179,7 +179,7 @@ class Setter:
             except:
                 pass
             raise NuggetException(f"Failed to run status bar process.\nPath used: {base_path}\nFiles in path: {file_list}\nError: {e}")
-            
+
         with open(tmpout, "rb") as in_file:
             contents = in_file.read()
         try:

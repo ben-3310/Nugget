@@ -14,7 +14,7 @@ class GestaltDialog(QDialog):
         self.selected_file = selected_file
 
         QBtn = (
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel  # type: ignore
         )
 
         self.buttonBox = QDialogButtonBox(QBtn)
@@ -37,7 +37,7 @@ class PBHelpDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         QBtn = (
-            QDialogButtonBox.Ok
+            QDialogButtonBox.StandardButton.Ok  # type: ignore
         )
         self.buttonBox = QDialogButtonBox(QBtn)
         self.buttonBox.accepted.connect(self.accept)
@@ -48,7 +48,7 @@ class PBHelpDialog(QDialog):
         layout.addWidget(message)
 
         imgBox = QWidget()
-        imgBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        imgBox.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)  # type: ignore
         imgBox.setStyleSheet("QWidget { background: none; padding: 0px; border: none; }")
         hlayout = QHBoxLayout()
         tut1 = QToolButton()
@@ -73,7 +73,7 @@ class UpdateAppDialog(QDialog):
         super().__init__(parent)
 
         QBtn = (
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel  # type: ignore
         )
 
         self.buttonBox = QDialogButtonBox(QBtn)

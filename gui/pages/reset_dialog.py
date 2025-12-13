@@ -10,7 +10,7 @@ class ResetDialog(QDialog):
         self.selected_pages: list[Page] = []
 
         QBtn = (
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel  # type: ignore
         )
 
         self.buttonBox = QDialogButtonBox(QBtn)
@@ -28,7 +28,7 @@ class ResetDialog(QDialog):
             pageChk = QCheckBox(page.getPageName())
             pageChk.toggled.connect(lambda checked, p=page: self.toggle_page(checked, p))
             layout.addWidget(pageChk)
-        
+
         layout.addWidget(self.buttonBox)
         self.setLayout(layout)
 

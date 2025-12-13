@@ -146,7 +146,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if Version(ver) > Version("26.0") and not self.device_manager.get_current_device_build()[-1].isdigit():
             self.alert_message(ApplyAlertMessage(
                 txt=self.tr("Warning: You are on iOS 26 beta.\n\nThis has been known to cause problems and potentially lead to bootloops.\n\nUse at your own risk!"),
-                title="Warning", icon=QtWidgets.QMessageBox.Warning
+                title="Warning", icon=QtWidgets.QMessageBox.Icon.Warning  # type: ignore
             ), log_to_console=False)
 
     def refresh_devices_finished(self):
@@ -269,7 +269,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 pass
             if TweakID.RdarFix in tweaks:
                 self.pages[Page.Gestalt].set_rdar_fix_label()
-                tweaks[TweakID.RdarFix].get_rdar_mode(self.device_manager.data_singleton.current_device.model)
+                current_device = self.device_manager.data_singleton.current_device
+                if current_device is not None:
+                    tweaks[TweakID.RdarFix].get_rdar_mode(current_device.model)
             device_ver = Version(self.device_manager.data_singleton.current_device.version)
             patched: bool = self.device_manager.get_current_device_patched()
             # toggle option visibility for the minimum versions
@@ -277,7 +279,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 if version == "exploit":
                     # disable if the exploit is not available
                     for pair in MinTweakVersions[version]:
-                        if self.device_manager.data_singleton.current_device.has_exploit() and device_ver >= Version(pair[0]):
+                        current_device = self.device_manager.data_singleton.current_device
+                        if current_device is not None and current_device.has_exploit() and device_ver >= Version(pair[0]):
                             pair[1].show()
                         else:
                             pair[1].hide()
@@ -376,12 +379,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.disableLGLPMChk.setVisible(supports_lg and is_lglpm)
 
             # bookrestore stuff
-            has_sparserestore = self.device_manager.data_singleton.current_device.has_partial_sparserestore()
-            self.ui.duyBtn.setVisible(not has_sparserestore)
-            self.ui.jjtechBtn.setVisible(has_sparserestore)
-            if self.device_manager.data_singleton.current_device.has_bookrestore():
-                self.ui.bookrestoreWidget.show()
-                self.ui.booksContainerUUIDTxt.setText(self.device_manager.data_singleton.current_device.books_container_uuid)
+            current_device = self.device_manager.data_singleton.current_device
+            if current_device is not None:
+                has_sparserestore = current_device.has_partial_sparserestore()
+                self.ui.duyBtn.setVisible(not has_sparserestore)
+                self.ui.jjtechBtn.setVisible(has_sparserestore)
+                if current_device.has_bookrestore():
+                    self.ui.bookrestoreWidget.show()
+                    self.ui.booksContainerUUIDTxt.setText(current_device.books_container_uuid)
             else:
                 self.ui.bookrestoreWidget.hide()
 
@@ -425,20 +430,20 @@ class MainWindow(QtWidgets.QMainWindow):
             supervised = self.settings.value("supervised", False, type=bool)
             organization_name = self.settings.value("organization_name", "", type=str)
 
-            self.ui.allowWifiApplyingChk.setChecked(apply_over_wifi)
-            self.ui.autoRebootChk.setChecked(auto_reboot)
-            self.ui.showRiskyChk.setChecked(risky_tweaks)
-            self.ui.ignorePBFrameLimitChk.setChecked(ignore_frame_limit)
-            self.ui.disableTendiesLimitChk.setChecked(disable_tendies_limit)
-            self.ui.showAllSpoofableChk.setChecked(show_all_spoofable)
-            self.ui.trustStoreChk.setChecked(restore_truststore)
+            self.ui.allowWifiApplyingChk.setChecked(bool(apply_over_wifi))
+            self.ui.autoRebootChk.setChecked(bool(auto_reboot))
+            self.ui.showRiskyChk.setChecked(bool(risky_tweaks))
+            self.ui.ignorePBFrameLimitChk.setChecked(bool(ignore_frame_limit))
+            self.ui.disableTendiesLimitChk.setChecked(bool(disable_tendies_limit))
+            self.ui.showAllSpoofableChk.setChecked(bool(show_all_spoofable))
+            self.ui.trustStoreChk.setChecked(bool(restore_truststore))
 
-            self.ui.brApplyModeDrp.setCurrentIndex(br_apply_mode)
-            self.ui.brTransferModeDrp.setCurrentIndex(br_transfer_mode)
+            self.ui.brApplyModeDrp.setCurrentIndex(int(br_apply_mode))
+            self.ui.brTransferModeDrp.setCurrentIndex(int(br_transfer_mode))
 
-            self.ui.skipSetupChk.setChecked(skip_setup)
-            self.ui.supervisionChk.setChecked(supervised)
-            self.ui.supervisionOrganization.setText(organization_name)
+            self.ui.skipSetupChk.setChecked(bool(skip_setup))
+            self.ui.supervisionChk.setChecked(bool(supervised))
+            self.ui.supervisionOrganization.setText(str(organization_name))
 
             # hide/show the warning label
             if skip_setup:
@@ -446,18 +451,18 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 self.ui.skipSetupOnLbl.hide()
 
-            self.device_manager.pref_manager.apply_over_wifi = apply_over_wifi
-            self.device_manager.pref_manager.auto_reboot = auto_reboot
-            self.device_manager.pref_manager.allow_risky_tweaks = risky_tweaks
-            video_handler.set_ignore_frame_limit(ignore_frame_limit)
-            self.device_manager.pref_manager.show_all_spoofable_models = show_all_spoofable
-            self.device_manager.pref_manager.disable_tendies_limit = disable_tendies_limit
-            self.device_manager.pref_manager.restore_truststore = restore_truststore
-            self.device_manager.pref_manager.bookrestore_apply_mode = BookRestoreApplyMethod(br_apply_mode)
-            self.device_manager.pref_manager.bookrestore_transfer_mode = BookRestoreFileTransferMethod(br_transfer_mode)
-            self.device_manager.pref_manager.skip_setup = skip_setup
-            self.device_manager.pref_manager.supervised = supervised
-            self.device_manager.pref_manager.organization_name = organization_name
+            self.device_manager.pref_manager.apply_over_wifi = bool(apply_over_wifi)
+            self.device_manager.pref_manager.auto_reboot = bool(auto_reboot)
+            self.device_manager.pref_manager.allow_risky_tweaks = bool(risky_tweaks)
+            video_handler.set_ignore_frame_limit(bool(ignore_frame_limit))
+            self.device_manager.pref_manager.show_all_spoofable_models = bool(show_all_spoofable)
+            self.device_manager.pref_manager.disable_tendies_limit = bool(disable_tendies_limit)
+            self.device_manager.pref_manager.restore_truststore = bool(restore_truststore)
+            self.device_manager.pref_manager.bookrestore_apply_mode = BookRestoreApplyMethod(int(br_apply_mode))
+            self.device_manager.pref_manager.bookrestore_transfer_mode = BookRestoreFileTransferMethod(int(br_transfer_mode))
+            self.device_manager.pref_manager.skip_setup = bool(skip_setup)
+            self.device_manager.pref_manager.supervised = bool(supervised)
+            self.device_manager.pref_manager.organization_name = str(organization_name)
         except Exception as e:
             print(f"Error loading settings: {e}")
 
@@ -529,7 +534,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ## APPLY PAGE
     def on_chooseGestaltBtn_clicked(self):
-        selected_file, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select Mobile Gestalt File", "", "Plist Files (*.plist)", options=QtWidgets.QFileDialog.ReadOnly)
+        selected_file, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select Mobile Gestalt File", "", "Plist Files (*.plist)", options=QtWidgets.QFileDialog.Option.ReadOnly)  # type: ignore
         if selected_file == "" or selected_file == None:
             self.device_manager.data_singleton.gestalt_path = None
             self.update_mga_label()
@@ -542,15 +547,16 @@ class MainWindow(QtWidgets.QMainWindow):
                 gestalt_plist = plistlib.load(in_fp)
             if not "CacheExtra" in gestalt_plist:
                 detailsBox = QtWidgets.QMessageBox()
-                detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
+                detailsBox.setIcon(QtWidgets.QMessageBox.Icon.Critical)  # type: ignore
                 detailsBox.setWindowTitle("Error!")
                 detailsBox.setText("The file is not a mobile gestalt file!")
                 detailsBox.exec()
                 return
-            if not self.device_manager.pref_manager.is_valid_mga_plist(
+            current_device = self.device_manager.data_singleton.current_device
+            if current_device is not None and not self.device_manager.pref_manager.is_valid_mga_plist(
                 gestalt_plist,
-                self.device_manager.data_singleton.current_device.build,
-                self.device_manager.data_singleton.current_device.model
+                current_device.build,
+                current_device.model
             ):
                 dialog = GestaltDialog(
                         device_manager=self.device_manager,
@@ -584,7 +590,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_applyTweaksBtn_clicked(self):
         self.apply_changes()
 
-    def apply_changes(self, reset_pages: list=None):
+    def apply_changes(self, reset_pages: list | None = None):
         if self.apply_in_progress:
             return
 
@@ -650,7 +656,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if alert is None:
             # do sudo dialog input
             get_sudo_pwd() # clear if it is already there
-            pwd, ok = QtWidgets.QInputDialog.getText(None, "Enter Sudo Password", "Enter Your Computer's Password:", QtWidgets.QLineEdit.Password, "")
+            pwd, ok = QtWidgets.QInputDialog.getText(None, "Enter Sudo Password", "Enter Your Computer's Password:", QtWidgets.QLineEdit.EchoMode.Password, "")  # type: ignore
             if ok and pwd:
                 set_sudo_pwd(pwd)
             set_sudo_complete(True)
