@@ -75,13 +75,15 @@ def test_device_manager():
     
     try:
         from devicemanagement.device_manager import DeviceManager
+        from PySide6.QtCore import QSettings
         dm = DeviceManager()
         print("✓ DeviceManager initialized successfully")
         
         # Try to get device list (may fail if no devices connected)
         try:
-            dm.get_device_list()
-            print("✓ Device list retrieved (or no devices found)")
+            settings = QSettings("Nugget", "settings")
+            dm.get_devices(settings, show_alert=lambda _msg: None)
+            print("✓ Device scan completed (device list may be empty)")
         except Exception as e:
             print(f"⚠ Device list retrieval warning: {e}")
             print("  This is expected if no iOS devices are connected")
