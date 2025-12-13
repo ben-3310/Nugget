@@ -12,7 +12,7 @@ class FileToRestore:
 
     def __init__(
         self,
-        contents: Union[str, bytes],
+        contents: Optional[Union[str, bytes]],
         restore_path: str,
         contents_path: Optional[str] = None,
         domain: str = "",
@@ -53,11 +53,14 @@ def concat_exploit_file(
             group=file.group
         ))
         new_last_domain = domain_path
-    contents_bytes = (
-        file.contents
-        if isinstance(file.contents, bytes)
-        else file.contents.encode("utf-8")
-    )
+    # contents may be None when deferred to disk via contents_path
+    contents_bytes: Optional[bytes]
+    if file.contents is None:
+        contents_bytes = None
+    elif isinstance(file.contents, bytes):
+        contents_bytes = file.contents
+    else:
+        contents_bytes = file.contents.encode("utf-8")
     files_list.append(
         backup.ConcreteFile(
             "",
@@ -65,6 +68,7 @@ def concat_exploit_file(
             owner=file.owner,
             group=file.group,
             contents=contents_bytes,
+            src_path=file.contents_path,
         )
     )
     return new_last_domain
@@ -108,11 +112,14 @@ def concat_regular_file(
             ))
             last_path = full_path
     # finally, append the file
-    contents_bytes = (
-        file.contents
-        if isinstance(file.contents, bytes)
-        else file.contents.encode("utf-8")
-    )
+    # contents may be None when deferred to disk via contents_path
+    contents_bytes: Optional[bytes]
+    if file.contents is None:
+        contents_bytes = None
+    elif isinstance(file.contents, bytes):
+        contents_bytes = file.contents
+    else:
+        contents_bytes = file.contents.encode("utf-8")
     files_list.append(
         backup.ConcreteFile(
             f"{full_path}/{name}",
@@ -146,7 +153,11 @@ def merge_duplicates(original_files: list[FileToRestore]) -> list[FileToRestore]
                 continue
             # merge the data (plist files only)
             print(f'merging duplicate files for {file_loc}')
-            initial_data = plistlib.loads(no_dupe_files[existing_locations[file_loc]].contents)
+            existing_file = no_dupe_files[existing_locations[file_loc]]
+            if existing_file.contents is None or file.contents is None:
+                print(f'cannot merge deferred-content plist, ignoring {file_loc}')
+                continue
+            initial_data = plistlib.loads(existing_file.contents)
             added_data = plistlib.loads(file.contents)
             initial_data.update(added_data)
             no_dupe_files[existing_locations[file_loc]].contents = plistlib.dumps(initial_data)
