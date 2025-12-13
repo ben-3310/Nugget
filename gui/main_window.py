@@ -602,7 +602,9 @@ class MainWindow(QtWidgets.QMainWindow):
                     msg = QtWidgets.QMessageBox(self)
                     msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
                     msg.setWindowTitle(self.tr("Preflight failed"))
-                    msg.setText(self.tr("Fix the following issues before applying tweaks."))
+                    msg.setText(
+                        self.tr("Fix the following issues before applying tweaks.")
+                    )
                     msg.setDetailedText(details)
                     msg.exec()
                     return
@@ -611,7 +613,9 @@ class MainWindow(QtWidgets.QMainWindow):
                     msg = QtWidgets.QMessageBox(self)
                     msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                     msg.setWindowTitle(self.tr("Preflight warnings"))
-                    msg.setText(self.tr("Preflight reported warnings. Do you want to continue?"))
+                    msg.setText(
+                        self.tr("Preflight reported warnings. Do you want to continue?")
+                    )
                     msg.setDetailedText(details)
                     msg.setStandardButtons(
                         QtWidgets.QMessageBox.StandardButton.Ok
