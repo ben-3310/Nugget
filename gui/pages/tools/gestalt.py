@@ -86,7 +86,7 @@ class GestaltPage(Page):
             self.ui.rdarFixChk.setToolTip("")
             res_title = QtCore.QCoreApplication.tr("modifies resolution")
             self.ui.rdarFixChk.setText(f"{rdar_title} ({res_title})")
-    
+
     def on_dynamicIslandDrp_activated(self, index: int):
         if index == 0:
             tweaks[TweakID.DynamicIsland].set_enabled(False)
@@ -211,7 +211,7 @@ class GestaltPage(Page):
         valueTypeDrp.activated.connect(lambda idx, id=key_identifier, vf=valueField: self.update_custom_gestalt_value_type(id, idx, vf))
         hlayout.addWidget(valueTypeDrp)
         hlayout.addWidget(valueField)
-        
+
         # add it to the main widget
         widget.setDisabled(False)
         self.ui.customKeysLayout.addWidget(widget)

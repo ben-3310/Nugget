@@ -3,8 +3,10 @@ import subprocess
 import os
 import uuid
 import traceback
+import json
+import zipfile
 
-from shutil import make_archive, rmtree
+from shutil import make_archive, rmtree, copy2
 from PySide6 import QtCore, QtWidgets, QtGui
 
 from ..page import Page
@@ -21,6 +23,7 @@ class PosterboardPage(Page, QtCore.QObject):
         self.ui = ui
         self.pb_mainLayout = None
         self.pb_templateLayout = None
+        self._shown_video_crop_warning = False
 
         # set up the dropdown
         self.ui.resetPBDrp = MultiComboBox(self.ui.pbPagePicker, updateAction=self.on_update_picker)
@@ -35,6 +38,12 @@ class PosterboardPage(Page, QtCore.QObject):
         self.ui.resetPBDrp.lineEdit().setText(self.ui.resetPBDrp.noneText)
         self.ui.resetPBDrp.setStyleSheet("QWidget { background-color: #3b3b3b; border: 2px solid #3b3b3b; border-radius: 5px; }")# QAbstractItemView::indicator:checked { background-color: rgba(0, 0, 255, 0.3); border-radius: 4px; }")
         self.ui.pbPagePicker.layout().addWidget(self.ui.resetPBDrp)
+
+        # Quick access "repair wizard" (no .ui changes required)
+        self.ui.pbRepairWizardBtn = QtWidgets.QPushButton(self.tr("Repair Wizard…"), self.ui.pbPagePicker)
+        self.ui.pbRepairWizardBtn.clicked.connect(self.on_pbRepairWizardBtn_clicked)
+        self.ui.pbPagePicker.layout().addWidget(self.ui.pbRepairWizardBtn)
+
         self.ui.pbVideoThumbLbl.setText(QtCore.QCoreApplication.tr("Current Thumbnail: {0}").format(self.window.noneText))
         self.ui.pbVideoLbl.setText(QtCore.QCoreApplication.tr("Current Video: {0}").format(self.window.noneText))
 
@@ -67,6 +76,247 @@ class PosterboardPage(Page, QtCore.QObject):
             self.load_pb_tendies()
         # if len(tweaks[TweakID.PosterBoard].templates) > 0:
         #     self.load_pb_templates()
+
+    # PosterBoard Repair Wizard
+    def on_pbRepairWizardBtn_clicked(self):
+        dialog = QtWidgets.QDialog(self.window)
+        dialog.setWindowTitle(self.tr("PosterBoard Repair Wizard"))
+        dialog.setMinimumWidth(520)
+
+        layout = QtWidgets.QVBoxLayout(dialog)
+
+        intro = QtWidgets.QLabel(
+            self.tr(
+                "Use this wizard to quickly reset PosterBoard caches and to backup/restore your local PosterBoard setup (tendies + video)."
+            )
+        )
+        intro.setWordWrap(True)
+        layout.addWidget(intro)
+
+        layout.addSpacing(8)
+
+        # Reset modes
+        reset_group = QtWidgets.QGroupBox(self.tr("Reset PosterBoard (recommended for gallery/cache issues)"))
+        reset_layout = QtWidgets.QVBoxLayout(reset_group)
+
+        cb_collections = QtWidgets.QCheckBox(self.tr("Collections"))
+        cb_suggested = QtWidgets.QCheckBox(self.tr("Suggested Photos"))
+        cb_gallery = QtWidgets.QCheckBox(self.tr("Gallery Cache"))
+
+        reset_layout.addWidget(cb_collections)
+        reset_layout.addWidget(cb_suggested)
+        reset_layout.addWidget(cb_gallery)
+
+        apply_reset_btn = QtWidgets.QPushButton(self.tr("Apply selection to Reset dropdown"))
+        reset_layout.addWidget(apply_reset_btn)
+
+        layout.addWidget(reset_group)
+
+        # Backup/restore
+        br_group = QtWidgets.QGroupBox(self.tr("Backup / Restore (local setup)"))
+        br_layout = QtWidgets.QHBoxLayout(br_group)
+        backup_btn = QtWidgets.QPushButton(self.tr("Backup…"))
+        restore_btn = QtWidgets.QPushButton(self.tr("Restore…"))
+        br_layout.addWidget(backup_btn)
+        br_layout.addWidget(restore_btn)
+        layout.addWidget(br_group)
+
+        tips = QtWidgets.QLabel(
+            self.tr(
+                "Tip: Video wallpapers may appear zoomed/cropped depending on resolution/aspect ratio. If it looks wrong, try a different source video or re-export."
+            )
+        )
+        tips.setWordWrap(True)
+        layout.addWidget(tips)
+
+        close_btn = QtWidgets.QPushButton(self.tr("Close"))
+        close_btn.clicked.connect(dialog.accept)
+        layout.addWidget(close_btn)
+
+        def apply_reset_selection():
+            self.ui.resetPBDrp.deselectAll()
+            indices: list[int] = []
+            if cb_collections.isChecked():
+                indices.append(0)
+            if cb_suggested.isChecked():
+                indices.append(1)
+            if cb_gallery.isChecked():
+                indices.append(2)
+            self.ui.resetPBDrp.selectIndices(indices)
+
+        def do_backup():
+            try:
+                self._backup_posterboard_setup()
+            except Exception as e:
+                detailsBox = QtWidgets.QMessageBox()
+                detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
+                detailsBox.setWindowTitle(self.tr("Error"))
+                detailsBox.setText(type(e).__name__ + ": " + repr(e))
+                detailsBox.setDetailedText("TRACEBACK:\n\n" + str(traceback.format_exc()))
+                detailsBox.exec()
+
+        def do_restore():
+            try:
+                self._restore_posterboard_setup()
+                # Refresh UI list for any newly loaded tendies
+                self.load_pb_tendies()
+            except Exception as e:
+                detailsBox = QtWidgets.QMessageBox()
+                detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
+                detailsBox.setWindowTitle(self.tr("Error"))
+                detailsBox.setText(type(e).__name__ + ": " + repr(e))
+                detailsBox.setDetailedText("TRACEBACK:\n\n" + str(traceback.format_exc()))
+                detailsBox.exec()
+
+        apply_reset_btn.clicked.connect(apply_reset_selection)
+        backup_btn.clicked.connect(do_backup)
+        restore_btn.clicked.connect(do_restore)
+
+        dialog.exec()
+
+    def _backup_posterboard_setup(self):
+        directory = QtWidgets.QFileDialog.getExistingDirectory(
+            self.window, self.tr("Select Backup Directory"), "", QtWidgets.QFileDialog.ShowDirsOnly
+        )
+        if not directory:
+            return
+
+        base = os.path.join(directory, f"Nugget-PosterBoard-Backup-{uuid.uuid4()}")
+        tendies_dir = os.path.join(base, "tendies")
+        video_dir = os.path.join(base, "video")
+        os.makedirs(tendies_dir, exist_ok=True)
+        os.makedirs(video_dir, exist_ok=True)
+
+        # Copy tendies files
+        tendies_paths: list[str] = []
+        for tendie in tweaks[TweakID.PosterBoard].tendies:
+            if not hasattr(tendie, "path"):
+                continue
+            src = tendie.path
+            if not src or not os.path.exists(src):
+                continue
+            dst = os.path.join(tendies_dir, os.path.basename(src))
+            copy2(src, dst)
+            tendies_paths.append(os.path.basename(dst))
+
+        # Copy video + thumbnail if present
+        video_file = tweaks[TweakID.PosterBoard].videoFile
+        video_thumb = tweaks[TweakID.PosterBoard].videoThumbnail
+        video_name = None
+        thumb_name = None
+        if video_file and os.path.exists(video_file):
+            video_name = os.path.basename(video_file)
+            copy2(video_file, os.path.join(video_dir, video_name))
+        if video_thumb and os.path.exists(video_thumb):
+            thumb_name = os.path.basename(video_thumb)
+            copy2(video_thumb, os.path.join(video_dir, thumb_name))
+
+        manifest = {
+            "version": 1,
+            "resetModes": list(tweaks[TweakID.PosterBoard].resetModes),
+            "tendies": tendies_paths,
+            "video": {
+                "file": video_name,
+                "thumbnail": thumb_name,
+                "loop_video": bool(tweaks[TweakID.PosterBoard].loop_video),
+                "reverse_video": bool(tweaks[TweakID.PosterBoard].reverse_video),
+                "use_foreground": bool(tweaks[TweakID.PosterBoard].use_foreground),
+                "calculationMode": str(tweaks[TweakID.PosterBoard].calculationMode),
+            },
+        }
+
+        with open(os.path.join(base, "manifest.json"), "w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2)
+
+        # Zip it up
+        make_archive(base, "zip", base)
+        backup_path = base + ".nuggetpb"
+        os.rename(base + ".zip", backup_path)
+        rmtree(base)
+
+        # Reveal in file explorer
+        if os.name == "nt":
+            subprocess.Popen(f'explorer "{os.path.normpath(backup_path)}"')
+        else:
+            subprocess.call(["open", "-R", backup_path])
+
+    def _restore_posterboard_setup(self):
+        backup_file, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self.window,
+            self.tr("Select PosterBoard Backup"),
+            "",
+            self.tr("PosterBoard Backup (*.nuggetpb *.zip)"),
+            options=QtWidgets.QFileDialog.ReadOnly,
+        )
+        if not backup_file:
+            return
+
+        out_dir = QtWidgets.QFileDialog.getExistingDirectory(
+            self.window, self.tr("Select Restore Directory"), "", QtWidgets.QFileDialog.ShowDirsOnly
+        )
+        if not out_dir:
+            return
+
+        dest = os.path.join(out_dir, f"Nugget-PosterBoard-Restore-{uuid.uuid4()}")
+        os.makedirs(dest, exist_ok=True)
+
+        with zipfile.ZipFile(backup_file, "r") as zf:
+            zf.extractall(dest)
+
+        manifest_path = os.path.join(dest, "manifest.json")
+        if not os.path.exists(manifest_path):
+            raise Exception("manifest.json not found in backup")
+        with open(manifest_path, "r", encoding="utf-8") as f:
+            manifest = json.load(f)
+
+        # Reset modes
+        reset_modes = manifest.get("resetModes", [])
+        mode_to_index = {"Collections": 0, "Suggested Photos": 1, "Gallery Cache": 2}
+        self.ui.resetPBDrp.deselectAll()
+        indices = [mode_to_index[m] for m in reset_modes if m in mode_to_index]
+        self.ui.resetPBDrp.selectIndices(indices)
+
+        # Tendies
+        tendies_folder = os.path.join(dest, "tendies")
+        if os.path.isdir(tendies_folder):
+            for name in sorted(os.listdir(tendies_folder)):
+                if not name.lower().endswith(".tendies"):
+                    continue
+                tweaks[TweakID.PosterBoard].add_tendie(os.path.join(tendies_folder, name))
+
+        # Video
+        video_meta = (manifest.get("video") or {})
+        video_folder = os.path.join(dest, "video")
+        vfile = video_meta.get("file")
+        vthumb = video_meta.get("thumbnail")
+        if vfile:
+            candidate = os.path.join(video_folder, vfile)
+            if os.path.exists(candidate):
+                tweaks[TweakID.PosterBoard].videoFile = candidate
+                self.ui.pbVideoLbl.setText(
+                    QtCore.QCoreApplication.tr("Current Video: {0}").format(candidate)
+                )
+        if vthumb:
+            candidate = os.path.join(video_folder, vthumb)
+            if os.path.exists(candidate):
+                tweaks[TweakID.PosterBoard].videoThumbnail = candidate
+                self.ui.pbVideoThumbLbl.setText(
+                    QtCore.QCoreApplication.tr("Current Thumbnail: {0}").format(candidate)
+                )
+
+        # Video settings
+        tweaks[TweakID.PosterBoard].loop_video = bool(video_meta.get("loop_video", True))
+        tweaks[TweakID.PosterBoard].reverse_video = bool(video_meta.get("reverse_video", False))
+        tweaks[TweakID.PosterBoard].use_foreground = bool(video_meta.get("use_foreground", False))
+        tweaks[TweakID.PosterBoard].calculationMode = str(video_meta.get("calculationMode", "linear"))
+
+        # Reflect settings in UI
+        self.ui.caVideoChk.setChecked(bool(tweaks[TweakID.PosterBoard].loop_video))
+        self.ui.reverseLoopChk.setChecked(bool(tweaks[TweakID.PosterBoard].reverse_video))
+        self.ui.useForegroundChk.setChecked(bool(tweaks[TweakID.PosterBoard].use_foreground))
+        self.ui.calcModeDrp.setCurrentIndex(
+            0 if tweaks[TweakID.PosterBoard].calculationMode == "linear" else 1
+        )
 
     ## ACTIONS
     def delete_pb_file(self, file, widget):
@@ -252,6 +502,18 @@ class PosterboardPage(Page, QtCore.QObject):
         selected_file, _ = QtWidgets.QFileDialog.getOpenFileName(self.window, "Select Video File", "", "Video Files (*.mov *.mp4 *.mkv)", options=QtWidgets.QFileDialog.ReadOnly)
         self.ui.resetPBDrp.deselectAll()
         if selected_file != None and selected_file != "":
+            if not self._shown_video_crop_warning:
+                self._shown_video_crop_warning = True
+                detailsBox = QtWidgets.QMessageBox()
+                detailsBox.setIcon(QtWidgets.QMessageBox.Warning)
+                detailsBox.setWindowTitle(QtCore.QCoreApplication.tr("Tip"))
+                detailsBox.setText(
+                    QtCore.QCoreApplication.tr(
+                        "Video wallpapers may appear zoomed/cropped depending on resolution/aspect ratio. "
+                        "If it looks wrong, try a different source video or re-export."
+                    )
+                )
+                detailsBox.exec()
             tweaks[TweakID.PosterBoard].videoFile = selected_file
             self.ui.pbVideoLbl.setText(QtCore.QCoreApplication.tr("Current Video: {0}").format(selected_file))
             if tweaks[TweakID.PosterBoard].loop_video:
