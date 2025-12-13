@@ -1,6 +1,8 @@
 import traceback
 import plistlib
 import time
+from dataclasses import dataclass
+from enum import Enum
 from tempfile import TemporaryDirectory
 from typing import Optional
 import os.path
@@ -88,6 +90,34 @@ def show_apply_error(e: Exception, update_label=lambda x: None, files_list: list
     else:
         files_str: str = get_files_list_str(files_list)
         return ApplyAlertMessage(type(e).__name__ + ": " + repr(e), detailed_txt=files_str + "TRACEBACK:\n\n" + str(traceback.format_exc()))
+
+
+class PreflightStatus(Enum):
+    OK = "ok"
+    WARN = "warn"
+    BLOCK = "block"
+
+
+@dataclass(frozen=True)
+class PreflightCheck:
+    """
+    A single preflight check result shown to the user before applying tweaks.
+    """
+
+    status: PreflightStatus
+    title: str
+    message: str
+    remediation: str | None = None
+    details: str | None = None
+
+
+@dataclass(frozen=True)
+class PreflightResult:
+    checks: list[PreflightCheck]
+
+    @property
+    def has_blockers(self) -> bool:
+        return any(c.status == PreflightStatus.BLOCK for c in self.checks)
 
 class DeviceManager:
     """
