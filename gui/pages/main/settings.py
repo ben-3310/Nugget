@@ -1,4 +1,5 @@
 import os
+import traceback
 
 from ..page import Page
 from ..pages_list import Page as PageItem
@@ -6,6 +7,7 @@ from qt.mainwindow_ui import Ui_Nugget
 
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtCore import QCoreApplication, QLocale
+from exceptions.nugget_exception import NuggetException
 
 from tweaks.tweak_loader import load_rdar_fix
 from tweaks.tweaks import tweaks
@@ -208,7 +210,26 @@ class SettingsPage(Page):
         bundle_ids = ["com.apple.PosterBoard"]
         if self.window.device_manager.get_current_device_model().startswith("iPhone"):
             bundle_ids.append("com.apple.CarPlayWallpaper")
-        hashes = self.window.device_manager.get_app_hashes(bundle_ids)
+        try:
+            hashes = self.window.device_manager.get_app_hashes(bundle_ids)
+        except NuggetException as e:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Critical)
+            msg.setWindowTitle(QCoreApplication.tr("PosterBoard App Hash"))
+            msg.setText(e.message)
+            if e.detailed_text:
+                msg.setDetailedText(e.detailed_text)
+            msg.exec()
+            return
+        except Exception:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Critical)
+            msg.setWindowTitle(QCoreApplication.tr("PosterBoard App Hash"))
+            msg.setText(QCoreApplication.tr("Failed to fetch app hash from device."))
+            msg.setDetailedText(traceback.format_exc())
+            msg.exec()
+            return
+
         print(hashes)
         try:
             self.window.device_manager.send_app_hashes_afc(hashes)

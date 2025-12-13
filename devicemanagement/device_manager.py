@@ -179,46 +179,53 @@ class DeviceManager:
         for device in connected_devices:
             if self.pref_manager.apply_over_wifi or device.is_usb:
                 try:
-                    ld = create_using_usbmux(serial=device.serial)
+                    # usbmux "serial" may be typed as int by stubs; normalize to str for
+                    # QSettings key building and lockdown APIs.
+                    serial = str(device.serial)
+                    ld = create_using_usbmux(serial=serial)
                     vals = ld.all_values
                     model = vals['ProductType']
                     hardware = vals['HardwareModel']
                     cpu = vals['HardwarePlatform']
                     try:
-                        product_type = settings.value(device.serial + "_model", "", type=str)
-                        hardware_type = settings.value(device.serial + "_hardware", "", type=str)
-                        cpu_type = settings.value(device.serial + "_cpu", "", type=str)
-                        books_uuid = settings.value(device.serial + "_books_container_uuid", "", type=str)
+                        product_type = settings.value(f"{serial}_model", "", type=str)
+                        hardware_type = settings.value(
+                            f"{serial}_hardware", "", type=str
+                        )
+                        cpu_type = settings.value(f"{serial}_cpu", "", type=str)
+                        books_uuid = settings.value(
+                            f"{serial}_books_container_uuid", "", type=str
+                        )
                         if product_type == "":
                             # save the new product type
-                            settings.setValue(device.serial + "_model", model)
+                            settings.setValue(f"{serial}_model", model)
                         else:
                             model = product_type
                         if hardware_type == "":
                             # save the new hardware model
-                            settings.setValue(device.serial + "_hardware", hardware)
+                            settings.setValue(f"{serial}_hardware", hardware)
                         else:
                             hardware = hardware_type
                         if cpu_type == "":
                             # save the new cpu model
-                            settings.setValue(device.serial + "_cpu", cpu)
+                            settings.setValue(f"{serial}_cpu", cpu)
                         else:
                             cpu = cpu_type
                     except Exception:
                         show_alert(ApplyAlertMessage(txt=QCoreApplication.tr("Click \"Show Details\" for the traceback."), detailed_txt=str(traceback.format_exc())))
                     dev = Device(
-                            udid=device.serial,
-                            usb=device.is_usb,
-                            name=vals['DeviceName'],
-                            version=vals['ProductVersion'],
-                            build=vals['BuildVersion'],
-                            model=model,
-                            hardware=hardware,
-                            cpu=cpu,
-                            locale=ld.locale,
-                            books_container_uuid=books_uuid,
-                            ld=ld
-                        )
+                        udid=serial,
+                        usb=device.is_usb,
+                        name=vals["DeviceName"],
+                        version=vals["ProductVersion"],
+                        build=vals["BuildVersion"],
+                        model=model,
+                        hardware=hardware,
+                        cpu=cpu,
+                        locale=ld.locale,
+                        books_container_uuid=books_uuid,
+                        ld=ld,
+                    )
                     self.devices.append(dev)
                 except PasswordRequiredError as e:
                     show_alert(ApplyAlertMessage(txt=QCoreApplication.tr("Device is password protected! You must trust the computer on your device.\n\nUnlock your device. On the popup, click \"Trust\", enter your password, then try again.")))
@@ -483,14 +490,63 @@ class DeviceManager:
             return self.data_singleton.current_device.books_container_uuid
         self.data_singleton.current_device.books_container_uuid = uuid
         # save it to settings
-        self.pref_manager.settings.setValue(self.data_singleton.current_device.udid + "_books_container_uuid", uuid)
+        self.pref_manager.settings.setValue(
+            f"{self.data_singleton.current_device.udid}_books_container_uuid", uuid
+        )
 
     def get_app_hashes(self, bundle_ids: list[str]) -> dict:
-        apps = InstallationProxyService(lockdown=self.data_singleton.current_device.ld).get_apps(application_type="Any", calculate_sizes=False)
-        results = {}
+        """
+        Return app container identifiers ("hashes") for the requested bundle IDs.
+
+        This is used by the Pocket Poster helper to fetch the PosterBoard container UUID.
+        Connection issues (device unplugged / WiFi pairing drop) are converted into
+        NuggetException so the GUI can display a friendly error instead of crashing.
+        """
+        if self.data_singleton.current_device is None or self.data_singleton.current_device.ld is None:
+            raise NuggetException(
+                QCoreApplication.tr("No device connected."),
+                QCoreApplication.tr("Refresh the device list and make sure your device is unlocked and trusted."),
+            )
+
+        try:
+            apps = InstallationProxyService(lockdown=self.data_singleton.current_device.ld).get_apps(
+                application_type="Any",
+                calculate_sizes=False,
+            )
+        except Exception:
+            raise NuggetException(
+                QCoreApplication.tr("Failed to query installed apps from the device."),
+                QCoreApplication.tr("Reconnect your device (or refresh the device list) and try again.")
+                + "\n\n"
+                + traceback.format_exc(),
+            )
+
+        results: dict[str, str] = {}
+        missing: list[str] = []
+
         for bundle_id in bundle_ids:
-            app_info = apps[bundle_id]
-            results[bundle_id] = app_info["Container"].removeprefix("/private/var/mobile/Containers/Data/Application/")
+            app_info = apps.get(bundle_id)
+            if not isinstance(app_info, dict):
+                missing.append(bundle_id)
+                continue
+
+            container = app_info.get("Container")
+            if not container:
+                missing.append(bundle_id)
+                continue
+
+            results[bundle_id] = container.removeprefix(
+                "/private/var/mobile/Containers/Data/Application/"
+            )
+
+        # PosterBoard is required for the helper to work.
+        if "com.apple.PosterBoard" not in results:
+            missing_txt = "\n".join(missing) if missing else QCoreApplication.tr("(unknown)")
+            raise NuggetException(
+                QCoreApplication.tr("PosterBoard app hash was not found on this device."),
+                QCoreApplication.tr("Missing bundle IDs or containers:\n{0}").format(missing_txt),
+            )
+
         return results
 
     def send_app_hashes_afc(self, hashes: dict) -> str:
@@ -1001,9 +1057,15 @@ class DeviceManager:
                 if page == Page.Gestalt:
                     ## MOBILE GESTALT
                     # remove the saved device model, hardware, and cpu
-                    settings.setValue(self.data_singleton.current_device.udid + "_model", "")
-                    settings.setValue(self.data_singleton.current_device.udid + "_hardware", "")
-                    settings.setValue(self.data_singleton.current_device.udid + "_cpu", "")
+                    settings.setValue(
+                        f"{self.data_singleton.current_device.udid}_model", ""
+                    )
+                    settings.setValue(
+                        f"{self.data_singleton.current_device.udid}_hardware", ""
+                    )
+                    settings.setValue(
+                        f"{self.data_singleton.current_device.udid}_cpu", ""
+                    )
                     files_to_null.append(FileLocation.mga.value)
                     if self.get_current_device_uses_bookrestore():
                         use_bookrestore = True

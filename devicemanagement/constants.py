@@ -2,13 +2,21 @@ from enum import Enum
 from pymobiledevice3.lockdown import LockdownClient
 
 class Device:
-    def __init__(self, 
-                udid: int, usb: bool, name: str,
-                version: str, build: str,
-                model: str, hardware: str, cpu: str, locale: str,
-                books_container_uuid: str,
-                ld: LockdownClient
-            ):
+
+    def __init__(
+        self,
+        udid: str,
+        usb: bool,
+        name: str,
+        version: str,
+        build: str,
+        model: str,
+        hardware: str,
+        cpu: str,
+        locale: str,
+        books_container_uuid: str,
+        ld: LockdownClient,
+    ):
         self.udid = udid
         self.connected_via_usb = usb
         self.name = name
@@ -24,13 +32,13 @@ class Device:
     def is_exploit_fully_patched(self) -> bool:
         # mobile gestalt methods are completely patched on iOS 26.2 beta 2+
         return not (self.has_bookrestore() or self.has_partial_sparserestore())
-    
+
     def has_bookrestore(self) -> bool:
         parsed_ver: Version = Version(self.version)
         if (parsed_ver <= Version("26.1") or self.build == "23C5027f"):
             return True
         return False
-    
+
     def has_partial_sparserestore(self) -> bool:
         parsed_ver: Version = Version(self.version)
         if (parsed_ver < Version("18.2")
@@ -74,22 +82,22 @@ class Version:
         elif self.patch < other.patch:
             return -1
         return 0
-        
+
     def __gt__(self, other) -> bool:
         return self.compare_to(other) == 1
     def __ge__(self, other) -> bool:
         comp: int = self.compare_to(other)
         return comp == 0 or comp == 1
-    
+
     def __lt__(self, other) -> bool:
         return self.compare_to(other) == -1
     def __le__(self, other) -> bool:
         comp: int = self.compare_to(other)
         return comp == 0 or comp == -1
-    
+
     def __eq__(self, other) -> bool:
         return self.compare_to(other) == 0
-    
+
 class Tweak(Enum):
     StatusBar = 'Status Bar'
     SpringboardOptions = 'Springboard Options'
@@ -107,7 +115,7 @@ class FileLocation(Enum):
 
     # Status Bar
     status_bar = "StatusBar/HomeDomain/Library/SpringBoard/statusBarOverrides"
-    
+
     # Springboard Options
     springboard = "SpringboardOptions/ManagedPreferencesDomain/mobile/com.apple.springboard.plist"
     footnote = "SpringboardOptions/ConfigProfileDomain/Library/ConfigurationProfiles/SharedDeviceConfiguration.plist"
@@ -116,7 +124,7 @@ class FileLocation(Enum):
     accessibility = "SpringboardOptions/ManagedPreferencesDomain/mobile/com.apple.Accessibility.plist"
     wifi_debug = "SpringboardOptions/ManagedPreferencesDomain/mobile/com.apple.MobileWiFi.debug.plist"
     airdrop = "SpringboardOptions/ManagedPreferencesDomain/mobile/com.apple.sharingd.plist"
-    
+
     # Internal Options
     global_prefs = "InternalOptions/ManagedPreferencesDomain/mobile/hiddendotGlobalPreferences.plist"
     app_store = "InternalOptions/ManagedPreferencesDomain/mobile/com.apple.AppStore.plist"
@@ -126,6 +134,6 @@ class FileLocation(Enum):
     notes = "InternalOptions/ManagedPreferencesDomain/mobile/com.apple.mobilenotes.plist"
     maps = "InternalOptions/AppDomain-com.apple.Maps/Library/Preferences/com.apple.Maps.plist"
     weather = "InternalOptions/AppDomain-com.apple.weather/Library/Preferences/com.apple.weather.plist"
-    
+
     # Setup Options
     cloud_config = "SkipSetup/ConfigProfileDomain/Library/ConfigurationProfiles/CloudConfigurationDetails.plist"
