@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-# type: ignore
 
 ################################################################################
 ## Form generated from reading UI file 'mainwindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.10.0
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -158,8 +157,8 @@ class Ui_Nugget(object):
         self.centralwidget = QWidget(Nugget)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setEnabled(True)
-        self.centralwidget.setContextMenuPolicy(Qt.NoContextMenu)  # type: ignore
-        self.centralwidget.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))  # type: ignore
+        self.centralwidget.setContextMenuPolicy(Qt.NoContextMenu)
+        self.centralwidget.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.centralwidget.setProperty(u"cls", u"central")
         self.verticalLayout_11 = QVBoxLayout(self.centralwidget)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
@@ -253,7 +252,7 @@ class Ui_Nugget(object):
         icon1.addFile(u":/icon/arrow-clockwise.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.refreshBtn.setIcon(icon1)
         self.refreshBtn.setCheckable(False)
-        self.refreshBtn.setToolButtonStyle(Qt.ToolButtonIconOnly)  # type: ignore
+        self.refreshBtn.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.refreshBtn.setProperty(u"cls", u"btn")
 
         self.horizontalLayout_19.addWidget(self.refreshBtn)
@@ -310,7 +309,7 @@ class Ui_Nugget(object):
         self.homePageBtn.setCheckable(True)
         self.homePageBtn.setChecked(True)
         self.homePageBtn.setAutoExclusive(True)
-        self.homePageBtn.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)  # type: ignore
+        self.homePageBtn.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         self.homePageBtn.setProperty(u"cls", u"sidebarBtn")
 
         self.verticalLayout.addWidget(self.homePageBtn)
@@ -6125,3 +6124,4 @@ class Ui_Nugget(object):
         self.pocketPosterHelperBtn.setText(QCoreApplication.translate("Nugget", u"Pocket Poster Helper", None))
         pass
     # retranslateUi
+
