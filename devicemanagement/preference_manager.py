@@ -1,10 +1,12 @@
 import plistlib
+from typing import Optional
 
 from PySide6.QtCore import QSettings
 from restore.bookrestore_types import BookRestoreFileTransferMethod, BookRestoreApplyMethod
 
 class PreferenceManager:
-    def __init__(self, settings: QSettings):
+
+    def __init__(self, settings: Optional[QSettings]):
         self.settings = settings
         self.apply_over_wifi = False
         self.auto_reboot = True

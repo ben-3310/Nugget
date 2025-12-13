@@ -24,6 +24,14 @@ The Nugget application has been successfully set up and all dependencies have be
 ```bash
 ./run_nugget.sh
 ```
+**Important:** `run_nugget.sh` is a **bash** script. Run it with `./run_nugget.sh` or `bash run_nugget.sh` — **not** `python3 run_nugget.sh`.
+
+**macOS users:** you can simply run:
+
+```bash
+python3 main_app.py
+```
+
 This script automatically:
 - Starts a virtual display if needed
 - Starts usbmuxd service for iOS device support

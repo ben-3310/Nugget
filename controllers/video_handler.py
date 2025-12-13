@@ -3,6 +3,7 @@ import os
 import ffmpeg
 from tempfile import mkdtemp, NamedTemporaryFile
 from shutil import rmtree
+from typing import Optional
 
 from exceptions.posterboard_exceptions import VideoLengthException
 from controllers.files_handler import get_bundle_files
@@ -15,7 +16,8 @@ def set_ignore_frame_limit(value: bool):
     global ignore_pb_frame_limit
     ignore_pb_frame_limit = value
 
-def convert_to_mov(input_file: str, output_file: str = None):
+
+def convert_to_mov(input_file: str, output_file: Optional[str] = None):
     # if there is no output file specified, create a temp file then return contents
     if output_file == None:
         tmpdir = mkdtemp()
@@ -32,7 +34,10 @@ def convert_to_mov(input_file: str, output_file: str = None):
         os.environ['PATH'] += os.pathsep + ffmpeg_bin
     ffmpeg.run(out)
 
-def get_thumbnail_from_mov(input_file: str, output_file: str = None):
+
+def get_thumbnail_from_mov(
+    input_file: str, output_file: Optional[str] = None
+) -> Optional[bytes]:
     # if there is no output file specified, create a temp file and then return contents
     if output_file == None:
         tmpdir = mkdtemp()
@@ -46,12 +51,23 @@ def get_thumbnail_from_mov(input_file: str, output_file: str = None):
     inp = ffmpeg.input(input_file, ss=0)
     out = ffmpeg.output(inp, output_file, vframes=1)
     ffmpeg.run(out)
+    return None
 
-def get_thumbnail_from_contents(contents: bytes, output_file: str = None):
+
+def get_thumbnail_from_contents(
+    contents: bytes, output_file: Optional[str] = None
+) -> bytes:
     with NamedTemporaryFile("rb+", suffix=".mov") as inp_file:
         inp_file.write(contents)
-        contents = get_thumbnail_from_mov(inp_file.name, output_file)
-    return contents
+        result = get_thumbnail_from_mov(inp_file.name, output_file)
+        if result is None:
+            # When output_file is provided, read the file ourselves
+            if output_file is not None:
+                with open(output_file, "rb") as f:
+                    return f.read()
+            raise RuntimeError("get_thumbnail_from_mov returned None unexpectedly")
+        return result
+
 
 def create_caml(video_path: str, output_file: str, auto_reverses: bool, calculationMode: str, update_label=lambda x: None):
     cam = cv2.VideoCapture(video_path)
@@ -65,17 +81,17 @@ def create_caml(video_path: str, output_file: str, auto_reverses: bool, calculat
         raise VideoLengthException(FRAME_LIMIT)
     try:
         # creating a folder named data
-        if not os.path.exists(assets_path): 
-            os.makedirs(assets_path, exist_ok=True) 
+        if not os.path.exists(assets_path):
+            os.makedirs(assets_path, exist_ok=True)
     # if not created then raise error
     except OSError:
         print ('Error: Creating directory of data')
-    
+
     # frame
     currentframe = 0
     width = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    
+
     with open(os.path.join(output_file, "main.caml"), "w") as caml:
         # write caml header
         fps = cam.get(cv2.CAP_PROP_FPS)
@@ -93,20 +109,20 @@ def create_caml(video_path: str, output_file: str, auto_reverses: bool, calculat
 	      <animation type="CAKeyframeAnimation" calculationMode="{calculationMode}" keyPath="contents" beginTime="1e-100" duration="{duration}" removedOnCompletion="0" repeatCount="inf" repeatDuration="0" speed="1" timeOffset="0" autoreverses="{reverse}">
 		<values>\n""")
         while(True):
-            # reading from frame 
-            ret,frame = cam.read() 
-        
-            if ret: 
-                # if video is still left continue creating images 
+            # reading from frame
+            ret, frame = cam.read()
+
+            if ret:
+                # if video is still left continue creating images
                 name = 'assets/' + str(currentframe) + '.jpg'
                 if update_label:
                     update_label(QCoreApplication.tr('Creating {0}...').format(name))
                 print('Creating...' + name)
-        
+
                 # writing the extracted images
                 cv2.imwrite(os.path.join(output_file.removeprefix(u"\\\\?\\"), name), frame)
                 caml.write(f"\t\t\t<CGImage src=\"{name}\"/>\n")
-        
+
                 # increasing counter so that it will
                 # show how many frames are created
                 currentframe += 1
@@ -153,7 +169,7 @@ def create_caml(video_path: str, output_file: str, auto_reverses: bool, calculat
   </CALayer>
 </caml>
 """)
-    
+
     # Release all space and windows once done
     cam.release()
     cv2.destroyAllWindows()

@@ -1,5 +1,5 @@
 import asyncio
-import concurrent
+import concurrent.futures
 import os
 import posixpath
 import shutil
@@ -34,6 +34,7 @@ server_folder = None
 old_dir = None
 br_files = get_bundle_files("files/bookrestore")
 dl_connection = None
+firewall_rule_name: str | None = None
 
 def get_lan_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -73,6 +74,8 @@ async def create_tunnel(udid, progress_callback = lambda x: None):
     rsd_val = None
 
     while True:
+        if tunnel_process.stdout is None:
+            break
         output = tunnel_process.stdout.readline()
         if output:
             line = output.decode().strip()
@@ -81,6 +84,8 @@ async def create_tunnel(udid, progress_callback = lambda x: None):
                 break
 
         if tunnel_process.poll() is not None:
+            if tunnel_process.stderr is None:
+                break
             error = tunnel_process.stderr.read().decode()
             if error:
                 if 'connected' in error:
@@ -106,6 +111,7 @@ async def create_tunnel(udid, progress_callback = lambda x: None):
     return {"address": address, "port": port}
 
 def create_local_server() -> str:
+    global firewall_rule_name
     # start a local http server and return the server prefix
     http_thread = threading.Thread(target=start_http_server, daemon=True)
     http_thread.start()
@@ -171,6 +177,8 @@ def _run_async_rsd_connection(address, port, files, current_device_uuid_callback
 
                     def run_blocking_callback():
                         with DvtSecureSocketProxyService(rsd) as dvt:
+                            # For RSD connections, we need to get a LockdownClient from the RSD
+                            # For now, pass rsd and handle it in apply_bookrestore_files
                             apply_bookrestore_files(files, rsd, dvt, current_device_uuid_callback, progress, transfer_mode)
 
                     await loop.run_in_executor(None, run_blocking_callback)
@@ -246,9 +254,16 @@ def generate_bldbmanager(files: list[FileToRestore], out_file: str, afc: AfcServ
             zdownloadid = zassetpath
             zurl = f'{server_prefix}/{file_name}'
             # copy file to the server
+            if server_folder is None:
+                raise NuggetException("Server folder not initialized")
             server_path = os.path.join(server_folder, file_name)
             with open(server_path, 'wb') as temp_write:
-                temp_write.write(file.contents)
+                contents_bytes = (
+                    file.contents
+                    if isinstance(file.contents, bytes)
+                    else file.contents.encode("utf-8")
+                )
+                temp_write.write(contents_bytes)
         else:
             zurl = 'https://www.google.com/robots.txt'
             if len(file.contents) > 0:
@@ -256,7 +271,12 @@ def generate_bldbmanager(files: list[FileToRestore], out_file: str, afc: AfcServ
                 zassetpath = f'{file.restore_path}.zassetpath'
                 media_folder = file_name#f'{nugget_media_folder}/{file_name}'
                 zplistpath = f'/var/mobile/Media/{media_folder}'
-                afc.set_file_contents(media_folder, file.contents)
+                contents_bytes = (
+                    file.contents
+                    if isinstance(file.contents, bytes)
+                    else file.contents.encode("utf-8")
+                )
+                afc.set_file_contents(media_folder, contents_bytes)
             else:
                 zdownloadid = ""
                 zassetpath = file.restore_path
@@ -274,9 +294,25 @@ def generate_bldbmanager(files: list[FileToRestore], out_file: str, afc: AfcServ
     # return the number of files in the thing
     return z_id
 
-def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: LockdownClient, dvt: DvtSecureSocketProxyService,
-                            current_device_uuid_callback = lambda x: None, progress_callback = lambda x: None,
-                            transfer_mode: BookRestoreFileTransferMethod = BookRestoreFileTransferMethod.LocalHost):
+
+def apply_bookrestore_files(
+    files: list[FileToRestore],
+    service_provider: LockdownClient | RemoteServiceDiscoveryService,
+    dvt: DvtSecureSocketProxyService,
+    current_device_uuid_callback=lambda x: None,
+    progress_callback=lambda x: None,
+    transfer_mode: BookRestoreFileTransferMethod = BookRestoreFileTransferMethod.LocalHost,
+):
+    # Convert RemoteServiceDiscoveryService to LockdownClient if needed
+    # For RSD connections, we can't use LockdownClient-based services directly
+    # We'll need to handle this case - for now, cast it as LockdownClient for type checking
+    # The actual implementation may need adjustment based on pymobiledevice3 API
+    if isinstance(service_provider, RemoteServiceDiscoveryService):
+        # RSD doesn't directly provide LockdownClient interface
+        # This may need to be handled differently in the actual implementation
+        lockdown_client = service_provider  # type: ignore
+    else:
+        lockdown_client = service_provider
     if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
         server_prefix = create_local_server()
 
@@ -306,8 +342,11 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
 
     temp_dir = tempfile.gettempdir()
     temp_db_path = os.path.join(temp_dir, f"nugget_db_{uuid}.sqlite")
+    temp_dl_manager: str | None = None
     if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
-        temp_dl_manager = os.path.join(server_folder, f"tmp.BLDatabaseManager.sqlite")
+        if server_folder is None:
+            raise NuggetException("Server folder not initialized")
+        temp_dl_manager = os.path.join(server_folder, "tmp.BLDatabaseManager.sqlite")
         remove_db_files(temp_dl_manager)
 
     try:
@@ -360,6 +399,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
 
         # Update the download db
         if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
+            assert temp_dl_manager is not None
             z_id = generate_bldbmanager(files, temp_dl_manager, afc, server_prefix=server_prefix)
         else:
             for file in files:
@@ -368,7 +408,12 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
                 _, file_name = os.path.split(file.restore_path)
                 print(f"including {file.restore_path}")
                 media_folder = file_name
-                afc.set_file_contents(media_folder, file.contents)
+                contents_bytes = (
+                    file.contents
+                    if isinstance(file.contents, bytes)
+                    else file.contents.encode("utf-8")
+                )
+                afc.set_file_contents(media_folder, contents_bytes)
 
         def fast_upload(local_path, remote_path):
             content = b''
@@ -388,7 +433,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
     finally:
         remove_db_files(temp_db_path)
 
-        if os.name == 'nt':
+        if os.name == "nt" and firewall_rule_name is not None:
             try:
                 subprocess.run(
                     f'netsh advfirewall firewall delete rule name="{firewall_rule_name}"',
@@ -490,12 +535,15 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
     pc.kill(pid_bookassetd)
     if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
         close_dl_connection()
+        assert temp_dl_manager is not None
         remove_db_files(temp_dl_manager)
 
     progress_callback("BookRestore: Reboot - respringing")
     procs = OsTraceService(lockdown=lockdown_client).get_pid_list().get("Payload")
     pid = next((pid for pid, p in procs.items() if p['ProcessName'] == 'backboardd'), None)
-    pc.kill(pid)
+    if pid is not None:
+        pc.kill(pid)
+
 
 def perform_bookrestore(files: list[FileToRestore], lockdown_client: LockdownClient,
                         current_device_books_uuid_callback = lambda x: None, progress_callback = lambda x: None,
@@ -507,5 +555,9 @@ def perform_bookrestore(files: list[FileToRestore], lockdown_client: LockdownCli
         raise NuggetException("You must enable developer mode on your device. You can do it in the Settings app.\n\nClick \"Show Details\" for more information.",
                               detailed_text="BookRestore tweaks with the AFC method require developer mode to apply.\n\nYou can enable this at the bottom of Settings > Privacy & Security > Developer Mode on your iPhone or iPad.")
     if os.name == 'nt':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+        try:
+            asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+        except AttributeError:
+            # WindowsSelectorEventLoopPolicy may not be available on all Python versions
+            pass
     asyncio.run(create_connection_context(files, lockdown_client, current_device_books_uuid_callback, progress_callback, transfer_mode))

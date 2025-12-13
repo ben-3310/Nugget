@@ -47,54 +47,114 @@ from restore.bookrestore import perform_bookrestore, create_server_folder, creat
 from restore.bookrestore_types import BookRestoreFileTransferMethod, BookRestoreApplyMethod
 from restore.mbdb import _FileMode
 
-def show_error_msg(txt: str, title: str = "Error!", icon = QMessageBox.Critical, detailed_txt: str = None):
+
+def show_error_msg(
+    txt: str,
+    title: str = "Error!",
+    icon: QMessageBox.Icon = QMessageBox.Icon.Critical,
+    detailed_txt: Optional[str] = None,
+):
     detailsBox = QMessageBox()
     detailsBox.setIcon(icon)
     detailsBox.setWindowTitle(title)
     detailsBox.setText(txt)
-    if detailed_txt != None:
+    if detailed_txt is not None:
         detailsBox.setDetailedText(detailed_txt)
     detailsBox.exec()
 
-def get_files_list_str(files_list: list[FileToRestore] = None) -> str:
+
+def get_files_list_str(files_list: Optional[list[FileToRestore]] = None) -> str:
     files_str: str = ""
-    if files_list != None:
+    if files_list is not None:
         files_str = "FILES LIST:"
         print("\nFile List:\n")
         for file in files_list:
             file_info = f"\n    Domain: {file.domain}\n    Path: {file.restore_path}"
             files_str += file_info
             print(file_info)
-        files_list += "\n\n"
+        files_str += "\n\n"
     return files_str
 
-def show_apply_error(e: Exception, update_label=lambda x: None, files_list: list[FileToRestore] = None):
+
+def show_apply_error(
+    e: Exception,
+    update_label=lambda x: None,
+    files_list: Optional[list[FileToRestore]] = None,
+):
     print(traceback.format_exc())
     update_label("Failed to restore")
     if "Find My" in str(e):
-        return ApplyAlertMessage(QCoreApplication.tr("Find My must be disabled in order to use this tool."),
-                       detailed_txt=QCoreApplication.tr("Disable Find My from Settings (Settings -> [Your Name] -> Find My) and then try again."))
+        return ApplyAlertMessage(
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "Find My must be disabled in order to use this tool.",
+            ),
+            detailed_txt=QCoreApplication.translate(
+                "QCoreApplication",
+                "Disable Find My from Settings (Settings -> [Your Name] -> Find My) and then try again.",
+            ),
+        )
     elif "Encrypted Backup MDM" in str(e):
-        return ApplyAlertMessage(QCoreApplication.tr("Nugget cannot be used on this device. Click Show Details for more info."),
-                       detailed_txt=QCoreApplication.tr("Your device is managed and MDM backup encryption is on. This must be turned off in order for Nugget to work. Please do not use Nugget on your school/work device!"))
+        return ApplyAlertMessage(
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "Nugget cannot be used on this device. Click Show Details for more info.",
+            ),
+            detailed_txt=QCoreApplication.translate(
+                "QCoreApplication",
+                "Your device is managed and MDM backup encryption is on. This must be turned off in order for Nugget to work. Please do not use Nugget on your school/work device!",
+            ),
+        )
     elif "SessionInactive" in str(e) or "ConnectionAbortedError" in str(e):
-        return ApplyAlertMessage(QCoreApplication.tr("The session was terminated. Refresh the device list and try again."))
+        return ApplyAlertMessage(
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "The session was terminated. Refresh the device list and try again.",
+            )
+        )
     elif "PasswordRequiredError" in str(e):
-        return ApplyAlertMessage(QCoreApplication.tr("Device is password protected! You must trust the computer on your device."),
-                       detailed_txt=QCoreApplication.tr("Unlock your device. On the popup, click \"Trust\", enter your password, then try again."))
+        return ApplyAlertMessage(
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "Device is password protected! You must trust the computer on your device.",
+            ),
+            detailed_txt=QCoreApplication.translate(
+                "QCoreApplication",
+                'Unlock your device. On the popup, click "Trust", enter your password, then try again.',
+            ),
+        )
     elif isinstance(e, ConnectionTerminatedError):
         files_str: str = get_files_list_str(files_list)
-        return ApplyAlertMessage(QCoreApplication.tr("Device failed in sending files. The file list is possibly corrupted or has duplicates. Click Show Details for more info."),
-                                 detailed_txt=files_str + "TRACEBACK:\n\n" + str(traceback.format_exc()))
+        return ApplyAlertMessage(
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "Device failed in sending files. The file list is possibly corrupted or has duplicates. Click Show Details for more info.",
+            ),
+            detailed_txt=files_str + "TRACEBACK:\n\n" + str(traceback.format_exc()),
+        )
     elif isinstance(e, AccessDeniedError):
-        return ApplyAlertMessage(QCoreApplication.tr("You must run the application as an administrator to use BookRestore tweaks."), detailed_txt="Try running the program with sudo.")
+        return ApplyAlertMessage(
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "You must run the application as an administrator to use BookRestore tweaks.",
+            ),
+            detailed_txt="Try running the program with sudo.",
+        )
     elif isinstance(e, InvalidServiceError):
-        return ApplyAlertMessage(QCoreApplication.tr("You must enable developer mode on your device. You can do it in the Settings app."),
-                                 detailed_txt=QCoreApplication.tr("BookRestore tweaks with the AFC method require developer mode to apply.\n\nYou can enable this at the bottom of Settings > Privacy & Security > Developer Mode on your iPhone or iPad."))
+        return ApplyAlertMessage(
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "You must enable developer mode on your device. You can do it in the Settings app.",
+            ),
+            detailed_txt=QCoreApplication.translate(
+                "QCoreApplication",
+                "BookRestore tweaks with the AFC method require developer mode to apply.\n\nYou can enable this at the bottom of Settings > Privacy & Security > Developer Mode on your iPhone or iPad.",
+            ),
+        )
     elif isinstance(e, NuggetException):
         return ApplyAlertMessage(str(e), detailed_txt=e.detailed_text)
     else:
-        files_str: str = get_files_list_str(files_list)
+        files_str = get_files_list_str(files_list)
         return ApplyAlertMessage(type(e).__name__ + ": " + repr(e), detailed_txt=files_str + "TRACEBACK:\n\n" + str(traceback.format_exc()))
 
 
@@ -167,12 +227,25 @@ class DeviceManager:
         try:
             connected_devices = usbmux.list_devices()
         except Exception:
-            sysmsg = QCoreApplication.tr("If you are on Linux, make sure you have usbmuxd and libimobiledevice installed.")
+            sysmsg = QCoreApplication.translate(
+                "QCoreApplication",
+                "If you are on Linux, make sure you have usbmuxd and libimobiledevice installed.",
+            )
             if os.name == 'nt':
-                sysmsg = QCoreApplication.tr("Make sure you have the \"Apple Devices\" app from the Microsoft Store or iTunes from Apple's website.")
-            show_alert(ApplyAlertMessage(
-                txt=QCoreApplication.tr("Failed to get device list. Click \"Show Details\" for the traceback.") + f"\n\n{sysmsg}", detailed_txt=str(traceback.format_exc())
-            ))
+                sysmsg = QCoreApplication.translate(
+                    "QCoreApplication",
+                    'Make sure you have the "Apple Devices" app from the Microsoft Store or iTunes from Apple\'s website.',
+                )
+            show_alert(
+                ApplyAlertMessage(
+                    txt=QCoreApplication.translate(
+                        "QCoreApplication",
+                        'Failed to get device list. Click "Show Details" for the traceback.',
+                    )
+                    + f"\n\n{sysmsg}",
+                    detailed_txt=str(traceback.format_exc()),
+                )
+            )
             self.set_current_device(index=None)
             return
         # Connect via usbmuxd
@@ -184,9 +257,11 @@ class DeviceManager:
                     serial = str(device.serial)
                     ld = create_using_usbmux(serial=serial)
                     vals = ld.all_values
-                    model = vals['ProductType']
-                    hardware = vals['HardwareModel']
-                    cpu = vals['HardwarePlatform']
+                    if vals is None:
+                        continue
+                    model = str(vals.get("ProductType", ""))
+                    hardware = str(vals.get("HardwareModel", ""))
+                    cpu = str(vals.get("HardwarePlatform", ""))
                     try:
                         product_type = settings.value(f"{serial}_model", "", type=str)
                         hardware_type = settings.value(
@@ -212,28 +287,53 @@ class DeviceManager:
                         else:
                             cpu = cpu_type
                     except Exception:
-                        show_alert(ApplyAlertMessage(txt=QCoreApplication.tr("Click \"Show Details\" for the traceback."), detailed_txt=str(traceback.format_exc())))
+                        show_alert(
+                            ApplyAlertMessage(
+                                txt=QCoreApplication.translate(
+                                    "QCoreApplication",
+                                    'Click "Show Details" for the traceback.',
+                                ),
+                                detailed_txt=str(traceback.format_exc()),
+                            )
+                        )
                     dev = Device(
                         udid=serial,
                         usb=device.is_usb,
-                        name=vals["DeviceName"],
-                        version=vals["ProductVersion"],
-                        build=vals["BuildVersion"],
+                        name=str(vals.get("DeviceName", "")),
+                        version=str(vals.get("ProductVersion", "")),
+                        build=str(vals.get("BuildVersion", "")),
                         model=model,
                         hardware=hardware,
                         cpu=cpu,
                         locale=ld.locale,
-                        books_container_uuid=books_uuid,
+                        books_container_uuid=str(books_uuid) if books_uuid else "",
                         ld=ld,
                     )
                     self.devices.append(dev)
                 except PasswordRequiredError as e:
-                    show_alert(ApplyAlertMessage(txt=QCoreApplication.tr("Device is password protected! You must trust the computer on your device.\n\nUnlock your device. On the popup, click \"Trust\", enter your password, then try again.")))
+                    show_alert(
+                        ApplyAlertMessage(
+                            txt=QCoreApplication.translate(
+                                "QCoreApplication",
+                                'Device is password protected! You must trust the computer on your device.\n\nUnlock your device. On the popup, click "Trust", enter your password, then try again.',
+                            )
+                        )
+                    )
                 except MuxException as e:
                     # there is probably a cable issue
                     print(f"MUX ERROR with lockdown device with UUID {device.serial}")
-                    show_alert(ApplyAlertMessage(txt="MuxException: " + repr(e) + "\n\n" + QCoreApplication.tr("If you keep receiving this error, try using a different cable or port."),
-                                   detailed_txt=str(traceback.format_exc())))
+                    show_alert(
+                        ApplyAlertMessage(
+                            txt="MuxException: "
+                            + repr(e)
+                            + "\n\n"
+                            + QCoreApplication.translate(
+                                "QCoreApplication",
+                                "If you keep receiving this error, try using a different cable or port.",
+                            ),
+                            detailed_txt=str(traceback.format_exc()),
+                        )
+                    )
                 except Exception as e:
                     print(f"ERROR with lockdown device with UUID {device.serial}")
                     show_alert(ApplyAlertMessage(txt=f"{type(e).__name__}: {repr(e)}", detailed_txt=str(traceback.format_exc())))
@@ -244,7 +344,7 @@ class DeviceManager:
             self.set_current_device(index=None)
 
     ## CURRENT DEVICE
-    def set_current_device(self, index: int = None):
+    def set_current_device(self, index: Optional[int] = None):
         if index == None or len(self.devices) == 0:
             self.data_singleton.current_device = None
             self.data_singleton.device_available = False
@@ -286,8 +386,13 @@ class DeviceManager:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.BLOCK,
-                    title=QCoreApplication.tr("No device connected"),
-                    message=QCoreApplication.tr("Please connect an iPhone/iPad and refresh the device list."),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "No device connected"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "Please connect an iPhone/iPad and refresh the device list.",
+                    ),
                 )
             )
             return PreflightResult(checks=checks)
@@ -298,24 +403,37 @@ class DeviceManager:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.OK,
-                    title=QCoreApplication.tr("Device connection"),
-                    message=QCoreApplication.tr("Device is connected and trusted."),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Device connection"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication", "Device is connected and trusted."
+                    ),
                 )
             )
         except PasswordRequiredError:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.BLOCK,
-                    title=QCoreApplication.tr("Device locked / not trusted"),
-                    message=QCoreApplication.tr("Unlock your device and tap “Trust” when prompted, then refresh and try again."),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Device locked / not trusted"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "Unlock your device and tap “Trust” when prompted, then refresh and try again.",
+                    ),
                 )
             )
         except Exception as e:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.BLOCK,
-                    title=QCoreApplication.tr("Device connection failed"),
-                    message=QCoreApplication.tr("Failed to query device via Lockdown."),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Device connection failed"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication", "Failed to query device via Lockdown."
+                    ),
                     details=f"{type(e).__name__}: {e!r}",
                 )
             )
@@ -326,8 +444,13 @@ class DeviceManager:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.BLOCK,
-                    title=QCoreApplication.tr("Unsupported iOS version"),
-                    message=QCoreApplication.tr("This device is below iOS 17.0 and is not supported."),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Unsupported iOS version"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "This device is below iOS 17.0 and is not supported.",
+                    ),
                 )
             )
             return PreflightResult(checks=checks)
@@ -336,25 +459,38 @@ class DeviceManager:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.OK,
-                    title=QCoreApplication.tr("Restore method"),
-                    message=QCoreApplication.tr("Sparserestore is available on this iOS version."),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Restore method"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "Sparserestore is available on this iOS version.",
+                    ),
                 )
             )
         elif dev.has_bookrestore():
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.OK,
-                    title=QCoreApplication.tr("Restore method"),
-                    message=QCoreApplication.tr("BookRestore is available on this iOS version."),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Restore method"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "BookRestore is available on this iOS version.",
+                    ),
                 )
             )
         else:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.WARN,
-                    title=QCoreApplication.tr("Limited support"),
-                    message=QCoreApplication.tr(
-                        "This device appears to be fully patched. Some tweaks may not apply on this iOS version."
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Limited support"
+                    ),
+                    message=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "This device appears to be fully patched. Some tweaks may not apply on this iOS version.",
                     ),
                 )
             )
@@ -363,12 +499,14 @@ class DeviceManager:
         checks.append(
             PreflightCheck(
                 status=PreflightStatus.WARN,
-                title=QCoreApplication.tr("Find My"),
-                message=QCoreApplication.tr(
-                    "Find My must be disabled to apply tweaks. If you get a Find My error, disable it and try again."
+                title=QCoreApplication.translate("QCoreApplication", "Find My"),
+                message=QCoreApplication.translate(
+                    "QCoreApplication",
+                    "Find My must be disabled to apply tweaks. If you get a Find My error, disable it and try again.",
                 ),
-                remediation=QCoreApplication.tr(
-                    "Settings → [your name] → Find My → disable Find My iPhone"
+                remediation=QCoreApplication.translate(
+                    "QCoreApplication",
+                    "Settings → [your name] → Find My → disable Find My iPhone",
                 ),
             )
         )
@@ -378,12 +516,16 @@ class DeviceManager:
             checks.append(
                 PreflightCheck(
                     status=PreflightStatus.WARN,
-                    title=QCoreApplication.tr("Developer Mode"),
-                    message=QCoreApplication.tr(
-                        "BookRestore with the AFC method may require Developer Mode to be enabled."
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "Developer Mode"
                     ),
-                    remediation=QCoreApplication.tr(
-                        "Settings → Privacy & Security → Developer Mode"
+                    message=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "BookRestore with the AFC method may require Developer Mode to be enabled.",
+                    ),
+                    remediation=QCoreApplication.translate(
+                        "QCoreApplication",
+                        "Settings → Privacy & Security → Developer Mode",
                     ),
                 )
             )
@@ -391,9 +533,12 @@ class DeviceManager:
                 checks.append(
                     PreflightCheck(
                         status=PreflightStatus.WARN,
-                        title=QCoreApplication.tr("Administrator privileges"),
-                        message=QCoreApplication.tr(
-                            "On Windows, some BookRestore operations may require running Nugget as Administrator."
+                        title=QCoreApplication.translate(
+                            "QCoreApplication", "Administrator privileges"
+                        ),
+                        message=QCoreApplication.translate(
+                            "QCoreApplication",
+                            "On Windows, some BookRestore operations may require running Nugget as Administrator.",
                         ),
                     )
                 )
@@ -420,15 +565,21 @@ class DeviceManager:
                     continue
 
             status = PreflightStatus.WARN if len(blocked_enabled) == 0 else PreflightStatus.BLOCK
-            msg = QCoreApplication.tr(
-                "MobileGestalt and AI Enabler tweaks are not supported on iOS 26.2+. They will never be supported."
+            msg = QCoreApplication.translate(
+                "QCoreApplication",
+                "MobileGestalt and AI Enabler tweaks are not supported on iOS 26.2+. They will never be supported.",
             )
             if blocked_enabled:
-                msg += QCoreApplication.tr("\n\nDisable MobileGestalt/AI toggles and try again.")
+                msg += QCoreApplication.translate(
+                    "QCoreApplication",
+                    "\n\nDisable MobileGestalt/AI toggles and try again.",
+                )
             checks.append(
                 PreflightCheck(
                     status=status,
-                    title=QCoreApplication.tr("iOS 26.2+ limitation"),
+                    title=QCoreApplication.translate(
+                        "QCoreApplication", "iOS 26.2+ limitation"
+                    ),
                     message=msg,
                     details=", ".join(blocked_enabled) if blocked_enabled else None,
                 )
@@ -438,7 +589,7 @@ class DeviceManager:
 
     def get_current_device_name(self) -> str:
         if self.data_singleton.current_device == None:
-            return QCoreApplication.tr("No Device")
+            return QCoreApplication.translate("QCoreApplication", "No Device")
         else:
             return self.data_singleton.current_device.name
 
@@ -504,8 +655,11 @@ class DeviceManager:
         """
         if self.data_singleton.current_device is None or self.data_singleton.current_device.ld is None:
             raise NuggetException(
-                QCoreApplication.tr("No device connected."),
-                QCoreApplication.tr("Refresh the device list and make sure your device is unlocked and trusted."),
+                QCoreApplication.translate("QCoreApplication", "No device connected."),
+                QCoreApplication.translate(
+                    "QCoreApplication",
+                    "Refresh the device list and make sure your device is unlocked and trusted.",
+                ),
             )
 
         try:
@@ -515,8 +669,14 @@ class DeviceManager:
             )
         except Exception:
             raise NuggetException(
-                QCoreApplication.tr("Failed to query installed apps from the device."),
-                QCoreApplication.tr("Reconnect your device (or refresh the device list) and try again.")
+                QCoreApplication.translate(
+                    "QCoreApplication",
+                    "Failed to query installed apps from the device.",
+                ),
+                QCoreApplication.translate(
+                    "QCoreApplication",
+                    "Reconnect your device (or refresh the device list) and try again.",
+                )
                 + "\n\n"
                 + traceback.format_exc(),
             )
@@ -541,10 +701,19 @@ class DeviceManager:
 
         # PosterBoard is required for the helper to work.
         if "com.apple.PosterBoard" not in results:
-            missing_txt = "\n".join(missing) if missing else QCoreApplication.tr("(unknown)")
+            missing_txt = (
+                "\n".join(missing)
+                if missing
+                else QCoreApplication.translate("QCoreApplication", "(unknown)")
+            )
             raise NuggetException(
-                QCoreApplication.tr("PosterBoard app hash was not found on this device."),
-                QCoreApplication.tr("Missing bundle IDs or containers:\n{0}").format(missing_txt),
+                QCoreApplication.translate(
+                    "QCoreApplication",
+                    "PosterBoard app hash was not found on this device.",
+                ),
+                QCoreApplication.translate(
+                    "QCoreApplication", "Missing bundle IDs or containers:\n{0}"
+                ).format(missing_txt),
             )
 
         return results
@@ -570,6 +739,7 @@ class DeviceManager:
                 with open(tmpf, "w", encoding='UTF-8') as in_file:
                     in_file.write(hashes[key])
                 afc.push(tmpf, f"/Documents/{fname}")
+            return bundle_id
 
     def reset_device_pairing(self):
         # first, unpair it
@@ -578,7 +748,14 @@ class DeviceManager:
         self.data_singleton.current_device.ld.unpair()
         # next, pair it again
         self.data_singleton.current_device.ld.pair()
-        QMessageBox.information(None, QCoreApplication.tr("Pairing Reset"), QCoreApplication.tr("Your device's pairing was successfully reset. Refresh the device list before applying."))
+        QMessageBox.information(
+            None,
+            QCoreApplication.translate("QCoreApplication", "Pairing Reset"),
+            QCoreApplication.translate(
+                "QCoreApplication",
+                "Your device's pairing was successfully reset. Refresh the device list before applying.",
+            ),
+        )
 
     def add_skip_setup(self, files_to_restore: list[FileToRestore], restoring_domains: bool):
         """
@@ -595,8 +772,10 @@ class DeviceManager:
                 organization_name=self.pref_manager.organization_name,
             )
 
-    def get_domain_for_path(self, path: str, owner: int = 501, use_bookrestore: bool = False) -> str:
-        # returns Domain: str?, Path: str
+    def get_domain_for_path(
+        self, path: str, owner: int = 501, use_bookrestore: bool = False
+    ) -> tuple[str, str]:
+        # returns (Path: str, Domain: str)
         if ((self.get_current_device_supported() and not path.startswith("/var/mobile/")) or (not self.data_singleton.current_device.has_partial_sparserestore() and self.get_current_device_uses_bookrestore() and use_bookrestore)) and not owner == 0:
             # don't do anything on sparserestore versions
             return path, ""
@@ -629,9 +808,17 @@ class DeviceManager:
                 return new_path, new_domain
         return path, ""
 
-    def concat_file(self, contents: str, path: str, files_to_restore: list[FileToRestore], owner: int = 501, group: int = 501, use_bookrestore: bool = False):
+    def add_file_to_restore(
+        self,
+        contents: bytes,
+        path: str,
+        files_to_restore: list[FileToRestore],
+        owner: int = 501,
+        group: int = 501,
+        use_bookrestore: bool = False,
+    ):
         """
-        Add a file to the restore list with proper domain mapping.
+        Add a file to the restore list.
 
         Args:
             contents: File contents as bytes
@@ -754,8 +941,9 @@ class DeviceManager:
                     tweak_context["applied_groups"].add("MobileGestalt")
             elif tweak.enabled:
                 raise NuggetException(
-                    QCoreApplication.tr(
-                        "No mobilegestalt file provided! Please select your file to apply mobilegestalt tweaks."
+                    QCoreApplication.translate(
+                        "QCoreApplication",
+                        "No mobilegestalt file provided! Please select your file to apply mobilegestalt tweaks.",
                     )
                 )
 
@@ -861,14 +1049,26 @@ class DeviceManager:
         self.update_label = update_label
         self.do_not_unplug = ""
         if self.data_singleton.current_device.connected_via_usb:
-            self.do_not_unplug = "\n" + QCoreApplication.tr("DO NOT UNPLUG")
+            self.do_not_unplug = "\n" + QCoreApplication.translate(
+                "QCoreApplication", "DO NOT UNPLUG"
+            )
         restore_bookrestore = use_bookrestore and not self.data_singleton.current_device.has_partial_sparserestore()
         if restore_bookrestore:
             if self.pref_manager.bookrestore_apply_mode == BookRestoreApplyMethod.AFC:
-                update_label(QCoreApplication.tr("Creating connection to device...") + self.do_not_unplug)
+                update_label(
+                    QCoreApplication.translate(
+                        "QCoreApplication", "Creating connection to device..."
+                    )
+                    + self.do_not_unplug
+                )
                 perform_bookrestore(files=files_to_restore, lockdown_client=self.data_singleton.current_device.ld, current_device_books_uuid_callback=self.current_device_books_container_uuid_callback, progress_callback=self.update_label, transfer_mode=self.pref_manager.bookrestore_transfer_mode)
             else:
-                update_label(QCoreApplication.tr("Generating BookRestore database...") + self.do_not_unplug)
+                update_label(
+                    QCoreApplication.translate(
+                        "QCoreApplication", "Generating BookRestore database..."
+                    )
+                    + self.do_not_unplug
+                )
                 afc = AfcService(self.data_singleton.current_device.ld)
                 if self.pref_manager.bookrestore_transfer_mode == BookRestoreFileTransferMethod.OnDevice:
                     # don't create a server, just add the file to the file list
@@ -905,7 +1105,12 @@ class DeviceManager:
             msg = ""
 
         if not restore_bookrestore or self.pref_manager.bookrestore_apply_mode == BookRestoreApplyMethod.Restore:
-            update_label(QCoreApplication.tr("Preparing to restore...") + self.do_not_unplug)
+            update_label(
+                QCoreApplication.translate(
+                    "QCoreApplication", "Preparing to restore..."
+                )
+                + self.do_not_unplug
+            )
             restore_files(
                 files=files_to_restore, reboot=self.pref_manager.auto_reboot,
                 lockdown_client=self.data_singleton.current_device.ld,
@@ -913,7 +1118,15 @@ class DeviceManager:
             )
             if restore_bookrestore:
                 # wait for device reconnect and then reboot again after download (ie. specified timeout)
-                update_label(QCoreApplication.tr("Waiting for device to reconnect...") + "\n" + QCoreApplication.tr("Please complete the setup on your device."))
+                update_label(
+                    QCoreApplication.translate(
+                        "QCoreApplication", "Waiting for device to reconnect..."
+                    )
+                    + "\n"
+                    + QCoreApplication.translate(
+                        "QCoreApplication", "Please complete the setup on your device."
+                    )
+                )
                 max_timeout = time.time() + 180
                 connected = False
                 while not connected and max_timeout >= time.time():
@@ -926,22 +1139,43 @@ class DeviceManager:
                 cleanup_server_folder()
                 if not connected:
                     raise NuggetException("Failed to reconnect to the device. Please reboot it manually after the restore.")
-                update_label(QCoreApplication.tr("Waiting for changes to apply..."))
+                update_label(
+                    QCoreApplication.translate(
+                        "QCoreApplication", "Waiting for changes to apply..."
+                    )
+                )
                 time.sleep(20)
-                update_label(QCoreApplication.tr("Rebooting to apply changes..."))
+                update_label(
+                    QCoreApplication.translate(
+                        "QCoreApplication", "Rebooting to apply changes..."
+                    )
+                )
                 cleanup_server_folder()
                 reboot_device(reboot=True, lockdown_client=new_ld)
-            msg = QCoreApplication.tr("Your device will now restart.\n\nRemember to turn Find My back on!")
+            msg = QCoreApplication.translate(
+                "QCoreApplication",
+                "Your device will now restart.\n\nRemember to turn Find My back on!",
+            )
             if not self.pref_manager.auto_reboot:
-                msg = QCoreApplication.tr("Please restart your device to see changes.")
-        return ApplyAlertMessage(txt=QCoreApplication.tr("All done! ") + msg, title=QCoreApplication.tr("Success!"), icon=QMessageBox.Information)
+                msg = QCoreApplication.translate(
+                    "QCoreApplication", "Please restart your device to see changes."
+                )
+        return ApplyAlertMessage(
+            txt=QCoreApplication.translate("QCoreApplication", "All done! ") + msg,
+            title=QCoreApplication.translate("QCoreApplication", "Success!"),
+            icon=QMessageBox.Icon.Information,
+        )
     def progress_callback(self, progress: int):
         if self.update_label == None:
             return
         prog = ""
         if progress != None:
             prog = f" ({progress:6.1f}% )"
-        self.update_label(QCoreApplication.tr("Restoring to device...{0}{1}").format(prog, self.do_not_unplug))
+        self.update_label(
+            QCoreApplication.translate(
+                "QCoreApplication", "Restoring to device...{0}{1}"
+            ).format(prog, self.do_not_unplug)
+        )
     def apply_changes(self, update_label=lambda x: None, show_alert=lambda x: None):
         """
         Apply all enabled tweaks to the connected device.
@@ -960,7 +1194,11 @@ class DeviceManager:
         tmp_dirs = []
 
         try:
-            update_label(QCoreApplication.tr("Applying changes to files..."))
+            update_label(
+                QCoreApplication.translate(
+                    "QCoreApplication", "Applying changes to files..."
+                )
+            )
 
             # Initialize tweak processing context
             tweak_context = {
@@ -992,7 +1230,9 @@ class DeviceManager:
                     tweak_context["use_bookrestore"] = True
 
             # Generate backup
-            update_label(QCoreApplication.tr("Generating backup..."))
+            update_label(
+                QCoreApplication.translate("QCoreApplication", "Generating backup...")
+            )
 
             # Add skip setup files
             should_skip_setup = tweak_context["uses_domains"] and (
@@ -1026,7 +1266,7 @@ class DeviceManager:
                     final_alert.detailed_txt = summary
             except Exception:
                 pass
-            update_label(QCoreApplication.tr("Success!"))
+            update_label(QCoreApplication.translate("QCoreApplication", "Success!"))
 
         except Exception as e:
             final_alert = show_apply_error(e, update_label, files_list=files_to_restore)
@@ -1047,7 +1287,9 @@ class DeviceManager:
             # create the restore file list
             files_to_restore: list[FileToRestore] = []
             # Generate backup
-            update_label(QCoreApplication.tr("Generating backup..."))
+            update_label(
+                QCoreApplication.translate("QCoreApplication", "Generating backup...")
+            )
             files_to_null: list[str] = []
             uses_domains = False
             use_bookrestore = False
@@ -1129,7 +1371,7 @@ class DeviceManager:
 
             # restore to the device
             final_alert = self.start_restore(files_to_restore, use_bookrestore, update_label)
-            update_label(QCoreApplication.tr("Success!"))
+            update_label(QCoreApplication.translate("QCoreApplication", "Success!"))
         except Exception as e:
             final_alert = show_apply_error(e, update_label, files_list=files_to_restore)
         finally:

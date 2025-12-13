@@ -3,15 +3,23 @@ from .mbdb import _FileMode
 from pymobiledevice3.lockdown import LockdownClient
 from pymobiledevice3.services.installation_proxy import InstallationProxyService
 from pymobiledevice3.exceptions import ConnectionTerminatedError
+from typing import Optional, Union
 import os
 import plistlib
 import ssl
 
 class FileToRestore:
-    def __init__(self,
-                 contents: str, restore_path: str, contents_path: str = None, domain: str = "",
-                 owner: int = 501, group: int = 501, mode: _FileMode = None
-                ):
+
+    def __init__(
+        self,
+        contents: Union[str, bytes],
+        restore_path: str,
+        contents_path: Optional[str] = None,
+        domain: str = "",
+        owner: int = 501,
+        group: int = 501,
+        mode: Optional[_FileMode] = None,
+    ):
         self.contents = contents
         self.contents_path = contents_path
         self.restore_path = restore_path
@@ -20,7 +28,10 @@ class FileToRestore:
         self.group = group
         self.mode = mode
 
-def concat_exploit_file(file: FileToRestore, files_list: list[FileToRestore], last_domain: str) -> str:
+
+def concat_exploit_file(
+    file: FileToRestore, files_list: list[backup.BackupFile], last_domain: str
+) -> str:
     base_path = ""
     # set it to work in the separate volumes (prevents a bootloop)
     if file.restore_path.startswith("/var/mobile/"):
@@ -42,16 +53,29 @@ def concat_exploit_file(file: FileToRestore, files_list: list[FileToRestore], la
             group=file.group
         ))
         new_last_domain = domain_path
-    files_list.append(backup.ConcreteFile(
-        "",
-        f"{domain_path}{name}",
-        owner=file.owner,
-        group=file.group,
-        contents=file.contents
-    ))
+    contents_bytes = (
+        file.contents
+        if isinstance(file.contents, bytes)
+        else file.contents.encode("utf-8")
+    )
+    files_list.append(
+        backup.ConcreteFile(
+            "",
+            f"{domain_path}{name}",
+            owner=file.owner,
+            group=file.group,
+            contents=contents_bytes,
+        )
+    )
     return new_last_domain
 
-def concat_regular_file(file: FileToRestore, files_list: list[FileToRestore], last_domain: str, last_path: str):
+
+def concat_regular_file(
+    file: FileToRestore,
+    files_list: list[backup.BackupFile],
+    last_domain: str,
+    last_path: str,
+):
     path, name = os.path.split(file.restore_path)
     paths = path.split("/")
     new_last_domain = last_domain
@@ -84,16 +108,24 @@ def concat_regular_file(file: FileToRestore, files_list: list[FileToRestore], la
             ))
             last_path = full_path
     # finally, append the file
-    files_list.append(backup.ConcreteFile(
-        f"{full_path}/{name}",
-        file.domain,
-        owner=file.owner,
-        group=file.group,
-        contents=file.contents,
-        src_path=file.contents_path,
-        mode=mode
-    ))
+    contents_bytes = (
+        file.contents
+        if isinstance(file.contents, bytes)
+        else file.contents.encode("utf-8")
+    )
+    files_list.append(
+        backup.ConcreteFile(
+            f"{full_path}/{name}",
+            file.domain,
+            owner=file.owner,
+            group=file.group,
+            contents=contents_bytes,
+            src_path=file.contents_path,
+            mode=mode,
+        )
+    )
     return new_last_domain, full_path
+
 
 # merge all files that have duplicates and returns the list without duplicates
 def merge_duplicates(original_files: list[FileToRestore]) -> list[FileToRestore]:
@@ -125,11 +157,16 @@ def merge_duplicates(original_files: list[FileToRestore]) -> list[FileToRestore]
             existing_locations[file_loc] = len(no_dupe_files) - 1
     return no_dupe_files
 
+
 # files is a list of FileToRestore objects
-def restore_files(files: list[FileToRestore], reboot: bool = False, lockdown_client: LockdownClient = None, progress_callback = lambda x: None):
+def restore_files(
+    files: list[FileToRestore],
+    reboot: bool = False,
+    lockdown_client: Optional[LockdownClient] = None,
+    progress_callback=lambda x: None,
+):
     # create the files to be backed up
-    files_list = [
-    ]
+    files_list: list[backup.BackupFile] = []
     apps_list = []
     active_bundle_ids = []
     apps = None
@@ -175,16 +212,22 @@ def restore_files(files: list[FileToRestore], reboot: bool = False, lockdown_cli
         # These errors usually mean the device rebooted successfully before acknowledging the restore.
         # We catch them and treat the process as successful.
         print("Device disconnected during restore - this is expected as the device reboots.")
-        
+
         if progress_callback:
             progress_callback(100)
-            
+
     except Exception as e:
         # If it's a different error, we still want to see it
         raise e
 
 
-def restore_file(fp: str, restore_path: str, restore_name: str, reboot: bool = False, lockdown_client: LockdownClient = None):
+def restore_file(
+    fp: str,
+    restore_path: str,
+    restore_name: str,
+    reboot: bool = False,
+    lockdown_client: Optional[LockdownClient] = None,
+):
     # open the file and read the contents
     contents = open(fp, "rb").read()
 

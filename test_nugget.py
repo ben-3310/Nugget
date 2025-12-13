@@ -58,12 +58,13 @@ def test_qt_platform():
     os.environ['QT_QPA_PLATFORM'] = 'offscreen'
 
     try:
-        from PySide6 import QtWidgets
+        from PySide6 import QtWidgets, QtGui
+
         app = QtWidgets.QApplication.instance()
         if app is None:
             app = QtWidgets.QApplication([])
         print(f"✓ Qt application created successfully")
-        print(f"  Platform: {app.platformName()}")
+        print(f"  Platform: {QtGui.QGuiApplication.platformName()}")
         return True
     except Exception as e:
         print(f"✗ Qt platform test failed: {e}")
@@ -116,7 +117,7 @@ def main():
     if all_passed:
         print("✓ All tests passed! Nugget is ready to run.")
         print("\nTo run Nugget:")
-        print("  1. With virtual display: ./run_nugget.sh")
+        print("  1. Launch script (bash): ./run_nugget.sh")
         print("  2. In offscreen mode: QT_QPA_PLATFORM=offscreen python3 main_app.py")
     else:
         print("✗ Some tests failed. Please check the errors above.")
