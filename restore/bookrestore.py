@@ -356,7 +356,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
         if pid_books:
             pc.kill(pid_books)
 
-        progress_callback("Uploading files...")
+        progress_callback("BookRestore: Transfer - uploading files...")
 
         # Update the download db
         if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
@@ -403,14 +403,60 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
     if pid_itunesstored:
         pc.kill(pid_itunesstored)
 
-    timeout = time.time() + 120
-    progress_callback("Waiting for itunesstored to finish download..." + "\n" + "(This might take a minute)")
-    for syslog_entry in OsTraceService(lockdown=lockdown_client).syslog():
-        if time.time() > timeout:
-            raise NuggetException("Timed out waiting for download. Please try again.")
-        if (posixpath.basename(syslog_entry.filename) == 'itunesstored') and \
-            "Install complete for download: 6936249076851270152 result: Failed" in syslog_entry.message:
+    timeout_seconds = 300
+    max_attempts = 3
+    download_success = False
+    advice = (
+        "Troubleshooting tips:\n"
+        "- Keep the device unlocked and connected via USB\n"
+        "- Open the Books app and download at least one book\n"
+        "- If you are using BookRestore (AFC), enable Developer Mode\n"
+        "- Try switching BookRestore apply mode to Restore\n"
+        "- Reboot the device and try again\n"
+    )
+
+    for attempt in range(1, max_attempts + 1):
+        deadline = time.time() + timeout_seconds
+        next_update = 0.0
+        progress_callback(
+            "BookRestore: Download - waiting for itunesstored to finish download..."
+            f"\n(attempt {attempt}/{max_attempts}, timeout {timeout_seconds}s)"
+        )
+        for syslog_entry in OsTraceService(lockdown=lockdown_client).syslog():
+            now = time.time()
+            if now >= deadline:
+                break
+            if now >= next_update:
+                remaining = int(deadline - now)
+                progress_callback(
+                    "BookRestore: Download - waiting for itunesstored to finish download..."
+                    f"\n(attempt {attempt}/{max_attempts}, {remaining}s remaining)"
+                )
+                next_update = now + 10
+            if (posixpath.basename(syslog_entry.filename) == 'itunesstored') and \
+                "Install complete for download: 6936249076851270152 result: Failed" in syslog_entry.message:
+                download_success = True
+                break
+
+        if download_success:
             break
+
+        # Timed out: retry a couple times before failing
+        if attempt < max_attempts:
+            progress_callback("BookRestore: Download - timed out, retrying...")
+            try:
+                procs_retry = OsTraceService(lockdown=lockdown_client).get_pid_list().get("Payload") or {}
+                pid_itunesstored_retry = next(
+                    (pid for pid, p in procs_retry.items() if p.get("ProcessName") == "itunesstored"),
+                    None,
+                )
+                if pid_itunesstored_retry:
+                    pc.kill(pid_itunesstored_retry)
+            except Exception:
+                pass
+            continue
+
+        raise NuggetException("Timed out waiting for download.", detailed_text=advice)
 
     pid_bookassetd = next((pid for pid, p in procs.items() if p['ProcessName'] == 'bookassetd'), None)
     pid_books = next((pid for pid, p in procs.items() if p['ProcessName'] == 'Books'), None)
@@ -424,7 +470,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
     except Exception as e:
         raise NuggetException("Error launching Books app", detailed_text=repr(e))
 
-    progress_callback("Waiting for file overwrite to complete..." + "\n" + "(This might take a minute)")
+    progress_callback("BookRestore: Apply - waiting for file overwrite to complete..." + "\n" + "(This might take a minute)")
     success_message = "[Install-Mgr]: Marking download as [finished]"
     num_replaced = 0
     timeout_amt = 90
@@ -446,7 +492,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
         close_dl_connection()
         remove_db_files(temp_dl_manager)
 
-    progress_callback("Respringing")
+    progress_callback("BookRestore: Reboot - respringing")
     procs = OsTraceService(lockdown=lockdown_client).get_pid_list().get("Payload")
     pid = next((pid for pid, p in procs.items() if p['ProcessName'] == 'backboardd'), None)
     pc.kill(pid)
