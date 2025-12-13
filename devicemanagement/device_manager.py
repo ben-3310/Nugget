@@ -30,6 +30,12 @@ from controllers.files_handler import get_bundle_files
 from exceptions.nugget_exception import NuggetException
 
 from tweaks.tweaks import tweaks, TweakID, FeatureFlagTweak, EligibilityTweak, AITweak, BasicPlistTweak, AdvancedPlistTweak, RdarFixTweak, NullifyFileTweak, StatusBarTweak
+from tweaks.tweak_classes import (
+    MobileGestaltCacheDataTweak,
+    MobileGestaltMultiTweak,
+    MobileGestaltPickerTweak,
+    MobileGestaltTweak,
+)
 from tweaks.custom_gestalt_tweaks import CustomGestaltTweaks
 from tweaks.posterboard.posterboard_tweak import PosterboardTweak
 from tweaks.posterboard.template_options.templates_tweak import TemplatesTweak
@@ -304,6 +310,81 @@ class DeviceManager:
                     title=QCoreApplication.tr("Device connection failed"),
                     message=QCoreApplication.tr("Failed to query device via Lockdown."),
                     details=f"{type(e).__name__}: {e!r}",
+                )
+            )
+
+        # iOS / exploit compatibility (high-level)
+        device_ver = Version(dev.version)
+        if device_ver < Version("17.0"):
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.BLOCK,
+                    title=QCoreApplication.tr("Unsupported iOS version"),
+                    message=QCoreApplication.tr("This device is below iOS 17.0 and is not supported."),
+                )
+            )
+            return PreflightResult(checks=checks)
+
+        if dev.has_partial_sparserestore():
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.OK,
+                    title=QCoreApplication.tr("Restore method"),
+                    message=QCoreApplication.tr("Sparserestore is available on this iOS version."),
+                )
+            )
+        elif dev.has_bookrestore():
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.OK,
+                    title=QCoreApplication.tr("Restore method"),
+                    message=QCoreApplication.tr("BookRestore is available on this iOS version."),
+                )
+            )
+        else:
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.WARN,
+                    title=QCoreApplication.tr("Limited support"),
+                    message=QCoreApplication.tr(
+                        "This device appears to be fully patched. Some tweaks may not apply on this iOS version."
+                    ),
+                )
+            )
+
+        # iOS 26.2+ explicitly blocks MobileGestalt + AI Enabler tweaks (per project policy)
+        if device_ver >= Version("26.2"):
+            blocked_enabled: list[str] = []
+            for tweak in tweaks.values():
+                try:
+                    if not getattr(tweak, "enabled", False):
+                        continue
+                    if isinstance(
+                        tweak,
+                        (
+                            AITweak,
+                            MobileGestaltTweak,
+                            MobileGestaltPickerTweak,
+                            MobileGestaltMultiTweak,
+                            MobileGestaltCacheDataTweak,
+                        ),
+                    ):
+                        blocked_enabled.append(type(tweak).__name__)
+                except Exception:
+                    continue
+
+            status = PreflightStatus.WARN if len(blocked_enabled) == 0 else PreflightStatus.BLOCK
+            msg = QCoreApplication.tr(
+                "MobileGestalt and AI Enabler tweaks are not supported on iOS 26.2+. They will never be supported."
+            )
+            if blocked_enabled:
+                msg += QCoreApplication.tr("\n\nDisable MobileGestalt/AI toggles and try again.")
+            checks.append(
+                PreflightCheck(
+                    status=status,
+                    title=QCoreApplication.tr("iOS 26.2+ limitation"),
+                    message=msg,
+                    details=", ".join(blocked_enabled) if blocked_enabled else None,
                 )
             )
 
