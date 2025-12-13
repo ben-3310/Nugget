@@ -185,16 +185,19 @@ def restore_files(
             if last_domain.startswith("AppDomain"):
                 bundle_id = last_domain.removeprefix("AppDomain-")
                 if not bundle_id in active_bundle_ids:
-                    if apps == None:
+                    if apps == None and lockdown_client is not None:
                         apps = InstallationProxyService(lockdown=lockdown_client).get_apps(application_type="Any", calculate_sizes=False)
-                    app_info = apps[bundle_id]
-                    active_bundle_ids.append(bundle_id)
-                    apps_list.append(backup.AppBundle(
-                        identifier=bundle_id,
-                        path=app_info["Container"],
-                        version=app_info["CFBundleVersion"],
-                        container_content_class="Data/Application"
-                    ))
+                    if apps is not None:
+                        app_info = apps[bundle_id]
+                        active_bundle_ids.append(bundle_id)
+                        apps_list.append(
+                            backup.AppBundle(
+                                identifier=bundle_id,
+                                path=app_info["Container"],
+                                version=app_info["CFBundleVersion"],
+                                container_content_class="Data/Application",
+                            )
+                        )
 
     # crash the restore to skip the setup (only works for exploit files)
     if exploit_only:
@@ -207,7 +210,17 @@ def restore_files(
         print(f"{fi.domain}, {fi.path}")
 
     try:
-        perform_restore(backup=back, reboot=reboot, lockdown_client=lockdown_client, progress_callback=progress_callback)
+        if lockdown_client is not None:
+            perform_restore(
+                backup=back,
+                reboot=reboot,
+                lockdown_client=lockdown_client,
+                progress_callback=progress_callback,
+            )
+        else:
+            perform_restore(
+                backup=back, reboot=reboot, progress_callback=progress_callback
+            )
     except (ConnectionTerminatedError, ssl.SSLEOFError, ConnectionAbortedError, ConnectionResetError):
         # These errors usually mean the device rebooted successfully before acknowledging the restore.
         # We catch them and treat the process as successful.
@@ -237,29 +250,39 @@ def restore_file(
         base_path = "/var/mobile/backup"
 
     # create the backup
-    back = backup.Backup(files=[
-        # backup.Directory("", "HomeDomain"),
-        # backup.Directory("Library", "HomeDomain"),
-        # backup.Directory("Library/Preferences", "HomeDomain"),
-        # backup.ConcreteFile("Library/Preferences/temp", "HomeDomain", owner=501, group=501, contents=contents, inode=0),
-        backup.Directory(
+    back = backup.Backup(
+        files=[
+            # backup.Directory("", "HomeDomain"),
+            # backup.Directory("Library", "HomeDomain"),
+            # backup.Directory("Library/Preferences", "HomeDomain"),
+            # backup.ConcreteFile("Library/Preferences/temp", "HomeDomain", owner=501, group=501, contents=contents, inode=0),
+            backup.Directory(
                 "",
                 f"SysContainerDomain-../../../../../../../..{base_path}{restore_path}",
                 owner=501,
-                group=501
+                group=501,
             ),
-        backup.ConcreteFile(
+            backup.ConcreteFile(
                 "",
                 f"SysContainerDomain-../../../../../../../..{base_path}{restore_path}{restore_name}",
                 owner=501,
                 group=501,
-                contents=contents#b"",
+                contents=contents,  # b"",
                 # inode=0
             ),
-            backup.ConcreteFile("", "SysContainerDomain-../../../../../../../.." + "/crash_on_purpose", contents=b""),
-    ])
+            backup.ConcreteFile(
+                "",
+                "SysContainerDomain-../../../../../../../.." + "/crash_on_purpose",
+                contents=b"",
+            ),
+        ],
+        apps=[],
+    )
 
     try:
-        perform_restore(backup=back, reboot=reboot, lockdown_client=lockdown_client)
+        if lockdown_client is not None:
+            perform_restore(backup=back, reboot=reboot, lockdown_client=lockdown_client)
+        else:
+            perform_restore(backup=back, reboot=reboot)
     except (ConnectionTerminatedError, ssl.SSLEOFError, ConnectionAbortedError, ConnectionResetError):
         pass

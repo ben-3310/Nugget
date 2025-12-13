@@ -21,15 +21,15 @@ CURRENT_FORMAT = 2
 
 class TemplateFile(TendieFile):
     options: list[TemplateOption]
-    json_path: str
-    tmp_dir: str = None
+    json_path: Optional[str]
+    tmp_dir: Optional[TemporaryDirectory] = None
 
     author: str = "" # author of template
     domain: str = "" # domain to restore to
     description: Optional[str] = None # description to go under the file
 
     change_bundle_id: bool = False # whether or not the user can change the bundle id
-    bundle_id: str = None # bundle id of the app if changable
+    bundle_id: Optional[str] = None  # bundle id of the app if changable
 
     min_version: Optional[str] = None # minimum supported iOS version
     max_version: Optional[str] = None # maximum supported iOS version
@@ -42,10 +42,10 @@ class TemplateFile(TendieFile):
     banner_stylesheet: Optional[str] = None # style sheet of the banner
     format_version: int = CURRENT_FORMAT # format version of config
 
-    def __init__(self, path: str, device_version: str = None):
+    def __init__(self, path: str, device_version: str | None = None):
         super().__init__(path=path)
         self.options = []
-        self.json_path = None
+        self.json_path = None  # type: ignore
 
         # find the config.json file
         with zipfile.ZipFile(path, mode="r") as archive:
@@ -53,21 +53,36 @@ class TemplateFile(TendieFile):
                 if "config.json" in option.lower() and not "descriptor" in option.lower() and not "container" in option.lower():
                     self.json_path = option
                     break
-            if self.json_path != None:
+            if self.json_path is not None:
                 file = archive.open(self.json_path)
                 data = load(file)
                 # load the options
                 if not 'options' in data:
-                    raise PBTemplateException(path, QtCore.QCoreApplication.tr("No options were found in the config. Make sure that it is in the correct format."))
+                    raise PBTemplateException(
+                        path,
+                        QtCore.QCoreApplication.tr(  # type: ignore
+                            "No options were found in the config. Make sure that it is in the correct format."
+                        ),
+                    )
                 if not 'domain' in data:
-                    raise PBTemplateException(path, QtCore.QCoreApplication.tr("This config does not have a valid domain!"))
+                    raise PBTemplateException(
+                        path,
+                        QtCore.QCoreApplication.tr(  # type: ignore
+                            "This config does not have a valid domain!"
+                        ),
+                    )
                 self.domain = data['domain']
                 # add backwards compatibility for my mistake in the v5.2 betas
                 if self.domain == "com.apple.PosterBoard":
                     self.domain = "AppDomain-com.apple.PosterBoard"
                 self.format_version = int(data['format_version'])
                 if self.format_version > CURRENT_FORMAT:
-                    raise PBTemplateException(path, QtCore.QCoreApplication.tr("This config requires a newer version of Nugget."))
+                    raise PBTemplateException(
+                        path,
+                        QtCore.QCoreApplication.tr(  # type: ignore
+                            "This config requires a newer version of Nugget."
+                        ),
+                    )
                 self.name = data['title']
                 self.author = data['author']
                 if 'description' in data:
@@ -77,12 +92,24 @@ class TemplateFile(TendieFile):
                     self.min_version = data['min_version']
                     # check the device version
                     # TODO: need to make this check also happen when connected device is updated
-                    if Version(self.min_version) > Version(device_version):
-                        raise PBTemplateException(path, QtCore.QCoreApplication.tr("This template requires iOS {0}.\nYour iOS version (iOS {1}) is too outdated!").format(self.min_version, device_version))
+                    if device_version is not None and self.min_version is not None:
+                        if Version(self.min_version) > Version(device_version):
+                            raise PBTemplateException(
+                                path,
+                                QtCore.QCoreApplication.tr(  # type: ignore
+                                    "This template requires iOS {0}.\nYour iOS version (iOS {1}) is too outdated!"
+                                ).format(self.min_version, device_version),
+                            )
                 if 'max_version' in data:
                     self.max_version = data['max_version']
-                    if Version(self.max_version) < Version(device_version):
-                        raise PBTemplateException(path, QtCore.QCoreApplication.tr("This template requires iOS {0}.\nYour iOS version (iOS {1}) is too new!").format(self.max_version, device_version))
+                    if device_version is not None and self.max_version is not None:
+                        if Version(self.max_version) < Version(device_version):
+                            raise PBTemplateException(
+                                path,
+                                QtCore.QCoreApplication.tr(  # type: ignore
+                                    "This template requires iOS {0}.\nYour iOS version (iOS {1}) is too new!"
+                                ).format(self.max_version, device_version),
+                            )
 
                 # load the previews
                 prevs = []
@@ -107,7 +134,7 @@ class TemplateFile(TendieFile):
                             rc_data = archive.read(rc_path)
                             if rc_data != None:
                                 # write it to a temp file
-                                if self.tmp_dir == None:
+                                if self.tmp_dir is None:
                                     self.tmp_dir = TemporaryDirectory()
                                 rc_full_path = os.path.join(self.tmp_dir.name, rc_path)
                                 os.makedirs(os.path.dirname(rc_full_path), exist_ok=True)
@@ -135,12 +162,20 @@ class TemplateFile(TendieFile):
                         self.change_bundle_id = True
                         self.bundle_id = self.domain.removeprefix("AppDomain-") # set default value to the bundle id in the domain
                     else:
-                        raise PBTemplateException(path, QtCore.QCoreApplication.tr("Invalid option type in template"))
+                        raise PBTemplateException(
+                            path,
+                            QtCore.QCoreApplication.tr(  # type: ignore
+                                "Invalid option type in template"
+                            ),
+                        )
             else:
-                raise PBTemplateException(path, QtCore.QCoreApplication.tr("No config.json found in file!"))
-    
+                raise PBTemplateException(
+                    path,
+                    QtCore.QCoreApplication.tr("No config.json found in file!"),  # type: ignore
+                )
+
     def clean_files(self):
-        if self.tmp_dir != None:
+        if self.tmp_dir is not None:
             try:
                 rmtree(self.tmp_dir.name)
             except Exception as e:
@@ -153,6 +188,8 @@ class TemplateFile(TendieFile):
             zip_ref.extractall(zip_output)
 
         # apply the options
+        if self.json_path is None:
+            raise ValueError("json_path cannot be None")
         parent_path = os.path.join(zip_output, os.path.dirname(self.json_path))
         for option in self.options:
             option.apply(container_path=parent_path)
@@ -161,7 +198,7 @@ class TemplateFile(TendieFile):
         if is_up:
             return QtGui.QIcon(":/icon/chevron.up.svg")
         return QtGui.QIcon(":/icon/chevron.down.svg")
-    
+
     def update_bundle_id(self, new_id: str):
         self.bundle_id = new_id
         self.domain_lbl.setText(f" (AppDomain-{self.bundle_id})")
@@ -184,7 +221,10 @@ class TemplateFile(TendieFile):
             titleBtn.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
             titleBtn.setText(f"   {self.name}")
             titleBtn.setStyleSheet("QToolButton {\n    background-color: transparent;\n	icon-size: 20px; text-align:left;\n}")
-            titleBtn.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+            titleBtn.setSizePolicy(
+                QtWidgets.QSizePolicy.Policy.Expanding,
+                QtWidgets.QSizePolicy.Policy.Fixed,
+            )
             title_layout.addWidget(titleBtn)
         else:
             title_lbl = QtWidgets.QLabel(title_widget)
@@ -206,7 +246,12 @@ class TemplateFile(TendieFile):
             options_widget.setVisible(not options_widget.isVisible()),
             chevron.setIcon(get_chev(options_widget.isVisible()))
         ))
-        spacer = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacer = QtWidgets.QSpacerItem(
+            40,
+            20,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Minimum,
+        )
         delBtn = QtWidgets.QToolButton(left_widget)
         delBtn.setIcon(QtGui.QIcon(":/icon/trash.svg"))
         delBtn.clicked.connect(lambda _, file=self: (
@@ -247,16 +292,24 @@ class TemplateFile(TendieFile):
             prev_widget = QtWidgets.QWidget(options_widget)
             prev_widget.setMinimumHeight(250)
             prev_widget.setMaximumHeight(250)
-            prev_widget.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+            prev_widget.setSizePolicy(
+                QtWidgets.QSizePolicy.Policy.Expanding,
+                QtWidgets.QSizePolicy.Policy.Minimum,
+            )
             if self.preview_layout == "stacked":
                 prev_layout = QtWidgets.QStackedLayout()
-                prev_layout.setStackingMode(QtWidgets.QStackedLayout.StackAll)
+                prev_layout.setStackingMode(
+                    QtWidgets.QStackedLayout.StackingMode.StackAll
+                )
             else:
                 prev_layout = QtWidgets.QHBoxLayout()
             prev_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
             for prev in self.previews.keys():
                 new_prev = ResizableImageLabel(prev_widget)
-                new_prev.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+                new_prev.setSizePolicy(
+                    QtWidgets.QSizePolicy.Policy.Expanding,
+                    QtWidgets.QSizePolicy.Policy.Expanding,
+                )
                 pixmap = QtGui.QPixmap(self.previews[prev])
                 new_prev.setPixmap(pixmap)
                 # new_prev.setScaledContents(True)
@@ -269,7 +322,7 @@ class TemplateFile(TendieFile):
         if self.banner_text != None:
             banner = QtWidgets.QLabel(options_widget)
             banner.setText(self.banner_text)
-            banner.setAlignment(QtCore.Qt.AlignCenter)
+            banner.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             if self.banner_stylesheet != None:
                 banner.setStyleSheet(self.banner_stylesheet)
             opt_layout.addWidget(banner)
@@ -289,7 +342,11 @@ class TemplateFile(TendieFile):
             bx_lbl.setText("App bundle id:")
             bx_layout.addWidget(bx_lbl)
             textbox = QtWidgets.QLineEdit(bx_widget)
-            textbox.setPlaceholderText(QtCore.QCoreApplication.tr("Bundle id (default: {0})").format(self.domain.removeprefix('AppDomain-')))
+            textbox.setPlaceholderText(
+                QtCore.QCoreApplication.tr("Bundle id (default: {0})").format(  # type: ignore
+                    self.domain.removeprefix("AppDomain-")
+                )
+            )
             textbox.setText(self.bundle_id)
             textbox.textEdited.connect(self.update_bundle_id)
             bx_layout.addWidget(textbox)
@@ -298,8 +355,11 @@ class TemplateFile(TendieFile):
 
         for option in self.options:
             # provide the window
-            if option.type == TemplateOptionTypePB.replace and option.window == None:
-                option.window = window#.set_window(self.window)
+            if option.type == TemplateOptionTypePB.replace:
+                from .template_options.replace_option import ReplaceOption
+
+                if isinstance(option, ReplaceOption) and option.window is None:
+                    option.window = window  # .set_window(self.window)
             option.create_interface(options_widget=options_widget, options_layout=opt_layout)
             # add the previews and update it
             option.add_potential_preview_lbls(prevs)

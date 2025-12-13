@@ -19,7 +19,7 @@ from exceptions.posterboard_exceptions import PBTemplateException
 
 class PosterboardTweak(Tweak):
     def __init__(self):
-        super().__init__(key=None)
+        super().__init__(key="posterboard")
         self.tendies: list[TendieFile] = []
         # self.templates: list[TemplateFile] = []
         self.videoThumbnail = None
@@ -34,23 +34,27 @@ class PosterboardTweak(Tweak):
 
     def uses_domains(self):
         return (len(self.tendies) > 0 or self.videoFile != None or len(self.resetModes) > 0)
-    
+
     def is_empty(self) -> bool:
         return not self.uses_domains()
 
     def verify_tendie(self, new_tendie: TendieFile, is_template: bool = False) -> bool:
         if new_tendie.descriptor_cnt + self.get_descriptor_count() <= 10:
             if is_template:
-                raise Exception(QCoreApplication.tr("Wrong type of file"))
+                raise Exception(QCoreApplication.tr("Wrong type of file"))  # type: ignore
                 self.templates.append(new_tendie)
             else:
                 self.tendies.append(new_tendie)
             # alert if prb reset is needed
             if new_tendie.unsafe_container:
                 detailsBox = QtWidgets.QMessageBox()
-                detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
-                detailsBox.setWindowTitle(QCoreApplication.tr("Warning"))
-                detailsBox.setText(QCoreApplication.tr("NOTE: You may need to reset all wallpapers (enable Risky Options in settings) and then re-apply for this file to work."))
+                detailsBox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                detailsBox.setWindowTitle(QCoreApplication.tr("Warning"))  # type: ignore
+                detailsBox.setText(
+                    QCoreApplication.tr(  # type: ignore
+                        "NOTE: You may need to reset all wallpapers (enable Risky Options in settings) and then re-apply for this file to work."
+                    )
+                )
                 detailsBox.exec()
             return True
         return False
@@ -58,7 +62,8 @@ class PosterboardTweak(Tweak):
     def add_tendie(self, file: str):
         new_tendie = TendieFile(path=file)
         return self.verify_tendie(new_tendie)
-    def add_template(self, file: str, version: str = None):
+
+    def add_template(self, file: str, version: str | None = None):
         try:
             new_template = TemplateFile(path=file, device_version=version)
             if new_template.domain != "com.apple.PosterBoard":
@@ -66,9 +71,11 @@ class PosterboardTweak(Tweak):
         except Exception as e:
             print(traceback.format_exc())
             detailsBox = QtWidgets.QMessageBox()
-            detailsBox.setIcon(QtWidgets.QMessageBox.Critical)
-            detailsBox.setWindowTitle(QCoreApplication.tr("Error"))
-            detailsBox.setText(QCoreApplication.tr("Failed to load template") + f" {file}\n\n{str(e)}")
+            detailsBox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            detailsBox.setWindowTitle(QCoreApplication.tr("Error"))  # type: ignore
+            detailsBox.setText(
+                QCoreApplication.tr("Failed to load template") + f" {file}\n\n{str(e)}"  # type: ignore
+            )
             detailsBox.exec()
             return True
         return self.verify_tendie(new_template, is_template=True)
@@ -87,14 +94,16 @@ class PosterboardTweak(Tweak):
         elif file_name == "Wallpaper.plist":
             return set_plist_value(file=os.path.join(file_path, file_name), key="identifier", value=randomizedID, recursive=False)
         return None
-        
 
-    def recursive_add(self,
-                      files_to_restore: list[FileToRestore],
-                      curr_path: str, restore_path: str = "",
-                      isAdding: bool = False,
-                      randomizeUUID: bool = False, randomizedID: int = None
-        ):
+    def recursive_add(
+        self,
+        files_to_restore: list[FileToRestore],
+        curr_path: str,
+        restore_path: str = "",
+        isAdding: bool = False,
+        randomizeUUID: bool = False,
+        randomizedID: int | None = None,
+    ):
         if not os.path.isdir(curr_path):
             return
         if isAdding and randomizeUUID and ("ordered-descriptor" in curr_path or "ordered-descriptors" in curr_path):
@@ -121,18 +130,42 @@ class PosterboardTweak(Tweak):
                 if os.path.isfile(os.path.join(curr_path, folder)):
                     try:
                         # update plist ids if needed
-                        new_contents = None
+                        new_contents: bytes | None = None
                         contents_path = os.path.join(curr_path, folder)
-                        if curr_randomized_id != None:
+                        if curr_randomized_id is not None:
                             new_contents = self.update_plist_id(curr_path, folder, curr_randomized_id)
-                            if new_contents != None:
+                            if new_contents is not None:
                                 contents_path = None
-                        files_to_restore.append(FileToRestore(
-                            contents=new_contents,
-                            contents_path=contents_path,
-                            restore_path=f"{restore_path}/{folder_name}".replace("//", "/"),
-                            domain=f"AppDomain-{self.bundle_id}"
-                        ))
+                        # Use contents_path if new_contents is None, otherwise use new_contents
+                        if new_contents is None:
+                            # Read from file
+                            if contents_path is None:
+                                raise ValueError(
+                                    "contents_path cannot be None when new_contents is None"
+                                )
+                            with open(contents_path, "rb") as f:
+                                file_contents = f.read()
+                            files_to_restore.append(
+                                FileToRestore(
+                                    contents=file_contents,
+                                    contents_path=None,
+                                    restore_path=f"{restore_path}/{folder_name}".replace(
+                                        "//", "/"
+                                    ),
+                                    domain=f"AppDomain-{self.bundle_id}",
+                                )
+                            )
+                        else:
+                            files_to_restore.append(
+                                FileToRestore(
+                                    contents=new_contents,
+                                    contents_path=None,
+                                    restore_path=f"{restore_path}/{folder_name}".replace(
+                                        "//", "/"
+                                    ),
+                                    domain=f"AppDomain-{self.bundle_id}",
+                                )
+                            )
                     except IOError:
                         print(f"Failed to open file: {folder}") # TODO: Add QDebug equivalent
                 else:
@@ -169,14 +202,19 @@ class PosterboardTweak(Tweak):
             contents_path = os.path.join(video_output_dir, "versions", "0", "contents", "0EFB6A0F-7052-4D24-8859-AB22BADF2E93")
 
             # convert the video first
-            video_contents = None
+            video_contents: bytes
             if self.videoFile.endswith('.mov'):
                 # no need to convert
                 with open(self.videoFile, "rb") as vid:
                     video_contents = vid.read()
             else:
                 # convert to mov
-                video_contents = video_handler.convert_to_mov(input_file=self.videoFile)
+                video_contents_result = video_handler.convert_to_mov(
+                    input_file=self.videoFile
+                )
+                if video_contents_result is None:
+                    raise ValueError("Failed to convert video to MOV format")
+                video_contents = video_contents_result
             # now replace video
             with open(os.path.join(contents_path, "output.layerStack", "portrait-layer_settling-video.MOV"), "wb") as overriding:
                 overriding.write(video_contents)
@@ -215,12 +253,12 @@ class PosterboardTweak(Tweak):
                 contents_path = os.path.join(contents_path, "9183.Custom_Background-810w-1080h@2x~ipad.ca")
             print(f"path at {contents_path}, creating caml")
             video_handler.create_caml(
-                video_path=self.videoFile, output_file=contents_path,
-                auto_reverses=self.reverse_video, calculationMode=self.calculationMode,
-                update_label=update_label
+                video_path=self.videoFile,
+                output_file=contents_path,
+                auto_reverses=self.reverse_video,
+                calculationMode=self.calculationMode,
+                update_label=update_label,
             )
-            
-            
 
     def apply_tweak(self, files_to_restore: list[FileToRestore], output_dir: str, templates: list[TemplateFile], version: str, update_label=lambda x: None):
         # unzip the file
@@ -255,19 +293,25 @@ class PosterboardTweak(Tweak):
             return
         elif len(self.tendies) == 0 and len(templates) == 0 and self.videoFile == None:
             return
-        update_label(QCoreApplication.tr("Generating PosterBoard Video..."))
+        update_label(QCoreApplication.tr("Generating PosterBoard Video..."))  # type: ignore
         self.create_live_photo_files(output_dir)
         self.create_video_loop_files(output_dir, update_label=update_label)
         # extract tendies
         for tendie in self.tendies:
-            update_label(QCoreApplication.tr("Extracting tendie {0}...").format(tendie.name))
+            update_label(
+                QCoreApplication.tr("Extracting tendie {0}...").format(tendie.name)  # type: ignore
+            )
             tendie.extract(output_dir=output_dir)
         # extract templates
         for template in templates:
             if template.domain == 'com.apple.PosterBoard' or template.domain == 'AppDomain-com.apple.PosterBoard':
-                update_label(QCoreApplication.tr("Configuring template {0}...").format(template.name))
+                update_label(
+                    QCoreApplication.tr("Configuring template {0}...").format(  # type: ignore
+                        template.name
+                    )
+                )
                 template.extract(output_dir=output_dir)
         # add the files
-        update_label(QCoreApplication.tr("Adding tendies..."))
+        update_label(QCoreApplication.tr("Adding tendies..."))  # type: ignore
         self.recursive_add(files_to_restore, curr_path=output_dir)
-        update_label(QCoreApplication.tr("Adding other tweaks..."))
+        update_label(QCoreApplication.tr("Adding other tweaks..."))  # type: ignore

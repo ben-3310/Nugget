@@ -21,16 +21,20 @@ def _deep_replace(obj, old: str, new: str):
         return tuple(_deep_replace(v, old, new) for v in obj)
     return obj
 
-def replace_region_code(plist_path: str, original_code: str = "US", new_code: str = "US"):
+
+def replace_region_code(
+    plist_path: str, original_code: str = "US", new_code: str = "US"
+) -> bytes:
     with open(plist_path, 'rb') as f:
         plist_data = plistlib.load(f)
 
     updated_plist_data = _deep_replace(plist_data, original_code, new_code)
-    return plistlib.dumps(updated_plist_data)
+    return plistlib.dumps(updated_plist_data)  # type: ignore
+
 
 class EligibilityTweak(Tweak):
     def __init__(self):
-        super().__init__(key=None, value=["Method 1", "Method 2"])
+        super().__init__(key="eligibility", value=["Method 1", "Method 2"])
         self.code = "US"
         self.method = 0 # between 0 and 1
 
@@ -51,7 +55,7 @@ class EligibilityTweak(Tweak):
         # credit to lrdsnow for EU Enabler
         # https://github.com/Lrdsnow/EUEnabler/blob/main/app.py
         if not self.enabled:
-            return None
+            return []
         print(f"Applying EU Enabler for region \'{self.code}\'...")
         # get the plists directory
         source_dir = get_bundle_files("files/eligibility")
@@ -83,21 +87,21 @@ class EligibilityTweak(Tweak):
                     restore_path="/var/MobileAsset/AssetsV2/com_apple_MobileAsset_OSEligibility/purpose_auto/247556c634fc4cc4fd742f1b33af9abf194a986e.asset/AssetData/Config.plist",
                 )
             )
-        
+
         # return the new files to restore
         return files_to_restore
-    
+
 
 class AITweak(Tweak):
     def __init__(self):
-        super().__init__(key=None, value="")
-    
+        super().__init__(key="ai", value="")
+
     def set_language_code(self, lang: str):
         self.value = lang
 
     def apply_tweak(self) -> FileToRestore:
         if not self.enabled:
-            return None
+            raise ValueError("AITweak must be enabled before applying")
         langs = ["en"]
         if self.value != "":
             langs.append(self.value)
