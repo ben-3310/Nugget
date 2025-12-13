@@ -316,6 +316,26 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 self.ui.advancedPageBtn.hide()
 
+            # iOS 26.2+ explicitly does not support MobileGestalt / AI Enabler tweaks.
+            if device_ver >= Version("26.2"):
+                try:
+                    self.ui.enableAIChk.hide()
+                    self.ui.eligFileChk.hide()
+                    self.ui.aiEnablerContent.hide()
+                    reason = self.tr("Not supported on iOS 26.2+")
+                    self.ui.enableAIChk.setToolTip(reason)
+                    self.ui.eligFileChk.setToolTip(reason)
+                    # MobileGestalt UI (usually hidden on patched devices, but still set a reason)
+                    self.ui.chooseGestaltBtn.setToolTip(reason)
+                    self.ui.gestaltPageBtn.setToolTip(reason)
+                except Exception:
+                    pass
+                # ensure AI tweaks are disabled even if toggled elsewhere
+                if TweakID.AIGestalt in tweaks:
+                    tweaks[TweakID.AIGestalt].set_enabled(False)
+                if TweakID.AIEligibility in tweaks:
+                    tweaks[TweakID.AIEligibility].set_enabled(False)
+
             # hide the ai content if not on
             if device_ver >= Version("18.1") and (not TweakID.AIGestalt in tweaks or not tweaks[TweakID.AIGestalt].enabled):
                 self.ui.aiEnablerContent.hide()
