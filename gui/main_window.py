@@ -113,7 +113,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.removeTweaksBtn.clicked.connect(self.on_removeTweaksBtn_clicked)
         self.ui.chooseGestaltBtn.clicked.connect(self.on_chooseGestaltBtn_clicked)
 
-
     ## GENERAL INTERFACE FUNCTIONS
     def updateInterfaceForNewDevice(self):
         # update the home page
@@ -127,7 +126,6 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             new_text = new_text.replace("%BETATAG", "")
         self.ui.appVersionLbl.setText(new_text)
-
 
     ## DEVICE BAR FUNCTIONS
     @QtCore.Slot()
@@ -433,7 +431,6 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             print(f"Error loading settings: {e}")
 
-
     ## SIDE BAR FUNCTIONS
     def on_homePageBtn_clicked(self):
         self.ui.pages.setCurrentIndex(Page.Home.value)
@@ -499,7 +496,6 @@ class MainWindow(QtWidgets.QMainWindow):
             btn.setStyleSheet("QToolButton {\ncolor: #00FF00;\n}")
         else:
             btn.setStyleSheet("")
-
 
     ## APPLY PAGE
     def on_chooseGestaltBtn_clicked(self):
@@ -589,7 +585,9 @@ class MainWindow(QtWidgets.QMainWindow):
         diagnostics_btn = None
         diagnostics_txt = alert.diagnostics_txt
         log_file = alert.log_file or get_active_log_file()
-        if diagnostics_txt is None and (alert.detailed_txt is not None or log_file is not None):
+        if diagnostics_txt is None and (
+            alert.detailed_txt is not None or log_file is not None
+        ):
             device_info = None
             try:
                 dev = self.device_manager.data_singleton.current_device
@@ -609,8 +607,16 @@ class MainWindow(QtWidgets.QMainWindow):
                 extra = {
                     "apply_over_wifi": self.device_manager.pref_manager.apply_over_wifi,
                     "auto_reboot": self.device_manager.pref_manager.auto_reboot,
-                    "bookrestore_apply_mode": getattr(self.device_manager.pref_manager.bookrestore_apply_mode, "name", str(self.device_manager.pref_manager.bookrestore_apply_mode)),
-                    "bookrestore_transfer_mode": getattr(self.device_manager.pref_manager.bookrestore_transfer_mode, "name", str(self.device_manager.pref_manager.bookrestore_transfer_mode)),
+                    "bookrestore_apply_mode": getattr(
+                        self.device_manager.pref_manager.bookrestore_apply_mode,
+                        "name",
+                        str(self.device_manager.pref_manager.bookrestore_apply_mode),
+                    ),
+                    "bookrestore_transfer_mode": getattr(
+                        self.device_manager.pref_manager.bookrestore_transfer_mode,
+                        "name",
+                        str(self.device_manager.pref_manager.bookrestore_transfer_mode),
+                    ),
                 }
             except Exception:
                 extra = None
