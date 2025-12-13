@@ -43,14 +43,14 @@ class PreferenceManager:
             self.remove_mga_data(udid)
             return False
         return True
-    
+
     def get_mga_data(self, udid: str) -> dict:
         mga_settings = self.get_mga_prefs()
         if not mga_settings.contains(udid):
             return None
         data = mga_settings.value(udid)
         return plistlib.loads(data)
-    
+
     def is_valid_mga_plist(self, plist: dict, device_build: str, device_model: str) -> bool:
         return ("CacheVersion" in plist
                 and "0+nc/Udy4WNG8S+Q7a/s1A" in plist["CacheExtra"]
