@@ -931,7 +931,7 @@ QSlider::tick:horizontal {
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="horizontalWidget" native="true">
+               <widget class="QWidget" name="horizontalWidget1" native="true">
                 <layout class="QHBoxLayout" name="horizontalLayout_27">
                  <property name="spacing">
                   <number>50</number>
@@ -985,7 +985,7 @@ QSlider::tick:horizontal {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget" native="true">
+                  <widget class="QWidget" name="verticalWidget1" native="true">
                    <layout class="QVBoxLayout" name="verticalLayout_26">
                     <property name="leftMargin">
                      <number>0</number>
@@ -1135,7 +1135,7 @@ QSlider::tick:horizontal {
                   <number>30</number>
                  </property>
                  <item>
-                  <widget class="QWidget" name="horizontalWidget" native="true">
+                  <widget class="QWidget" name="horizontalWidget2" native="true">
                    <property name="enabled">
                     <bool>true</bool>
                    </property>
@@ -1332,7 +1332,7 @@ QToolButton:pressed {
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QWidget" name="horizontalWidget_2" native="true">
+                  <widget class="QWidget" name="horizontalWidget_21" native="true">
                    <layout class="QHBoxLayout" name="horizontalLayout_2">
                     <property name="spacing">
                      <number>0</number>
@@ -1501,7 +1501,7 @@ Quiet Daemon</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="horizontalWidget" native="true">
+                  <widget class="QWidget" name="horizontalWidget3" native="true">
                    <layout class="QHBoxLayout" name="horizontalLayout_24">
                     <property name="spacing">
                      <number>0</number>
@@ -1693,8 +1693,8 @@ QToolButton:pressed {
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="statusBarPageHeader" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <widget class="QWidget" name="statusBarPageHeader1" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_51">
                  <property name="spacing">
                   <number>10</number>
                  </property>
@@ -1705,7 +1705,7 @@ QToolButton:pressed {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_8">
+                  <widget class="QToolButton" name="toolButton_81">
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
@@ -1731,7 +1731,7 @@ QToolButton:pressed {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_2" native="true">
+                  <widget class="QWidget" name="verticalWidget_21" native="true">
                    <layout class="QVBoxLayout" name="verticalLayout_5">
                     <property name="spacing">
                      <number>6</number>
@@ -1797,7 +1797,7 @@ QToolButton:pressed {
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_8">
+               <widget class="Line" name="line_81">
                 <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
@@ -1838,7 +1838,7 @@ QToolButton:pressed {
                 <property name="horizontalScrollBarPolicy">
                  <enum>Qt::ScrollBarAlwaysOff</enum>
                 </property>
-                <widget class="QWidget" name="scrollAreaWidgetContents">
+                <widget class="QWidget" name="scrollAreaWidgetContents1">
                  <property name="geometry">
                   <rect>
                    <x>0</x>
@@ -1859,7 +1859,7 @@ QToolButton:pressed {
                    <height>1200</height>
                   </size>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <layout class="QVBoxLayout" name="verticalLayout_91">
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -1877,7 +1877,7 @@ QToolButton:pressed {
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <layout class="QVBoxLayout" name="verticalLayout_81">
                      <property name="leftMargin">
                       <number>0</number>
                      </property>
@@ -1891,7 +1891,7 @@ QToolButton:pressed {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QLabel" name="label_9">
+                      <widget class="QLabel" name="label_91">
                        <property name="text">
                         <string>Device Subtype Preset</string>
                        </property>
@@ -2085,7 +2085,7 @@ After enabling, you can find the option to enable it in 'Accessibility' settings
                       </widget>
                      </item>
                      <item>
-                      <widget class="Line" name="line_7">
+                      <widget class="Line" name="line_71">
                        <property name="styleSheet">
                         <string notr="true">QFrame {
 	color: #414141;
@@ -2174,7 +2174,7 @@ After enabling, you can find the option to enable it in 'Accessibility' settings
                       </widget>
                      </item>
                      <item>
-                      <widget class="Line" name="line_9">
+                      <widget class="Line" name="line_91">
                        <property name="styleSheet">
                         <string notr="true">QFrame {
 	color: #414141;
@@ -3251,7 +3251,7 @@ QComboBox QAbstractItemView::item:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="statusBarPage">
-             <layout class="QVBoxLayout" name="verticalLayout_4">
+             <layout class="QVBoxLayout" name="verticalLayout_41">
               <property name="leftMargin">
                <number>0</number>
               </property>
@@ -3297,8 +3297,8 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_2" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <widget class="QWidget" name="verticalWidget_22" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_51">
                     <property name="spacing">
                      <number>6</number>
                     </property>
@@ -3315,7 +3315,7 @@ QComboBox QAbstractItemView::item:hover {
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLabel" name="statusBarLbl">
+                     <widget class="QLabel" name="statusBarLbl1">
                       <property name="font">
                        <font>
                         <pointsize>-1</pointsize>
@@ -3338,7 +3338,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_4">
+                  <spacer name="horizontalSpacer_41">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
@@ -3442,7 +3442,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="horizontalWidget" native="true">
+                      <widget class="QWidget" name="horizontalWidget4" native="true">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                          <horstretch>0</horstretch>
@@ -3490,7 +3490,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer">
+                         <spacer name="horizontalSpacer1">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -3679,7 +3679,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="horizontalWidget" native="true">
+                      <widget class="QWidget" name="horizontalWidget5" native="true">
                        <layout class="QHBoxLayout" name="horizontalLayout_9">
                         <property name="leftMargin">
                          <number>0</number>
@@ -3747,15 +3747,15 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_10">
+                      <widget class="QLabel" name="label_101">
                        <property name="text">
                         <string>Secondary Cellular</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="horizontalWidget" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_8">
+                      <widget class="QWidget" name="horizontalWidget6" native="true">
+                       <layout class="QHBoxLayout" name="horizontalLayout_81">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -3796,7 +3796,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_5">
+                         <spacer name="horizontalSpacer_51">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -3982,7 +3982,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="horizontalWidget" native="true">
+                      <widget class="QWidget" name="horizontalWidget7" native="true">
                        <layout class="QHBoxLayout" name="horizontalLayout_10">
                         <property name="leftMargin">
                          <number>0</number>
@@ -4107,8 +4107,8 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="horizontalWidget" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_11">
+                      <widget class="QWidget" name="horizontalWidget8" native="true">
+                       <layout class="QHBoxLayout" name="horizontalLayout_111">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -4173,7 +4173,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="horizontalWidget" native="true">
+                      <widget class="QWidget" name="horizontalWidget9" native="true">
                        <layout class="QHBoxLayout" name="horizontalLayout_12">
                         <property name="leftMargin">
                          <number>0</number>
@@ -4234,14 +4234,14 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_5">
+                      <widget class="QLabel" name="label_51">
                        <property name="text">
                         <string>*When set to blank on notched devices, this will display the carrier name.</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="Line" name="line_10">
+                      <widget class="Line" name="line_101">
                        <property name="styleSheet">
                         <string notr="true">QFrame {
     color: #414141;
@@ -4321,7 +4321,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_181">
                        <property name="text">
                         <string>Airplane Mode</string>
                        </property>
@@ -4329,7 +4329,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="airplaneRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_321">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4370,7 +4370,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_201">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4386,7 +4386,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_182">
                        <property name="text">
                         <string>Wi-Fi Icon</string>
                        </property>
@@ -4394,7 +4394,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="wifiRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_322">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4435,7 +4435,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_202">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4451,14 +4451,13 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_12">
-                       <property name="text">
+                      <widget class="QLabel" name="label_121">                       <property name="text">
                         <string>^Will also hide cellular data indicator.</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_183">
                        <property name="text">
                         <string>Battery Icon</string>
                        </property>
@@ -4466,7 +4465,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="batteryRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_323">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4507,7 +4506,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_203">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4523,7 +4522,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_184">
                        <property name="text">
                         <string>Bluetooth Icon</string>
                        </property>
@@ -4531,7 +4530,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="bluetoothRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_324">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4572,7 +4571,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_204">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4588,7 +4587,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_185">
                        <property name="text">
                         <string>Alarm Icon</string>
                        </property>
@@ -4596,7 +4595,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="alarmRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_325">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4637,7 +4636,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_205">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4653,7 +4652,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_186">
                        <property name="text">
                         <string>Location Icon</string>
                        </property>
@@ -4661,7 +4660,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="locationRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_326">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4702,7 +4701,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_206">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4718,7 +4717,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_187">
                        <property name="text">
                         <string>Rotation Lock Icon</string>
                        </property>
@@ -4726,7 +4725,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="rotationRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_327">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4767,7 +4766,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_207">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4783,7 +4782,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_188">
                        <property name="text">
                         <string>AirPlay Icon</string>
                        </property>
@@ -4791,7 +4790,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="airplayRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_328">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4832,7 +4831,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_208">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4848,7 +4847,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_189">
                        <property name="text">
                         <string>CarPlay Icon</string>
                        </property>
@@ -4856,7 +4855,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="carplayRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_329">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4897,7 +4896,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_209">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -4913,7 +4912,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_18">
+                      <widget class="QLabel" name="label_1810">
                        <property name="text">
                         <string>VPN Icon</string>
                        </property>
@@ -4921,7 +4920,7 @@ QComboBox QAbstractItemView::item:hover {
                      </item>
                      <item>
                       <widget class="QWidget" name="vpnRdo" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <layout class="QHBoxLayout" name="horizontalLayout_3210">
                         <property name="spacing">
                          <number>20</number>
                         </property>
@@ -4962,7 +4961,7 @@ QComboBox QAbstractItemView::item:hover {
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer_20">
+                         <spacer name="horizontalSpacer_2010">
                           <property name="orientation">
                            <enum>Qt::Horizontal</enum>
                           </property>
@@ -5183,8 +5182,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <spacer name="verticalSpacer_3">
-                       <property name="orientation">
+                      <spacer name="verticalSpacer_31">                       <property name="orientation">
                         <enum>Qt::Vertical</enum>
                        </property>
                        <property name="sizeHint" stdset="0">
@@ -5354,7 +5352,7 @@ QComboBox QAbstractItemView::item:hover {
                 <property name="sizeAdjustPolicy">
                  <enum>QAbstractScrollArea::AdjustToContents</enum>
                 </property>
-                <widget class="QWidget" name="scrollAreaWidgetContents">
+                <widget class="QWidget" name="scrollAreaWidgetContents2">
                  <property name="geometry">
                   <rect>
                    <x>0</x>
@@ -5381,7 +5379,7 @@ QComboBox QAbstractItemView::item:hover {
                    <height>2000</height>
                   </size>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <layout class="QVBoxLayout" name="verticalLayout_92">
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -5685,8 +5683,7 @@ QComboBox QAbstractItemView::item:hover {
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_51">
-                        <property name="leftMargin">
+                       <layout class="QVBoxLayout" name="verticalLayout_511">                        <property name="leftMargin">
                          <number>0</number>
                         </property>
                         <property name="topMargin">
@@ -5953,8 +5950,7 @@ QComboBox QAbstractItemView::item:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="internalOptionsPage">
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_141">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -5967,9 +5963,7 @@ QComboBox QAbstractItemView::item:hover {
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="horizontalWidget_5" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <property name="spacing">
+               <widget class="QWidget" name="horizontalWidget_51" native="true">                <layout class="QHBoxLayout" name="horizontalLayout_201">                 <property name="spacing">
                   <number>10</number>
                  </property>
                  <property name="leftMargin">
@@ -5985,8 +5979,7 @@ QComboBox QAbstractItemView::item:hover {
                   <number>9</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_10">
-                   <property name="enabled">
+                  <widget class="QToolButton" name="toolButton_101">                   <property name="enabled">
                     <bool>false</bool>
                    </property>
                    <property name="styleSheet">
@@ -6005,9 +5998,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_4" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_12">
-                    <property name="spacing">
+                  <widget class="QWidget" name="verticalWidget_41" native="true">                   <layout class="QVBoxLayout" name="verticalLayout_121">                    <property name="spacing">
                      <number>6</number>
                     </property>
                     <property name="leftMargin">
@@ -6055,8 +6046,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
+                  <spacer name="horizontalSpacer_71">                   <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -6071,8 +6061,7 @@ QComboBox QAbstractItemView::item:hover {
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_12">
-                <property name="styleSheet">
+               <widget class="Line" name="line_121">                <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -6102,7 +6091,7 @@ QComboBox QAbstractItemView::item:hover {
                 <property name="sizeAdjustPolicy">
                  <enum>QAbstractScrollArea::AdjustToContents</enum>
                 </property>
-                <widget class="QWidget" name="scrollAreaWidgetContents">
+                <widget class="QWidget" name="scrollAreaWidgetContents3">
                  <property name="geometry">
                   <rect>
                    <x>0</x>
@@ -6129,7 +6118,7 @@ QComboBox QAbstractItemView::item:hover {
                    <height>2000</height>
                   </size>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <layout class="QVBoxLayout" name="verticalLayout_93">
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -6147,8 +6136,7 @@ QComboBox QAbstractItemView::item:hover {
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_13">
-                     <property name="leftMargin">
+                    <layout class="QVBoxLayout" name="verticalLayout_131">                     <property name="leftMargin">
                       <number>0</number>
                      </property>
                      <property name="topMargin">
@@ -6454,8 +6442,7 @@ QComboBox QAbstractItemView::item:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="Line" name="div">
-                       <property name="enabled">
+                      <widget class="Line" name="div1">                       <property name="enabled">
                         <bool>false</bool>
                        </property>
                        <property name="styleSheet">
@@ -6664,8 +6651,7 @@ QComboBox QAbstractItemView::item:hover {
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_41">
-                        <property name="leftMargin">
+                       <layout class="QVBoxLayout" name="verticalLayout_411">                        <property name="leftMargin">
                          <number>0</number>
                         </property>
                         <property name="topMargin">
@@ -6934,8 +6920,7 @@ QComboBox QAbstractItemView::item:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="liquidGlassPage">
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_142">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -6948,9 +6933,7 @@ QComboBox QAbstractItemView::item:hover {
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="horizontalWidget_5" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <property name="spacing">
+               <widget class="QWidget" name="horizontalWidget_52" native="true">                <layout class="QHBoxLayout" name="horizontalLayout_202">                 <property name="spacing">
                   <number>10</number>
                  </property>
                  <property name="leftMargin">
@@ -6966,8 +6949,7 @@ QComboBox QAbstractItemView::item:hover {
                   <number>9</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_10">
-                   <property name="enabled">
+                  <widget class="QToolButton" name="toolButton_102">                   <property name="enabled">
                     <bool>false</bool>
                    </property>
                    <property name="styleSheet">
@@ -6986,9 +6968,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_4" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_12">
-                    <property name="spacing">
+                  <widget class="QWidget" name="verticalWidget_42" native="true">                   <layout class="QVBoxLayout" name="verticalLayout_122">                    <property name="spacing">
                      <number>6</number>
                     </property>
                     <property name="leftMargin">
@@ -7017,8 +6997,7 @@ QComboBox QAbstractItemView::item:hover {
                      </widget>
                     </item>
                     <item>
-                     <spacer name="verticalSpacer_18">
-                      <property name="orientation">
+                     <spacer name="verticalSpacer_181">                      <property name="orientation">
                        <enum>Qt::Vertical</enum>
                       </property>
                       <property name="sizeType">
@@ -7036,8 +7015,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
+                  <spacer name="horizontalSpacer_72">                   <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -7052,8 +7030,7 @@ QComboBox QAbstractItemView::item:hover {
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_12">
-                <property name="styleSheet">
+               <widget class="Line" name="line_122">                <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -7110,7 +7087,7 @@ QComboBox QAbstractItemView::item:hover {
                    <height>2000</height>
                   </size>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <layout class="QVBoxLayout" name="verticalLayout_94">
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -7128,8 +7105,7 @@ QComboBox QAbstractItemView::item:hover {
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_13">
-                     <property name="leftMargin">
+                    <layout class="QVBoxLayout" name="verticalLayout_132">                     <property name="leftMargin">
                       <number>0</number>
                      </property>
                      <property name="topMargin">
@@ -7438,8 +7414,7 @@ QComboBox QAbstractItemView::item:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="daemonsPage">
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_143">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -7452,9 +7427,7 @@ QComboBox QAbstractItemView::item:hover {
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="horizontalWidget_5" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <property name="spacing">
+               <widget class="QWidget" name="horizontalWidget_53" native="true">                <layout class="QHBoxLayout" name="horizontalLayout_203">                 <property name="spacing">
                   <number>10</number>
                  </property>
                  <property name="leftMargin">
@@ -7470,8 +7443,7 @@ QComboBox QAbstractItemView::item:hover {
                   <number>9</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_10">
-                   <property name="enabled">
+                  <widget class="QToolButton" name="toolButton_103">                   <property name="enabled">
                     <bool>true</bool>
                    </property>
                    <property name="styleSheet">
@@ -7490,9 +7462,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_4" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_12">
-                    <property name="spacing">
+                  <widget class="QWidget" name="verticalWidget_43" native="true">                   <layout class="QVBoxLayout" name="verticalLayout_123">                    <property name="spacing">
                      <number>6</number>
                     </property>
                     <property name="leftMargin">
@@ -7531,8 +7501,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
+                  <spacer name="horizontalSpacer_73">                   <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -7547,8 +7516,7 @@ QComboBox QAbstractItemView::item:hover {
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_12">
-                <property name="styleSheet">
+               <widget class="Line" name="line_123">                <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -7574,8 +7542,7 @@ it enabled.</string>
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_13">
-                 <property name="leftMargin">
+                <layout class="QVBoxLayout" name="verticalLayout_133">                 <property name="leftMargin">
                   <number>0</number>
                  </property>
                  <property name="topMargin">
@@ -7796,8 +7763,7 @@ To work properly, also disable the daemon using the toggle above.</string>
                   </widget>
                  </item>
                  <item>
-                  <spacer name="verticalSpacer_6">
-                   <property name="orientation">
+                  <spacer name="verticalSpacer_61">                   <property name="orientation">
                     <enum>Qt::Vertical</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -7814,8 +7780,7 @@ To work properly, also disable the daemon using the toggle above.</string>
              </layout>
             </widget>
             <widget class="QWidget" name="posterboardPage">
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_144">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -7829,8 +7794,7 @@ To work properly, also disable the daemon using the toggle above.</string>
               </property>
               <item>
                <widget class="QWidget" name="horizontalWidget_7" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <property name="spacing">
+                <layout class="QHBoxLayout" name="horizontalLayout_204">                 <property name="spacing">
                   <number>10</number>
                  </property>
                  <property name="leftMargin">
@@ -7846,8 +7810,7 @@ To work properly, also disable the daemon using the toggle above.</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_10">
-                   <property name="enabled">
+                  <widget class="QToolButton" name="toolButton_104">                   <property name="enabled">
                     <bool>true</bool>
                    </property>
                    <property name="styleSheet">
@@ -7866,9 +7829,7 @@ To work properly, also disable the daemon using the toggle above.</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_4" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_12">
-                    <property name="spacing">
+                  <widget class="QWidget" name="verticalWidget_44" native="true">                   <layout class="QVBoxLayout" name="verticalLayout_124">                    <property name="spacing">
                      <number>6</number>
                     </property>
                     <property name="leftMargin">
@@ -7916,8 +7877,7 @@ To work properly, also disable the daemon using the toggle above.</string>
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
+                  <spacer name="horizontalSpacer_74">                   <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -8103,8 +8063,7 @@ To work properly, also disable the daemon using the toggle above.</string>
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_12">
-                <property name="styleSheet">
+               <widget class="Line" name="line_124">                <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -8131,8 +8090,7 @@ To work properly, also disable the daemon using the toggle above.</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_12">
-                    <property name="bottomMargin">
+                   <layout class="QHBoxLayout" name="horizontalLayout_121">                    <property name="bottomMargin">
                      <number>3</number>
                     </property>
                     <item>
@@ -8210,21 +8168,18 @@ To work properly, also disable the daemon using the toggle above.</string>
                  </layout>
                 </widget>
                 <widget class="QWidget" name="pbTemplatesPage">
-                 <layout class="QVBoxLayout" name="verticalLayout_38">
-                  <property name="topMargin">
+                 <layout class="QVBoxLayout" name="verticalLayout_381">                  <property name="topMargin">
                    <number>0</number>
                   </property>
                   <property name="bottomMargin">
                    <number>0</number>
                   </property>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_12">
-                    <property name="bottomMargin">
+                   <layout class="QHBoxLayout" name="horizontalLayout_122">                    <property name="bottomMargin">
                      <number>3</number>
                     </property>
                     <item>
-                     <spacer name="horizontalSpacer_18">
-                      <property name="orientation">
+                     <spacer name="horizontalSpacer_181">                      <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
@@ -8475,8 +8430,7 @@ QComboBox QAbstractItemView::item:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="templatesPage">
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_145">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -8489,9 +8443,7 @@ QComboBox QAbstractItemView::item:hover {
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="horizontalWidget_5" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <property name="spacing">
+               <widget class="QWidget" name="horizontalWidget_54" native="true">                <layout class="QHBoxLayout" name="horizontalLayout_205">                 <property name="spacing">
                   <number>10</number>
                  </property>
                  <property name="leftMargin">
@@ -8507,8 +8459,7 @@ QComboBox QAbstractItemView::item:hover {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_10">
-                   <property name="enabled">
+                  <widget class="QToolButton" name="toolButton_105">                   <property name="enabled">
                     <bool>true</bool>
                    </property>
                    <property name="styleSheet">
@@ -8527,9 +8478,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_4" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_12">
-                    <property name="spacing">
+                  <widget class="QWidget" name="verticalWidget_45" native="true">                   <layout class="QVBoxLayout" name="verticalLayout_125">                    <property name="spacing">
                      <number>6</number>
                     </property>
                     <property name="leftMargin">
@@ -8577,8 +8526,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
+                  <spacer name="horizontalSpacer_75">                   <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -8593,8 +8541,7 @@ QComboBox QAbstractItemView::item:hover {
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_12">
-                <property name="styleSheet">
+               <widget class="Line" name="line_125">                <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -8608,21 +8555,18 @@ QComboBox QAbstractItemView::item:hover {
                </widget>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_38">
-                <property name="topMargin">
+               <layout class="QVBoxLayout" name="verticalLayout_382">                <property name="topMargin">
                  <number>0</number>
                 </property>
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_12">
-                  <property name="bottomMargin">
+                 <layout class="QHBoxLayout" name="horizontalLayout_123">                  <property name="bottomMargin">
                    <number>3</number>
                   </property>
                   <item>
-                   <spacer name="horizontalSpacer_18">
-                    <property name="orientation">
+                   <spacer name="horizontalSpacer_182">                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
                     <property name="sizeHint" stdset="0">
@@ -8662,8 +8606,7 @@ QComboBox QAbstractItemView::item:hover {
                  </layout>
                 </item>
                 <item>
-                 <widget class="Line" name="line_28">
-                  <property name="styleSheet">
+                 <widget class="Line" name="line_281">                  <property name="styleSheet">
                    <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -8697,8 +8640,7 @@ QComboBox QAbstractItemView::item:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="advancedOptionsPage">
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_146">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -8711,9 +8653,7 @@ QComboBox QAbstractItemView::item:hover {
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="horizontalWidget_5" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <property name="spacing">
+               <widget class="QWidget" name="horizontalWidget_55" native="true">                <layout class="QHBoxLayout" name="horizontalLayout_206">                 <property name="spacing">
                   <number>10</number>
                  </property>
                  <property name="leftMargin">
@@ -8729,8 +8669,7 @@ QComboBox QAbstractItemView::item:hover {
                   <number>9</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_10">
-                   <property name="enabled">
+                  <widget class="QToolButton" name="toolButton_106">                   <property name="enabled">
                     <bool>false</bool>
                    </property>
                    <property name="styleSheet">
@@ -8749,9 +8688,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_4" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_12">
-                    <property name="spacing">
+                  <widget class="QWidget" name="verticalWidget_46" native="true">                   <layout class="QVBoxLayout" name="verticalLayout_126">                    <property name="spacing">
                      <number>6</number>
                     </property>
                     <property name="leftMargin">
@@ -8780,8 +8717,7 @@ QComboBox QAbstractItemView::item:hover {
                      </widget>
                     </item>
                     <item>
-                     <spacer name="verticalSpacer_18">
-                      <property name="orientation">
+                     <spacer name="verticalSpacer_182">                      <property name="orientation">
                        <enum>Qt::Vertical</enum>
                       </property>
                       <property name="sizeType">
@@ -8799,8 +8735,7 @@ QComboBox QAbstractItemView::item:hover {
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
+                  <spacer name="horizontalSpacer_76">                   <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -8815,8 +8750,7 @@ QComboBox QAbstractItemView::item:hover {
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_12">
-                <property name="styleSheet">
+               <widget class="Line" name="line_126">                <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -8834,8 +8768,7 @@ QComboBox QAbstractItemView::item:hover {
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_13">
-                 <property name="leftMargin">
+                <layout class="QVBoxLayout" name="verticalLayout_134">                 <property name="leftMargin">
                   <number>0</number>
                  </property>
                  <property name="topMargin">
@@ -8860,8 +8793,7 @@ Nugget is not responsible if you mess up your device, especially with resolution
                   </widget>
                  </item>
                  <item>
-                  <widget class="Line" name="line_19">
-                   <property name="styleSheet">
+                  <widget class="Line" name="line_191">                   <property name="styleSheet">
                     <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -8897,8 +8829,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </widget>
                  </item>
                  <item>
-                  <widget class="Line" name="line_18">
-                   <property name="styleSheet">
+                  <widget class="Line" name="line_181">                   <property name="styleSheet">
                     <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -8950,8 +8881,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                      </widget>
                     </item>
                     <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_9">
-                      <property name="bottomMargin">
+                     <layout class="QHBoxLayout" name="horizontalLayout_91">                      <property name="bottomMargin">
                        <number>5</number>
                       </property>
                       <item>
@@ -9011,8 +8941,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                        <number>0</number>
                       </property>
                       <item>
-                       <layout class="QHBoxLayout" name="horizontalLayout_10">
-                        <property name="bottomMargin">
+                       <layout class="QHBoxLayout" name="horizontalLayout_101">                        <property name="bottomMargin">
                          <number>5</number>
                         </property>
                         <item>
@@ -9053,8 +8982,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </widget>
                  </item>
                  <item>
-                  <spacer name="verticalSpacer_6">
-                   <property name="orientation">
+                  <spacer name="verticalSpacer_62">                   <property name="orientation">
                     <enum>Qt::Vertical</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -9085,7 +9013,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="verticalWidget" native="true">
+               <widget class="QWidget" name="verticalWidget2" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_24">
                  <property name="leftMargin">
                   <number>0</number>
@@ -9429,8 +9357,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
              </layout>
             </widget>
             <widget class="QWidget" name="applyPage">
-             <layout class="QVBoxLayout" name="verticalLayout_6">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_62">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -9443,9 +9370,8 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="verticalWidget" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_24">
-                 <property name="leftMargin">
+               <widget class="QWidget" name="verticalWidget3" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_241">                 <property name="leftMargin">
                   <number>0</number>
                  </property>
                  <property name="topMargin">
@@ -9459,8 +9385,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                  </property>
                  <item>
                   <widget class="QWidget" name="locSimPageHeader_2" native="true">
-                   <layout class="QHBoxLayout" name="horizontalLayout_33">
-                    <property name="spacing">
+                   <layout class="QHBoxLayout" name="horizontalLayout_331">                    <property name="spacing">
                      <number>10</number>
                     </property>
                     <property name="leftMargin">
@@ -9470,8 +9395,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QToolButton" name="toolButton_18">
-                      <property name="enabled">
+                     <widget class="QToolButton" name="toolButton_181">                      <property name="enabled">
                        <bool>false</bool>
                       </property>
                       <property name="styleSheet">
@@ -9490,9 +9414,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                      </widget>
                     </item>
                     <item>
-                     <widget class="QWidget" name="verticalWidget_11" native="true">
-                      <layout class="QVBoxLayout" name="verticalLayout_33">
-                       <property name="spacing">
+                     <widget class="QWidget" name="verticalWidget_111" native="true">                      <layout class="QVBoxLayout" name="verticalLayout_331">                       <property name="spacing">
                         <number>6</number>
                        </property>
                        <property name="leftMargin">
@@ -9508,8 +9430,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="statusBarLbl_5">
-                         <property name="font">
+                        <widget class="QLabel" name="statusBarLbl_51">                         <property name="font">
                           <font>
                            <pointsize>-1</pointsize>
                            <bold>false</bold>
@@ -9521,8 +9442,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_16">
-                         <property name="text">
+                        <widget class="QLabel" name="label_161">                         <property name="text">
                           <string/>
                          </property>
                         </widget>
@@ -9531,8 +9451,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                      </widget>
                     </item>
                     <item>
-                     <spacer name="horizontalSpacer_15">
-                      <property name="orientation">
+                     <spacer name="horizontalSpacer_151">                      <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
@@ -9547,8 +9466,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </widget>
                  </item>
                  <item>
-                  <widget class="Line" name="line_5">
-                   <property name="styleSheet">
+                  <widget class="Line" name="line_51">                   <property name="styleSheet">
                     <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -9590,8 +9508,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </layout>
                  </item>
                  <item>
-                  <spacer name="verticalSpacer_10">
-                   <property name="orientation">
+                  <spacer name="verticalSpacer_101">                   <property name="orientation">
                     <enum>Qt::Vertical</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -9623,8 +9540,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </widget>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_7">
-                   <property name="topMargin">
+                  <layout class="QHBoxLayout" name="horizontalLayout_71">                   <property name="topMargin">
                     <number>10</number>
                    </property>
                    <property name="bottomMargin">
@@ -9647,7 +9563,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </layout>
                  </item>
                  <item>
-                  <widget class="QWidget" name="horizontalWidget" native="true">
+                  <widget class="QWidget" name="horizontalWidget10" native="true">
                    <layout class="QHBoxLayout" name="horizontalLayout_17">
                     <property name="leftMargin">
                      <number>0</number>
@@ -9727,8 +9643,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </widget>
                  </item>
                  <item>
-                  <spacer name="verticalSpacer_2">
-                   <property name="orientation">
+                  <spacer name="verticalSpacer_21">                   <property name="orientation">
                     <enum>Qt::Vertical</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -9740,7 +9655,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QWidget" name="horizontalWidget" native="true">
+                  <widget class="QWidget" name="horizontalWidget11" native="true">
                    <layout class="QHBoxLayout" name="horizontalLayout_25">
                     <property name="leftMargin">
                      <number>0</number>
@@ -9796,8 +9711,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
              </layout>
             </widget>
             <widget class="QWidget" name="settingsPage">
-             <layout class="QVBoxLayout" name="verticalLayout_10">
-              <property name="leftMargin">
+             <layout class="QVBoxLayout" name="verticalLayout_101">              <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
@@ -9810,9 +9724,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                <number>0</number>
               </property>
               <item>
-               <widget class="QWidget" name="horizontalWidget_4" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_13">
-                 <property name="spacing">
+               <widget class="QWidget" name="horizontalWidget_41" native="true">                <layout class="QHBoxLayout" name="horizontalLayout_131">                 <property name="spacing">
                   <number>10</number>
                  </property>
                  <property name="leftMargin">
@@ -9828,8 +9740,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   <number>9</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton_7">
-                   <property name="enabled">
+                  <widget class="QToolButton" name="toolButton_71">                   <property name="enabled">
                     <bool>false</bool>
                    </property>
                    <property name="styleSheet">
@@ -9848,9 +9759,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="verticalWidget_3" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_7">
-                    <property name="spacing">
+                  <widget class="QWidget" name="verticalWidget_31" native="true">                   <layout class="QVBoxLayout" name="verticalLayout_71">                    <property name="spacing">
                      <number>6</number>
                     </property>
                     <property name="leftMargin">
@@ -9866,8 +9775,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLabel" name="springboardOptionsLbl">
-                      <property name="font">
+                     <widget class="QLabel" name="springboardOptionsLbl1">                      <property name="font">
                        <font>
                         <pointsize>-1</pointsize>
                         <bold>false</bold>
@@ -9898,8 +9806,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_6">
-                   <property name="orientation">
+                  <spacer name="horizontalSpacer_61">                   <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
@@ -9914,8 +9821,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                </widget>
               </item>
               <item>
-               <widget class="Line" name="line_11">
-                <property name="styleSheet">
+               <widget class="Line" name="line_111">                <property name="styleSheet">
                  <string notr="true">QFrame {
 	color: #414141;
 }</string>
@@ -9945,7 +9851,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                 <property name="sizeAdjustPolicy">
                  <enum>QAbstractScrollArea::AdjustToContents</enum>
                 </property>
-                <widget class="QWidget" name="scrollAreaWidgetContents">
+                <widget class="QWidget" name="scrollAreaWidgetContents4">
                  <property name="geometry">
                   <rect>
                    <x>0</x>
@@ -9972,7 +9878,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                    <height>2000</height>
                   </size>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <layout class="QVBoxLayout" name="verticalLayout_95">
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -9996,8 +9902,7 @@ Warning: Disabling will cause the battery to show &quot;Unknown Part&quot; or &q
                       <height>16777215</height>
                      </size>
                     </property>
-                    <layout class="QVBoxLayout" name="_2">
-                     <property name="leftMargin">
+                    <layout class="QVBoxLayout" name="_21">                     <property name="leftMargin">
                       <number>0</number>
                      </property>
                      <property name="topMargin">
@@ -10172,8 +10077,7 @@ DO NOT unplug your device during restores.</string>
                      </item>
                      <item>
                       <widget class="QWidget" name="bookrestoreWidget" native="true">
-                       <layout class="QVBoxLayout" name="verticalLayout_62">
-                        <property name="leftMargin">
+                       <layout class="QVBoxLayout" name="verticalLayout_621">                        <property name="leftMargin">
                          <number>0</number>
                         </property>
                         <property name="topMargin">
@@ -10206,8 +10110,7 @@ DO NOT unplug your device during restores.</string>
                            <number>0</number>
                           </property>
                           <item>
-                           <widget class="QLabel" name="label_51">
-                            <property name="text">
+                           <widget class="QLabel" name="label_511">                            <property name="text">
                              <string>BookRestore Apply Method</string>
                             </property>
                            </widget>
@@ -10387,8 +10290,7 @@ It will be automatically found if this is left blank.</string>
                       </widget>
                      </item>
                      <item>
-                      <spacer name="verticalSpacer_21">
-                       <property name="orientation">
+                      <spacer name="verticalSpacer_211">                       <property name="orientation">
                         <enum>Qt::Vertical</enum>
                        </property>
                        <property name="sizeType">
@@ -10439,7 +10341,7 @@ It will be automatically found if this is left blank.</string>
                       </layout>
                      </item>
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_32">
+                      <layout class="QHBoxLayout" name="horizontalLayout_3211">
                        <property name="bottomMargin">
                         <number>0</number>
                        </property>

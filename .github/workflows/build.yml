@@ -30,7 +30,7 @@ on:
 jobs:
   build-macos-intel:
     if: ${{ github.event_name == 'push' || github.event.inputs.build_for_macos_intel == 'true' }}
-    runs-on: macos-15-intel
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -309,7 +309,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p release
-          find artifacts -type f -maxdepth 3 -print -exec cp -v {} release/ \\;
+          find artifacts -maxdepth 3 -type f -print -exec cp -v {} release/ \;
           ls -la release
 
       - name: Publish GitHub Release

@@ -970,28 +970,28 @@ class Ui_Nugget(object):
         self.verticalLayout_4 = QVBoxLayout(self.gestaltPage)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.statusBarPageHeader = QWidget(self.gestaltPage)
-        self.statusBarPageHeader.setObjectName(u"statusBarPageHeader")
-        self.horizontalLayout_5 = QHBoxLayout(self.statusBarPageHeader)
-        self.horizontalLayout_5.setSpacing(10)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, -1, 0, -1)
-        self.toolButton_8 = QToolButton(self.statusBarPageHeader)
-        self.toolButton_8.setObjectName(u"toolButton_8")
-        self.toolButton_8.setEnabled(False)
-        self.toolButton_8.setStyleSheet(u"QToolButton {\n"
+        self.statusBarPageHeader1 = QWidget(self.gestaltPage)
+        self.statusBarPageHeader1.setObjectName(u"statusBarPageHeader1")
+        self.horizontalLayout_51 = QHBoxLayout(self.statusBarPageHeader1)
+        self.horizontalLayout_51.setSpacing(10)
+        self.horizontalLayout_51.setObjectName(u"horizontalLayout_51")
+        self.horizontalLayout_51.setContentsMargins(0, -1, 0, -1)
+        self.toolButton_81 = QToolButton(self.statusBarPageHeader1)
+        self.toolButton_81.setObjectName(u"toolButton_81")
+        self.toolButton_81.setEnabled(False)
+        self.toolButton_81.setStyleSheet(u"QToolButton {\n"
 "	icon-size: 24px;\n"
 "	background-color: transparent;\n"
 "	padding-left: 0px;\n"
 "	padding-right: 5px;\n"
 "	border-radius: 0px;\n"
 "}")
-        self.toolButton_8.setIcon(icon4)
-        self.toolButton_8.setIconSize(QSize(30, 30))
+        self.toolButton_81.setIcon(icon4)
+        self.toolButton_81.setIconSize(QSize(30, 30))
 
-        self.horizontalLayout_5.addWidget(self.toolButton_8)
+        self.horizontalLayout_51.addWidget(self.toolButton_81)
 
-        self.verticalWidget_21 = QWidget(self.statusBarPageHeader)
+        self.verticalWidget_21 = QWidget(self.statusBarPageHeader1)
         self.verticalWidget_21.setObjectName(u"verticalWidget_21")
         self.verticalLayout_5 = QVBoxLayout(self.verticalWidget_21)
         self.verticalLayout_5.setSpacing(6)
@@ -1008,24 +1008,24 @@ class Ui_Nugget(object):
         self.verticalLayout_5.addItem(self.verticalSpacer_8)
 
 
-        self.horizontalLayout_5.addWidget(self.verticalWidget_21)
+        self.horizontalLayout_51.addWidget(self.verticalWidget_21)
 
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
+        self.horizontalLayout_51.addItem(self.horizontalSpacer_4)
 
 
-        self.verticalLayout_4.addWidget(self.statusBarPageHeader)
+        self.verticalLayout_4.addWidget(self.statusBarPageHeader1)
 
-        self.line_8 = QFrame(self.gestaltPage)
-        self.line_8.setObjectName(u"line_8")
-        self.line_8.setStyleSheet(u"QFrame {\n"
+        self.line_81 = QFrame(self.gestaltPage)
+        self.line_81.setObjectName(u"line_81")
+        self.line_81.setStyleSheet(u"QFrame {\n"
 "	color: #414141;\n"
 "}")
-        self.line_8.setFrameShadow(QFrame.Plain)
-        self.line_8.setFrameShape(QFrame.Shape.HLine)
+        self.line_81.setFrameShadow(QFrame.Plain)
+        self.line_81.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_4.addWidget(self.line_8)
+        self.verticalLayout_4.addWidget(self.line_81)
 
         self.mgaWarningLbl = QLabel(self.gestaltPage)
         self.mgaWarningLbl.setObjectName(u"mgaWarningLbl")
@@ -1039,24 +1039,24 @@ class Ui_Nugget(object):
         self.mgaScrollArea.setFrameShadow(QFrame.Plain)
         self.mgaScrollArea.setLineWidth(0)
         self.mgaScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 650, 1200))
-        self.scrollAreaWidgetContents.setMinimumSize(QSize(650, 1200))
-        self.scrollAreaWidgetContents.setMaximumSize(QSize(650, 1200))
-        self.verticalLayout_9 = QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.gestaltPageContent = QWidget(self.scrollAreaWidgetContents)
+        self.scrollAreaWidgetContents1 = QWidget()
+        self.scrollAreaWidgetContents1.setObjectName(u"scrollAreaWidgetContents1")
+        self.scrollAreaWidgetContents1.setGeometry(QRect(0, 0, 650, 1200))
+        self.scrollAreaWidgetContents1.setMinimumSize(QSize(650, 1200))
+        self.scrollAreaWidgetContents1.setMaximumSize(QSize(650, 1200))
+        self.verticalLayout_91 = QVBoxLayout(self.scrollAreaWidgetContents1)
+        self.verticalLayout_91.setObjectName(u"verticalLayout_91")
+        self.verticalLayout_91.setContentsMargins(0, 0, 0, 0)
+        self.gestaltPageContent = QWidget(self.scrollAreaWidgetContents1)
         self.gestaltPageContent.setObjectName(u"gestaltPageContent")
         self.gestaltPageContent.setEnabled(True)
-        self.verticalLayout_8 = QVBoxLayout(self.gestaltPageContent)
-        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
-        self.label_9 = QLabel(self.gestaltPageContent)
-        self.label_9.setObjectName(u"label_9")
+        self.verticalLayout_81 = QVBoxLayout(self.gestaltPageContent)
+        self.verticalLayout_81.setObjectName(u"verticalLayout_81")
+        self.verticalLayout_81.setContentsMargins(0, 0, 0, 0)
+        self.label_91 = QLabel(self.gestaltPageContent)
+        self.label_91.setObjectName(u"label_91")
 
-        self.verticalLayout_8.addWidget(self.label_9)
+        self.verticalLayout_81.addWidget(self.label_91)
 
         self.dynamicIslandDrp = QComboBox(self.gestaltPageContent)
         self.dynamicIslandDrp.addItem(u"None")
@@ -1105,88 +1105,88 @@ class Ui_Nugget(object):
         self.dynamicIslandDrp.setMaxVisibleItems(15)
         self.dynamicIslandDrp.setPlaceholderText(u"")
 
-        self.verticalLayout_8.addWidget(self.dynamicIslandDrp)
+        self.verticalLayout_81.addWidget(self.dynamicIslandDrp)
 
         self.rdarFixChk = QCheckBox(self.gestaltPageContent)
         self.rdarFixChk.setObjectName(u"rdarFixChk")
         self.rdarFixChk.setText(u"Fix RDAR (modifies resolution)")
 
-        self.verticalLayout_8.addWidget(self.rdarFixChk)
+        self.verticalLayout_81.addWidget(self.rdarFixChk)
 
         self.modelNameChk = QCheckBox(self.gestaltPageContent)
         self.modelNameChk.setObjectName(u"modelNameChk")
 
-        self.verticalLayout_8.addWidget(self.modelNameChk)
+        self.verticalLayout_81.addWidget(self.modelNameChk)
 
         self.modelNameTxt = QLineEdit(self.gestaltPageContent)
         self.modelNameTxt.setObjectName(u"modelNameTxt")
 
-        self.verticalLayout_8.addWidget(self.modelNameTxt)
+        self.verticalLayout_81.addWidget(self.modelNameTxt)
 
         self.bootChimeChk = QCheckBox(self.gestaltPageContent)
         self.bootChimeChk.setObjectName(u"bootChimeChk")
 
-        self.verticalLayout_8.addWidget(self.bootChimeChk)
+        self.verticalLayout_81.addWidget(self.bootChimeChk)
 
         self.chargeLimitChk = QCheckBox(self.gestaltPageContent)
         self.chargeLimitChk.setObjectName(u"chargeLimitChk")
 
-        self.verticalLayout_8.addWidget(self.chargeLimitChk)
+        self.verticalLayout_81.addWidget(self.chargeLimitChk)
 
         self.tapToWakeChk = QCheckBox(self.gestaltPageContent)
         self.tapToWakeChk.setObjectName(u"tapToWakeChk")
 
-        self.verticalLayout_8.addWidget(self.tapToWakeChk)
+        self.verticalLayout_81.addWidget(self.tapToWakeChk)
 
         self.iphone16SettingsChk = QCheckBox(self.gestaltPageContent)
         self.iphone16SettingsChk.setObjectName(u"iphone16SettingsChk")
 
-        self.verticalLayout_8.addWidget(self.iphone16SettingsChk)
+        self.verticalLayout_81.addWidget(self.iphone16SettingsChk)
 
         self.parallaxChk = QCheckBox(self.gestaltPageContent)
         self.parallaxChk.setObjectName(u"parallaxChk")
 
-        self.verticalLayout_8.addWidget(self.parallaxChk)
+        self.verticalLayout_81.addWidget(self.parallaxChk)
 
         self.enableLGLPMChk = QCheckBox(self.gestaltPageContent)
         self.enableLGLPMChk.setObjectName(u"enableLGLPMChk")
 
-        self.verticalLayout_8.addWidget(self.enableLGLPMChk)
+        self.verticalLayout_81.addWidget(self.enableLGLPMChk)
 
         self.disableLGLPMChk = QCheckBox(self.gestaltPageContent)
         self.disableLGLPMChk.setObjectName(u"disableLGLPMChk")
 
-        self.verticalLayout_8.addWidget(self.disableLGLPMChk)
+        self.verticalLayout_81.addWidget(self.disableLGLPMChk)
 
-        self.line_7 = QFrame(self.gestaltPageContent)
-        self.line_7.setObjectName(u"line_7")
-        self.line_7.setStyleSheet(u"QFrame {\n"
+        self.line_71 = QFrame(self.gestaltPageContent)
+        self.line_71.setObjectName(u"line_71")
+        self.line_71.setStyleSheet(u"QFrame {\n"
 "	color: #414141;\n"
 "}")
-        self.line_7.setFrameShadow(QFrame.Plain)
-        self.line_7.setFrameShape(QFrame.Shape.HLine)
+        self.line_71.setFrameShadow(QFrame.Plain)
+        self.line_71.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_8.addWidget(self.line_7)
+        self.verticalLayout_81.addWidget(self.line_71)
 
         self.ipadAppsChk = QCheckBox(self.gestaltPageContent)
         self.ipadAppsChk.setObjectName(u"ipadAppsChk")
 
-        self.verticalLayout_8.addWidget(self.ipadAppsChk)
+        self.verticalLayout_81.addWidget(self.ipadAppsChk)
 
         self.stageManagerChk = QCheckBox(self.gestaltPageContent)
         self.stageManagerChk.setObjectName(u"stageManagerChk")
 
-        self.verticalLayout_8.addWidget(self.stageManagerChk)
+        self.verticalLayout_81.addWidget(self.stageManagerChk)
 
         self.enableiPadOSChk = QCheckBox(self.gestaltPageContent)
         self.enableiPadOSChk.setObjectName(u"enableiPadOSChk")
 
-        self.verticalLayout_8.addWidget(self.enableiPadOSChk)
+        self.verticalLayout_81.addWidget(self.enableiPadOSChk)
 
         self.ipadOSAlphaWarningLbl = QLabel(self.gestaltPageContent)
         self.ipadOSAlphaWarningLbl.setObjectName(u"ipadOSAlphaWarningLbl")
 
-        self.verticalLayout_8.addWidget(self.ipadOSAlphaWarningLbl)
+        self.verticalLayout_81.addWidget(self.ipadOSAlphaWarningLbl)
 
         self.line_14 = QFrame(self.gestaltPageContent)
         self.line_14.setObjectName(u"line_14")
@@ -1196,52 +1196,52 @@ class Ui_Nugget(object):
         self.line_14.setFrameShadow(QFrame.Plain)
         self.line_14.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_8.addWidget(self.line_14)
+        self.verticalLayout_81.addWidget(self.line_14)
 
         self.shutterChk = QCheckBox(self.gestaltPageContent)
         self.shutterChk.setObjectName(u"shutterChk")
 
-        self.verticalLayout_8.addWidget(self.shutterChk)
+        self.verticalLayout_81.addWidget(self.shutterChk)
 
         self.findMyFriendsChk = QCheckBox(self.gestaltPageContent)
         self.findMyFriendsChk.setObjectName(u"findMyFriendsChk")
 
-        self.verticalLayout_8.addWidget(self.findMyFriendsChk)
+        self.verticalLayout_81.addWidget(self.findMyFriendsChk)
 
         self.pencilChk = QCheckBox(self.gestaltPageContent)
         self.pencilChk.setObjectName(u"pencilChk")
 
-        self.verticalLayout_8.addWidget(self.pencilChk)
+        self.verticalLayout_81.addWidget(self.pencilChk)
 
         self.actionButtonChk = QCheckBox(self.gestaltPageContent)
         self.actionButtonChk.setObjectName(u"actionButtonChk")
 
-        self.verticalLayout_8.addWidget(self.actionButtonChk)
+        self.verticalLayout_81.addWidget(self.actionButtonChk)
 
-        self.line_9 = QFrame(self.gestaltPageContent)
-        self.line_9.setObjectName(u"line_9")
-        self.line_9.setStyleSheet(u"QFrame {\n"
+        self.line_91 = QFrame(self.gestaltPageContent)
+        self.line_91.setObjectName(u"line_91")
+        self.line_91.setStyleSheet(u"QFrame {\n"
 "	color: #414141;\n"
 "}")
-        self.line_9.setFrameShadow(QFrame.Plain)
-        self.line_9.setFrameShape(QFrame.Shape.HLine)
+        self.line_91.setFrameShadow(QFrame.Plain)
+        self.line_91.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_8.addWidget(self.line_9)
+        self.verticalLayout_81.addWidget(self.line_91)
 
         self.internalInstallChk = QCheckBox(self.gestaltPageContent)
         self.internalInstallChk.setObjectName(u"internalInstallChk")
 
-        self.verticalLayout_8.addWidget(self.internalInstallChk)
+        self.verticalLayout_81.addWidget(self.internalInstallChk)
 
         self.internalStorageChk = QCheckBox(self.gestaltPageContent)
         self.internalStorageChk.setObjectName(u"internalStorageChk")
 
-        self.verticalLayout_8.addWidget(self.internalStorageChk)
+        self.verticalLayout_81.addWidget(self.internalStorageChk)
 
         self.srdChk = QCheckBox(self.gestaltPageContent)
         self.srdChk.setObjectName(u"srdChk")
 
-        self.verticalLayout_8.addWidget(self.srdChk)
+        self.verticalLayout_81.addWidget(self.srdChk)
 
         self.line_10 = QFrame(self.gestaltPageContent)
         self.line_10.setObjectName(u"line_10")
@@ -1251,22 +1251,22 @@ class Ui_Nugget(object):
         self.line_10.setFrameShadow(QFrame.Plain)
         self.line_10.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_8.addWidget(self.line_10)
+        self.verticalLayout_81.addWidget(self.line_10)
 
         self.collisionSOSChk = QCheckBox(self.gestaltPageContent)
         self.collisionSOSChk.setObjectName(u"collisionSOSChk")
 
-        self.verticalLayout_8.addWidget(self.collisionSOSChk)
+        self.verticalLayout_81.addWidget(self.collisionSOSChk)
 
         self.aodChk = QCheckBox(self.gestaltPageContent)
         self.aodChk.setObjectName(u"aodChk")
 
-        self.verticalLayout_8.addWidget(self.aodChk)
+        self.verticalLayout_81.addWidget(self.aodChk)
 
         self.aodVibrancyChk = QCheckBox(self.gestaltPageContent)
         self.aodVibrancyChk.setObjectName(u"aodVibrancyChk")
 
-        self.verticalLayout_8.addWidget(self.aodVibrancyChk)
+        self.verticalLayout_81.addWidget(self.aodVibrancyChk)
 
         self.line_22 = QFrame(self.gestaltPageContent)
         self.line_22.setObjectName(u"line_22")
@@ -1276,7 +1276,7 @@ class Ui_Nugget(object):
         self.line_22.setFrameShadow(QFrame.Plain)
         self.line_22.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_8.addWidget(self.line_22)
+        self.verticalLayout_81.addWidget(self.line_22)
 
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
@@ -1299,12 +1299,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_11.addWidget(self.addGestaltKeyBtn)
 
 
-        self.verticalLayout_8.addLayout(self.horizontalLayout_11)
+        self.verticalLayout_81.addLayout(self.horizontalLayout_11)
 
         self.label_12 = QLabel(self.gestaltPageContent)
         self.label_12.setObjectName(u"label_12")
 
-        self.verticalLayout_8.addWidget(self.label_12)
+        self.verticalLayout_81.addWidget(self.label_12)
 
         self.line_23 = QFrame(self.gestaltPageContent)
         self.line_23.setObjectName(u"line_23")
@@ -1314,7 +1314,7 @@ class Ui_Nugget(object):
         self.line_23.setFrameShadow(QFrame.Plain)
         self.line_23.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_8.addWidget(self.line_23)
+        self.verticalLayout_81.addWidget(self.line_23)
 
         self.customKeysCnt = QWidget(self.gestaltPageContent)
         self.customKeysCnt.setObjectName(u"customKeysCnt")
@@ -1327,16 +1327,16 @@ class Ui_Nugget(object):
         self.verticalLayout_32.addLayout(self.customKeysLayout)
 
 
-        self.verticalLayout_8.addWidget(self.customKeysCnt)
+        self.verticalLayout_81.addWidget(self.customKeysCnt)
 
         self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_8.addItem(self.verticalSpacer_3)
+        self.verticalLayout_81.addItem(self.verticalSpacer_3)
 
 
-        self.verticalLayout_9.addWidget(self.gestaltPageContent)
+        self.verticalLayout_91.addWidget(self.gestaltPageContent)
 
-        self.mgaScrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.mgaScrollArea.setWidget(self.scrollAreaWidgetContents1)
 
         self.verticalLayout_4.addWidget(self.mgaScrollArea)
 
@@ -1758,27 +1758,27 @@ class Ui_Nugget(object):
         self.verticalLayout_41 = QVBoxLayout(self.statusBarPage)
         self.verticalLayout_41.setObjectName(u"verticalLayout_41")
         self.verticalLayout_41.setContentsMargins(0, 0, 0, 0)
-        self.statusBarPageHeader1 = QWidget(self.statusBarPage)
-        self.statusBarPageHeader1.setObjectName(u"statusBarPageHeader1")
-        self.horizontalLayout_51 = QHBoxLayout(self.statusBarPageHeader1)
-        self.horizontalLayout_51.setSpacing(10)
-        self.horizontalLayout_51.setObjectName(u"horizontalLayout_51")
-        self.horizontalLayout_51.setContentsMargins(0, -1, 0, -1)
-        self.toolButton_81 = QToolButton(self.statusBarPageHeader1)
-        self.toolButton_81.setObjectName(u"toolButton_81")
-        self.toolButton_81.setEnabled(False)
-        self.toolButton_81.setStyleSheet(u"QToolButton {\n"
+        self.statusBarPageHeader = QWidget(self.statusBarPage)
+        self.statusBarPageHeader.setObjectName(u"statusBarPageHeader")
+        self.horizontalLayout_5 = QHBoxLayout(self.statusBarPageHeader)
+        self.horizontalLayout_5.setSpacing(10)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, -1, 0, -1)
+        self.toolButton_8 = QToolButton(self.statusBarPageHeader)
+        self.toolButton_8.setObjectName(u"toolButton_8")
+        self.toolButton_8.setEnabled(False)
+        self.toolButton_8.setStyleSheet(u"QToolButton {\n"
 "    icon-size: 24px;\n"
 "    background-color: transparent;\n"
 "    padding-left: 0px;\n"
 "    padding-right: 5px;\n"
 "    border-radius: 0px;\n"
 "}")
-        self.toolButton_81.setIcon(icon7)
+        self.toolButton_8.setIcon(icon7)
 
-        self.horizontalLayout_51.addWidget(self.toolButton_81)
+        self.horizontalLayout_5.addWidget(self.toolButton_8)
 
-        self.verticalWidget_22 = QWidget(self.statusBarPageHeader1)
+        self.verticalWidget_22 = QWidget(self.statusBarPageHeader)
         self.verticalWidget_22.setObjectName(u"verticalWidget_22")
         self.verticalLayout_51 = QVBoxLayout(self.verticalWidget_22)
         self.verticalLayout_51.setSpacing(6)
@@ -1796,24 +1796,24 @@ class Ui_Nugget(object):
         self.verticalLayout_51.addWidget(self.statusBarEnabledChk)
 
 
-        self.horizontalLayout_51.addWidget(self.verticalWidget_22)
+        self.horizontalLayout_5.addWidget(self.verticalWidget_22)
 
         self.horizontalSpacer_41 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_51.addItem(self.horizontalSpacer_41)
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_41)
 
 
-        self.verticalLayout_41.addWidget(self.statusBarPageHeader1)
+        self.verticalLayout_41.addWidget(self.statusBarPageHeader)
 
-        self.line_81 = QFrame(self.statusBarPage)
-        self.line_81.setObjectName(u"line_81")
-        self.line_81.setStyleSheet(u"QFrame {\n"
+        self.line_8 = QFrame(self.statusBarPage)
+        self.line_8.setObjectName(u"line_8")
+        self.line_8.setStyleSheet(u"QFrame {\n"
 "    color: #414141;\n"
 "}")
-        self.line_81.setFrameShadow(QFrame.Plain)
-        self.line_81.setFrameShape(QFrame.Shape.HLine)
+        self.line_8.setFrameShadow(QFrame.Plain)
+        self.line_8.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_41.addWidget(self.line_81)
+        self.verticalLayout_41.addWidget(self.line_8)
 
         self.sbScrollArea = QScrollArea(self.statusBarPage)
         self.sbScrollArea.setObjectName(u"sbScrollArea")
@@ -1821,24 +1821,24 @@ class Ui_Nugget(object):
         self.sbScrollArea.setFrameShadow(QFrame.Plain)
         self.sbScrollArea.setLineWidth(0)
         self.sbScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scrollAreaWidgetContents1 = QWidget()
-        self.scrollAreaWidgetContents1.setObjectName(u"scrollAreaWidgetContents1")
-        self.scrollAreaWidgetContents1.setGeometry(QRect(0, 0, 650, 2000))
-        self.scrollAreaWidgetContents1.setMinimumSize(QSize(650, 2000))
-        self.scrollAreaWidgetContents1.setMaximumSize(QSize(650, 2000))
-        self.verticalLayout_91 = QVBoxLayout(self.scrollAreaWidgetContents1)
-        self.verticalLayout_91.setObjectName(u"verticalLayout_91")
-        self.verticalLayout_91.setContentsMargins(0, 0, 0, 0)
-        self.statusBarPageContent = QWidget(self.scrollAreaWidgetContents1)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 650, 2000))
+        self.scrollAreaWidgetContents.setMinimumSize(QSize(650, 2000))
+        self.scrollAreaWidgetContents.setMaximumSize(QSize(650, 2000))
+        self.verticalLayout_9 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.statusBarPageContent = QWidget(self.scrollAreaWidgetContents)
         self.statusBarPageContent.setObjectName(u"statusBarPageContent")
         self.statusBarPageContent.setEnabled(False)
-        self.verticalLayout_81 = QVBoxLayout(self.statusBarPageContent)
-        self.verticalLayout_81.setObjectName(u"verticalLayout_81")
-        self.verticalLayout_81.setContentsMargins(0, 0, 0, 0)
-        self.label_91 = QLabel(self.statusBarPageContent)
-        self.label_91.setObjectName(u"label_91")
+        self.verticalLayout_8 = QVBoxLayout(self.statusBarPageContent)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.label_9 = QLabel(self.statusBarPageContent)
+        self.label_9.setObjectName(u"label_9")
 
-        self.verticalLayout_81.addWidget(self.label_91)
+        self.verticalLayout_8.addWidget(self.label_9)
 
         self.horizontalWidget4 = QWidget(self.statusBarPageContent)
         self.horizontalWidget4.setObjectName(u"horizontalWidget4")
@@ -1869,32 +1869,32 @@ class Ui_Nugget(object):
         self.horizontalLayout_7.addItem(self.horizontalSpacer1)
 
 
-        self.verticalLayout_81.addWidget(self.horizontalWidget4)
+        self.verticalLayout_8.addWidget(self.horizontalWidget4)
 
         self.pCarrierChk = QCheckBox(self.statusBarPageContent)
         self.pCarrierChk.setObjectName(u"pCarrierChk")
 
-        self.verticalLayout_81.addWidget(self.pCarrierChk)
+        self.verticalLayout_8.addWidget(self.pCarrierChk)
 
         self.pCarrierTxt = QLineEdit(self.statusBarPageContent)
         self.pCarrierTxt.setObjectName(u"pCarrierTxt")
 
-        self.verticalLayout_81.addWidget(self.pCarrierTxt)
+        self.verticalLayout_8.addWidget(self.pCarrierTxt)
 
         self.pBadgeChk = QCheckBox(self.statusBarPageContent)
         self.pBadgeChk.setObjectName(u"pBadgeChk")
 
-        self.verticalLayout_81.addWidget(self.pBadgeChk)
+        self.verticalLayout_8.addWidget(self.pBadgeChk)
 
         self.pBadgeTxt = QLineEdit(self.statusBarPageContent)
         self.pBadgeTxt.setObjectName(u"pBadgeTxt")
 
-        self.verticalLayout_81.addWidget(self.pBadgeTxt)
+        self.verticalLayout_8.addWidget(self.pBadgeTxt)
 
         self.pTypeChk = QCheckBox(self.statusBarPageContent)
         self.pTypeChk.setObjectName(u"pTypeChk")
 
-        self.verticalLayout_81.addWidget(self.pTypeChk)
+        self.verticalLayout_8.addWidget(self.pTypeChk)
 
         self.pTypeDrp = QComboBox(self.statusBarPageContent)
         self.pTypeDrp.addItem("")
@@ -1949,12 +1949,12 @@ class Ui_Nugget(object):
 "}")
         self.pTypeDrp.setMaxVisibleItems(15)
 
-        self.verticalLayout_81.addWidget(self.pTypeDrp)
+        self.verticalLayout_8.addWidget(self.pTypeDrp)
 
         self.pStrengthChk = QCheckBox(self.statusBarPageContent)
         self.pStrengthChk.setObjectName(u"pStrengthChk")
 
-        self.verticalLayout_81.addWidget(self.pStrengthChk)
+        self.verticalLayout_8.addWidget(self.pStrengthChk)
 
         self.horizontalWidget5 = QWidget(self.statusBarPageContent)
         self.horizontalWidget5.setObjectName(u"horizontalWidget5")
@@ -1978,22 +1978,22 @@ class Ui_Nugget(object):
         self.horizontalLayout_9.addWidget(self.pStrengthSld)
 
 
-        self.verticalLayout_81.addWidget(self.horizontalWidget5)
+        self.verticalLayout_8.addWidget(self.horizontalWidget5)
 
-        self.line_91 = QFrame(self.statusBarPageContent)
-        self.line_91.setObjectName(u"line_91")
-        self.line_91.setStyleSheet(u"QFrame {\n"
+        self.line_9 = QFrame(self.statusBarPageContent)
+        self.line_9.setObjectName(u"line_9")
+        self.line_9.setStyleSheet(u"QFrame {\n"
 "    color: #414141;\n"
 "}")
-        self.line_91.setFrameShadow(QFrame.Plain)
-        self.line_91.setFrameShape(QFrame.Shape.HLine)
+        self.line_9.setFrameShadow(QFrame.Plain)
+        self.line_9.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_81.addWidget(self.line_91)
+        self.verticalLayout_8.addWidget(self.line_9)
 
         self.label_101 = QLabel(self.statusBarPageContent)
         self.label_101.setObjectName(u"label_101")
 
-        self.verticalLayout_81.addWidget(self.label_101)
+        self.verticalLayout_8.addWidget(self.label_101)
 
         self.horizontalWidget6 = QWidget(self.statusBarPageContent)
         self.horizontalWidget6.setObjectName(u"horizontalWidget6")
@@ -2022,32 +2022,32 @@ class Ui_Nugget(object):
         self.horizontalLayout_81.addItem(self.horizontalSpacer_51)
 
 
-        self.verticalLayout_81.addWidget(self.horizontalWidget6)
+        self.verticalLayout_8.addWidget(self.horizontalWidget6)
 
         self.sCarrierChk = QCheckBox(self.statusBarPageContent)
         self.sCarrierChk.setObjectName(u"sCarrierChk")
 
-        self.verticalLayout_81.addWidget(self.sCarrierChk)
+        self.verticalLayout_8.addWidget(self.sCarrierChk)
 
         self.sCarrierTxt = QLineEdit(self.statusBarPageContent)
         self.sCarrierTxt.setObjectName(u"sCarrierTxt")
 
-        self.verticalLayout_81.addWidget(self.sCarrierTxt)
+        self.verticalLayout_8.addWidget(self.sCarrierTxt)
 
         self.sBadgeChk = QCheckBox(self.statusBarPageContent)
         self.sBadgeChk.setObjectName(u"sBadgeChk")
 
-        self.verticalLayout_81.addWidget(self.sBadgeChk)
+        self.verticalLayout_8.addWidget(self.sBadgeChk)
 
         self.sBadgeTxt = QLineEdit(self.statusBarPageContent)
         self.sBadgeTxt.setObjectName(u"sBadgeTxt")
 
-        self.verticalLayout_81.addWidget(self.sBadgeTxt)
+        self.verticalLayout_8.addWidget(self.sBadgeTxt)
 
         self.sTypeChk = QCheckBox(self.statusBarPageContent)
         self.sTypeChk.setObjectName(u"sTypeChk")
 
-        self.verticalLayout_81.addWidget(self.sTypeChk)
+        self.verticalLayout_8.addWidget(self.sTypeChk)
 
         self.sTypeDrp = QComboBox(self.statusBarPageContent)
         self.sTypeDrp.addItem("")
@@ -2102,12 +2102,12 @@ class Ui_Nugget(object):
 "}")
         self.sTypeDrp.setMaxVisibleItems(15)
 
-        self.verticalLayout_81.addWidget(self.sTypeDrp)
+        self.verticalLayout_8.addWidget(self.sTypeDrp)
 
         self.sStrengthChk = QCheckBox(self.statusBarPageContent)
         self.sStrengthChk.setObjectName(u"sStrengthChk")
 
-        self.verticalLayout_81.addWidget(self.sStrengthChk)
+        self.verticalLayout_8.addWidget(self.sStrengthChk)
 
         self.horizontalWidget7 = QWidget(self.statusBarPageContent)
         self.horizontalWidget7.setObjectName(u"horizontalWidget7")
@@ -2130,62 +2130,62 @@ class Ui_Nugget(object):
         self.horizontalLayout_10.addWidget(self.sStrengthSld)
 
 
-        self.verticalLayout_81.addWidget(self.horizontalWidget7)
+        self.verticalLayout_8.addWidget(self.horizontalWidget7)
 
-        self.line_71 = QFrame(self.statusBarPageContent)
-        self.line_71.setObjectName(u"line_71")
-        self.line_71.setStyleSheet(u"QFrame {\n"
+        self.line_7 = QFrame(self.statusBarPageContent)
+        self.line_7.setObjectName(u"line_7")
+        self.line_7.setStyleSheet(u"QFrame {\n"
 "    color: #414141;\n"
 "}")
-        self.line_71.setFrameShadow(QFrame.Plain)
-        self.line_71.setFrameShape(QFrame.Shape.HLine)
+        self.line_7.setFrameShadow(QFrame.Plain)
+        self.line_7.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_81.addWidget(self.line_71)
+        self.verticalLayout_8.addWidget(self.line_7)
 
         self.timeChk = QCheckBox(self.statusBarPageContent)
         self.timeChk.setObjectName(u"timeChk")
 
-        self.verticalLayout_81.addWidget(self.timeChk)
+        self.verticalLayout_8.addWidget(self.timeChk)
 
         self.timeTxt = QLineEdit(self.statusBarPageContent)
         self.timeTxt.setObjectName(u"timeTxt")
 
-        self.verticalLayout_81.addWidget(self.timeTxt)
+        self.verticalLayout_8.addWidget(self.timeTxt)
 
         self.dateChk = QCheckBox(self.statusBarPageContent)
         self.dateChk.setObjectName(u"dateChk")
 
-        self.verticalLayout_81.addWidget(self.dateChk)
+        self.verticalLayout_8.addWidget(self.dateChk)
 
         self.dateTxt = QLineEdit(self.statusBarPageContent)
         self.dateTxt.setObjectName(u"dateTxt")
 
-        self.verticalLayout_81.addWidget(self.dateTxt)
+        self.verticalLayout_8.addWidget(self.dateTxt)
 
         self.breadcrumbChk = QCheckBox(self.statusBarPageContent)
         self.breadcrumbChk.setObjectName(u"breadcrumbChk")
 
-        self.verticalLayout_81.addWidget(self.breadcrumbChk)
+        self.verticalLayout_8.addWidget(self.breadcrumbChk)
 
         self.breadcrumbTxt = QLineEdit(self.statusBarPageContent)
         self.breadcrumbTxt.setObjectName(u"breadcrumbTxt")
 
-        self.verticalLayout_81.addWidget(self.breadcrumbTxt)
+        self.verticalLayout_8.addWidget(self.breadcrumbTxt)
 
         self.batteryDetailChk = QCheckBox(self.statusBarPageContent)
         self.batteryDetailChk.setObjectName(u"batteryDetailChk")
 
-        self.verticalLayout_81.addWidget(self.batteryDetailChk)
+        self.verticalLayout_8.addWidget(self.batteryDetailChk)
 
         self.batteryDetailTxt = QLineEdit(self.statusBarPageContent)
         self.batteryDetailTxt.setObjectName(u"batteryDetailTxt")
 
-        self.verticalLayout_81.addWidget(self.batteryDetailTxt)
+        self.verticalLayout_8.addWidget(self.batteryDetailTxt)
 
         self.batteryCapacityChk = QCheckBox(self.statusBarPageContent)
         self.batteryCapacityChk.setObjectName(u"batteryCapacityChk")
 
-        self.verticalLayout_81.addWidget(self.batteryCapacityChk)
+        self.verticalLayout_8.addWidget(self.batteryCapacityChk)
 
         self.horizontalWidget8 = QWidget(self.statusBarPageContent)
         self.horizontalWidget8.setObjectName(u"horizontalWidget8")
@@ -2212,12 +2212,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_111.addWidget(self.batteryCapacitySld)
 
 
-        self.verticalLayout_81.addWidget(self.horizontalWidget8)
+        self.verticalLayout_8.addWidget(self.horizontalWidget8)
 
         self.wifiStrengthChk = QCheckBox(self.statusBarPageContent)
         self.wifiStrengthChk.setObjectName(u"wifiStrengthChk")
 
-        self.verticalLayout_81.addWidget(self.wifiStrengthChk)
+        self.verticalLayout_8.addWidget(self.wifiStrengthChk)
 
         self.horizontalWidget9 = QWidget(self.statusBarPageContent)
         self.horizontalWidget9.setObjectName(u"horizontalWidget9")
@@ -2240,22 +2240,22 @@ class Ui_Nugget(object):
         self.horizontalLayout_12.addWidget(self.wifiStrengthSld)
 
 
-        self.verticalLayout_81.addWidget(self.horizontalWidget9)
+        self.verticalLayout_8.addWidget(self.horizontalWidget9)
 
         self.numericWifiChk = QCheckBox(self.statusBarPageContent)
         self.numericWifiChk.setObjectName(u"numericWifiChk")
 
-        self.verticalLayout_81.addWidget(self.numericWifiChk)
+        self.verticalLayout_8.addWidget(self.numericWifiChk)
 
         self.numericCellChk = QCheckBox(self.statusBarPageContent)
         self.numericCellChk.setObjectName(u"numericCellChk")
 
-        self.verticalLayout_81.addWidget(self.numericCellChk)
+        self.verticalLayout_8.addWidget(self.numericCellChk)
 
         self.label_51 = QLabel(self.statusBarPageContent)
         self.label_51.setObjectName(u"label_51")
 
-        self.verticalLayout_81.addWidget(self.label_51)
+        self.verticalLayout_8.addWidget(self.label_51)
 
         self.line_101 = QFrame(self.statusBarPageContent)
         self.line_101.setObjectName(u"line_101")
@@ -2265,12 +2265,12 @@ class Ui_Nugget(object):
         self.line_101.setFrameShadow(QFrame.Plain)
         self.line_101.setFrameShape(QFrame.Shape.HLine)
 
-        self.verticalLayout_81.addWidget(self.line_101)
+        self.verticalLayout_8.addWidget(self.line_101)
 
         self.label_18 = QLabel(self.statusBarPageContent)
         self.label_18.setObjectName(u"label_18")
 
-        self.verticalLayout_81.addWidget(self.label_18)
+        self.verticalLayout_8.addWidget(self.label_18)
 
         self.dndRdo = QWidget(self.statusBarPageContent)
         self.dndRdo.setObjectName(u"dndRdo")
@@ -2299,12 +2299,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_32.addItem(self.horizontalSpacer_20)
 
 
-        self.verticalLayout_81.addWidget(self.dndRdo)
+        self.verticalLayout_8.addWidget(self.dndRdo)
 
         self.label_181 = QLabel(self.statusBarPageContent)
         self.label_181.setObjectName(u"label_181")
 
-        self.verticalLayout_81.addWidget(self.label_181)
+        self.verticalLayout_8.addWidget(self.label_181)
 
         self.airplaneRdo = QWidget(self.statusBarPageContent)
         self.airplaneRdo.setObjectName(u"airplaneRdo")
@@ -2333,12 +2333,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_321.addItem(self.horizontalSpacer_201)
 
 
-        self.verticalLayout_81.addWidget(self.airplaneRdo)
+        self.verticalLayout_8.addWidget(self.airplaneRdo)
 
         self.label_182 = QLabel(self.statusBarPageContent)
         self.label_182.setObjectName(u"label_182")
 
-        self.verticalLayout_81.addWidget(self.label_182)
+        self.verticalLayout_8.addWidget(self.label_182)
 
         self.wifiRdo = QWidget(self.statusBarPageContent)
         self.wifiRdo.setObjectName(u"wifiRdo")
@@ -2367,17 +2367,17 @@ class Ui_Nugget(object):
         self.horizontalLayout_322.addItem(self.horizontalSpacer_202)
 
 
-        self.verticalLayout_81.addWidget(self.wifiRdo)
+        self.verticalLayout_8.addWidget(self.wifiRdo)
 
         self.label_121 = QLabel(self.statusBarPageContent)
         self.label_121.setObjectName(u"label_121")
 
-        self.verticalLayout_81.addWidget(self.label_121)
+        self.verticalLayout_8.addWidget(self.label_121)
 
         self.label_183 = QLabel(self.statusBarPageContent)
         self.label_183.setObjectName(u"label_183")
 
-        self.verticalLayout_81.addWidget(self.label_183)
+        self.verticalLayout_8.addWidget(self.label_183)
 
         self.batteryRdo = QWidget(self.statusBarPageContent)
         self.batteryRdo.setObjectName(u"batteryRdo")
@@ -2406,12 +2406,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_323.addItem(self.horizontalSpacer_203)
 
 
-        self.verticalLayout_81.addWidget(self.batteryRdo)
+        self.verticalLayout_8.addWidget(self.batteryRdo)
 
         self.label_184 = QLabel(self.statusBarPageContent)
         self.label_184.setObjectName(u"label_184")
 
-        self.verticalLayout_81.addWidget(self.label_184)
+        self.verticalLayout_8.addWidget(self.label_184)
 
         self.bluetoothRdo = QWidget(self.statusBarPageContent)
         self.bluetoothRdo.setObjectName(u"bluetoothRdo")
@@ -2440,12 +2440,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_324.addItem(self.horizontalSpacer_204)
 
 
-        self.verticalLayout_81.addWidget(self.bluetoothRdo)
+        self.verticalLayout_8.addWidget(self.bluetoothRdo)
 
         self.label_185 = QLabel(self.statusBarPageContent)
         self.label_185.setObjectName(u"label_185")
 
-        self.verticalLayout_81.addWidget(self.label_185)
+        self.verticalLayout_8.addWidget(self.label_185)
 
         self.alarmRdo = QWidget(self.statusBarPageContent)
         self.alarmRdo.setObjectName(u"alarmRdo")
@@ -2474,12 +2474,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_325.addItem(self.horizontalSpacer_205)
 
 
-        self.verticalLayout_81.addWidget(self.alarmRdo)
+        self.verticalLayout_8.addWidget(self.alarmRdo)
 
         self.label_186 = QLabel(self.statusBarPageContent)
         self.label_186.setObjectName(u"label_186")
 
-        self.verticalLayout_81.addWidget(self.label_186)
+        self.verticalLayout_8.addWidget(self.label_186)
 
         self.locationRdo = QWidget(self.statusBarPageContent)
         self.locationRdo.setObjectName(u"locationRdo")
@@ -2508,12 +2508,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_326.addItem(self.horizontalSpacer_206)
 
 
-        self.verticalLayout_81.addWidget(self.locationRdo)
+        self.verticalLayout_8.addWidget(self.locationRdo)
 
         self.label_187 = QLabel(self.statusBarPageContent)
         self.label_187.setObjectName(u"label_187")
 
-        self.verticalLayout_81.addWidget(self.label_187)
+        self.verticalLayout_8.addWidget(self.label_187)
 
         self.rotationRdo = QWidget(self.statusBarPageContent)
         self.rotationRdo.setObjectName(u"rotationRdo")
@@ -2542,12 +2542,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_327.addItem(self.horizontalSpacer_207)
 
 
-        self.verticalLayout_81.addWidget(self.rotationRdo)
+        self.verticalLayout_8.addWidget(self.rotationRdo)
 
         self.label_188 = QLabel(self.statusBarPageContent)
         self.label_188.setObjectName(u"label_188")
 
-        self.verticalLayout_81.addWidget(self.label_188)
+        self.verticalLayout_8.addWidget(self.label_188)
 
         self.airplayRdo = QWidget(self.statusBarPageContent)
         self.airplayRdo.setObjectName(u"airplayRdo")
@@ -2576,12 +2576,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_328.addItem(self.horizontalSpacer_208)
 
 
-        self.verticalLayout_81.addWidget(self.airplayRdo)
+        self.verticalLayout_8.addWidget(self.airplayRdo)
 
         self.label_189 = QLabel(self.statusBarPageContent)
         self.label_189.setObjectName(u"label_189")
 
-        self.verticalLayout_81.addWidget(self.label_189)
+        self.verticalLayout_8.addWidget(self.label_189)
 
         self.carplayRdo = QWidget(self.statusBarPageContent)
         self.carplayRdo.setObjectName(u"carplayRdo")
@@ -2610,12 +2610,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_329.addItem(self.horizontalSpacer_209)
 
 
-        self.verticalLayout_81.addWidget(self.carplayRdo)
+        self.verticalLayout_8.addWidget(self.carplayRdo)
 
         self.label_1810 = QLabel(self.statusBarPageContent)
         self.label_1810.setObjectName(u"label_1810")
 
-        self.verticalLayout_81.addWidget(self.label_1810)
+        self.verticalLayout_8.addWidget(self.label_1810)
 
         self.vpnRdo = QWidget(self.statusBarPageContent)
         self.vpnRdo.setObjectName(u"vpnRdo")
@@ -2644,12 +2644,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_3210.addItem(self.horizontalSpacer_2010)
 
 
-        self.verticalLayout_81.addWidget(self.vpnRdo)
+        self.verticalLayout_8.addWidget(self.vpnRdo)
 
         self.label_19 = QLabel(self.statusBarPageContent)
         self.label_19.setObjectName(u"label_19")
 
-        self.verticalLayout_81.addWidget(self.label_19)
+        self.verticalLayout_8.addWidget(self.label_19)
 
         self.studentRdo = QWidget(self.statusBarPageContent)
         self.studentRdo.setObjectName(u"studentRdo")
@@ -2678,12 +2678,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_34.addItem(self.horizontalSpacer_22)
 
 
-        self.verticalLayout_81.addWidget(self.studentRdo)
+        self.verticalLayout_8.addWidget(self.studentRdo)
 
         self.label_20 = QLabel(self.statusBarPageContent)
         self.label_20.setObjectName(u"label_20")
 
-        self.verticalLayout_81.addWidget(self.label_20)
+        self.verticalLayout_8.addWidget(self.label_20)
 
         self.waterRdo = QWidget(self.statusBarPageContent)
         self.waterRdo.setObjectName(u"waterRdo")
@@ -2712,12 +2712,12 @@ class Ui_Nugget(object):
         self.horizontalLayout_35.addItem(self.horizontalSpacer_23)
 
 
-        self.verticalLayout_81.addWidget(self.waterRdo)
+        self.verticalLayout_8.addWidget(self.waterRdo)
 
         self.label_21 = QLabel(self.statusBarPageContent)
         self.label_21.setObjectName(u"label_21")
 
-        self.verticalLayout_81.addWidget(self.label_21)
+        self.verticalLayout_8.addWidget(self.label_21)
 
         self.vcRdo = QWidget(self.statusBarPageContent)
         self.vcRdo.setObjectName(u"vcRdo")
@@ -2746,21 +2746,21 @@ class Ui_Nugget(object):
         self.horizontalLayout_36.addItem(self.horizontalSpacer_24)
 
 
-        self.verticalLayout_81.addWidget(self.vcRdo)
+        self.verticalLayout_8.addWidget(self.vcRdo)
 
         self.sillyModeChk = QCheckBox(self.statusBarPageContent)
         self.sillyModeChk.setObjectName(u"sillyModeChk")
 
-        self.verticalLayout_81.addWidget(self.sillyModeChk)
+        self.verticalLayout_8.addWidget(self.sillyModeChk)
 
         self.verticalSpacer_31 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_81.addItem(self.verticalSpacer_31)
+        self.verticalLayout_8.addItem(self.verticalSpacer_31)
 
 
-        self.verticalLayout_91.addWidget(self.statusBarPageContent)
+        self.verticalLayout_9.addWidget(self.statusBarPageContent)
 
-        self.sbScrollArea.setWidget(self.scrollAreaWidgetContents1)
+        self.sbScrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.verticalLayout_41.addWidget(self.sbScrollArea)
 
@@ -5575,7 +5575,7 @@ class Ui_Nugget(object):
         self.appVersionLbl.setText(QCoreApplication.translate("Nugget", u"Nugget GUI - Version %VERSION %BETATAG", None))
         self.statusBarLbl.setText(QCoreApplication.translate("Nugget", u"Mobile Gestalt", None))
         self.mgaWarningLbl.setText(QCoreApplication.translate("Nugget", u"! You will need a MobileGestalt file for this feature. Please select it in the Apply page !", None))
-        self.label_9.setText(QCoreApplication.translate("Nugget", u"Device Subtype Preset", None))
+        self.label_91.setText(QCoreApplication.translate("Nugget", u"Device Subtype Preset", None))
         self.dynamicIslandDrp.setItemText(1, QCoreApplication.translate("Nugget", u"2436 (iPhone X Gestures for SE phones)", None))
         self.dynamicIslandDrp.setItemText(2, QCoreApplication.translate("Nugget", u"2556 (iPhone 14 Pro Dynamic Island)", None))
         self.dynamicIslandDrp.setItemText(3, QCoreApplication.translate("Nugget", u"2796 (iPhone 14 Pro Max Dynamic Island)", None))
@@ -5737,7 +5737,7 @@ class Ui_Nugget(object):
         self.spoofCPUChk.setText(QCoreApplication.translate("Nugget", u"Spoof CPU Model", None))
         self.statusBarLbl1.setText(QCoreApplication.translate("Nugget", u"Status Bar", None))
         self.statusBarEnabledChk.setText(QCoreApplication.translate("Nugget", u"Modify", None))
-        self.label_91.setText(QCoreApplication.translate("Nugget", u"Primary Cellular", None))
+        self.label_9.setText(QCoreApplication.translate("Nugget", u"Primary Cellular", None))
         self.pDefaultRdo.setText(QCoreApplication.translate("Nugget", u"Default", None))
         self.pShowRdo.setText(QCoreApplication.translate("Nugget", u"Force Show", None))
         self.pHideRdo.setText(QCoreApplication.translate("Nugget", u"Force Hide", None))
