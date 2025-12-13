@@ -8,6 +8,11 @@ import traceback
 # 1. SILENCE WARNINGS
 warnings.filterwarnings("ignore")
 
+from utils.logger import enable_file_logging, get_logger
+
+_log_file = enable_file_logging()
+get_logger("main_app").info("File logging enabled: %s", _log_file)
+
 from PySide6 import QtGui, QtWidgets
 from PySide6.QtCore import QLocale, QSettings
 
