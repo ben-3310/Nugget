@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
     # 3. GUI STARTUP
     print("Starting Nugget...")
-    
+
     app = QtWidgets.QApplication([])
     dm = DeviceManager()
 
