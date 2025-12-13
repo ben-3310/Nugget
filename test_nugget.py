@@ -3,6 +3,7 @@
 
 import sys
 import os
+from typing import cast
 
 def test_imports():
     """Test if all main imports work"""
@@ -64,7 +65,14 @@ def test_qt_platform():
         if app is None:
             app = QtWidgets.QApplication([])
         print(f"✓ Qt application created successfully")
-        print(f"  Platform: {QtGui.QGuiApplication.platformName()}")
+        # Prefer instance method (works if bindings expose platformName as instance-only).
+        # Fall back to the class/static accessor if needed.
+        gui_app = cast(QtGui.QGuiApplication, app)
+        try:
+            platform_name = gui_app.platformName()
+        except Exception:
+            platform_name = QtGui.QGuiApplication.platformName()
+        print(f"  Platform: {platform_name}")
         return True
     except Exception as e:
         print(f"✗ Qt platform test failed: {e}")
