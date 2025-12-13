@@ -1,5 +1,10 @@
 # Nugget Application - Running Instructions
 
+## Для пользователей vs разработчиков
+
+- **Пользователям** обычно нужен готовый билд из GitHub Releases (самый простой путь).
+- **Разработчикам**: используйте venv + `pip install -r requirements.txt`, затем `python3 main_app.py`.
+
 ## ✅ Installation Complete
 
 The Nugget application has been successfully set up and all dependencies have been installed.

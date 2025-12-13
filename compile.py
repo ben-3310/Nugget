@@ -59,14 +59,20 @@ if platform == "darwin":
     args.append('--add-data=credits/:credits')
     args.append('--add-data=icon/:icon')
 
-    try:
-        import secrets_nugget.compile_config as compile_config
-        print("[+] Code signing configuration found")
+    codesign_hash = os.getenv("NUGGET_CODESIGN_HASH")
+    if codesign_hash:
+        print("[+] Code signing configuration found (env: NUGGET_CODESIGN_HASH)")
         args.append('--osx-entitlements-file=entitlements.plist')
-        args.append(f"--codesign-identity={compile_config.CODESIGN_HASH}")
-    except ImportError:
-        print("[!] Codesign skipped: compile_config not found")
-        print("    To enable signing, create secrets_nugget/compile_config.py with CODESIGN_HASH")
+        args.append(f"--codesign-identity={codesign_hash}")
+    else:
+        try:
+            import secrets_nugget.compile_config as compile_config
+            print("[+] Code signing configuration found (secrets_nugget/compile_config.py)")
+            args.append('--osx-entitlements-file=entitlements.plist')
+            args.append(f"--codesign-identity={compile_config.CODESIGN_HASH}")
+        except ImportError:
+            print("[!] Codesign skipped: no configuration found")
+            print("    Set NUGGET_CODESIGN_HASH or create secrets_nugget/compile_config.py with CODESIGN_HASH")
 
 elif os.name == 'nt':
     print("\n[+] Configuring for Windows...")

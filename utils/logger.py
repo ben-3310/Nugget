@@ -206,6 +206,9 @@ def collect_diagnostics(
         lines.append("")
         lines.append("--- device ---")
         for k, v in device_info.items():
+            if k == "udid" and v is not None:
+                s = str(v)
+                v = s if len(s) <= 6 else ("*" * (len(s) - 6) + s[-6:])
             lines.append(f"{k}: {v}")
 
     if extra:

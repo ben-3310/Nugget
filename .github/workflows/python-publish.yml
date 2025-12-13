@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   deploy:
+    if: ${{ hashFiles('pyproject.toml') != '' }}
 
     runs-on: ubuntu-latest
 
