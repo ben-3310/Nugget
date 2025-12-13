@@ -20,6 +20,7 @@ from restore.bookrestore_types import (
     BookRestoreFileTransferMethod,
     BookRestoreApplyMethod,
 )
+from utils.logger import collect_diagnostics, get_active_log_file
 
 from tweaks.tweaks import tweaks, TweakID
 
@@ -584,7 +585,58 @@ class MainWindow(QtWidgets.QMainWindow):
         detailsBox.setText(alert.txt)
         if alert.detailed_txt != None:
             detailsBox.setDetailedText(alert.detailed_txt)
+        # Add diagnostics copy button when we have enough context to be helpful
+        diagnostics_btn = None
+        diagnostics_txt = alert.diagnostics_txt
+        log_file = alert.log_file or get_active_log_file()
+        if diagnostics_txt is None and (alert.detailed_txt is not None or log_file is not None):
+            device_info = None
+            try:
+                dev = self.device_manager.data_singleton.current_device
+                if dev is not None:
+                    device_info = {
+                        "name": dev.name,
+                        "udid": dev.udid,
+                        "ios_version": dev.version,
+                        "build": dev.build,
+                        "model": dev.model,
+                        "connected_via_usb": dev.connected_via_usb,
+                    }
+            except Exception:
+                device_info = None
+            extra = None
+            try:
+                extra = {
+                    "apply_over_wifi": self.device_manager.pref_manager.apply_over_wifi,
+                    "auto_reboot": self.device_manager.pref_manager.auto_reboot,
+                    "bookrestore_apply_mode": getattr(self.device_manager.pref_manager.bookrestore_apply_mode, "name", str(self.device_manager.pref_manager.bookrestore_apply_mode)),
+                    "bookrestore_transfer_mode": getattr(self.device_manager.pref_manager.bookrestore_transfer_mode, "name", str(self.device_manager.pref_manager.bookrestore_transfer_mode)),
+                }
+            except Exception:
+                extra = None
+            diagnostics_txt = collect_diagnostics(
+                app_version=App_Version,
+                app_build=App_Build,
+                alert_text=alert.txt,
+                traceback_text=alert.detailed_txt,
+                device_info=device_info,
+                extra=extra,
+                log_file=log_file,
+            )
+
+        if diagnostics_txt is not None:
+            diagnostics_btn = detailsBox.addButton(
+                self.tr("Copy diagnostics"),
+                QtWidgets.QMessageBox.ButtonRole.ActionRole,
+            )
+
         detailsBox.exec()
+        if (
+            diagnostics_btn is not None
+            and detailsBox.clickedButton() == diagnostics_btn
+            and diagnostics_txt is not None
+        ):
+            QtWidgets.QApplication.clipboard().setText(diagnostics_txt)
 
     def finish_apply_thread(self):
         self.apply_in_progress = False
