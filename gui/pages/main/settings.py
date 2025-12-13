@@ -11,7 +11,7 @@ from tweaks.tweak_loader import load_rdar_fix
 from tweaks.tweaks import tweaks
 from controllers.video_handler import set_ignore_frame_limit
 from devicemanagement.constants import Version
-from restore.bookrestore import BookRestoreFileTransferMethod, BookRestoreApplyMethod
+from restore.bookrestore_types import BookRestoreFileTransferMethod, BookRestoreApplyMethod
 
 available_languages = {
     "English": "en",

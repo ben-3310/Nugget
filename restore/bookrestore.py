@@ -1,4 +1,3 @@
-from enum import Enum
 import asyncio
 import concurrent
 import os
@@ -16,6 +15,7 @@ import sys
 import tempfile
 
 from .restore import FileToRestore
+from .bookrestore_types import BookRestoreApplyMethod, BookRestoreFileTransferMethod
 from exceptions.nugget_exception import NuggetException
 from gui.apply_worker import get_sudo_pwd, get_sudo_complete
 from controllers.files_handler import get_bundle_files
@@ -27,14 +27,6 @@ from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocket
 from pymobiledevice3.services.dvt.instruments.process_control import ProcessControl
 from pymobiledevice3.services.os_trace import OsTraceService
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-
-class BookRestoreApplyMethod(Enum):
-    AFC = 0
-    Restore = 1
-
-class BookRestoreFileTransferMethod(Enum):
-    LocalHost = 0
-    OnDevice = 1
 
 # Global Vars
 info_queue = queue.Queue()
