@@ -50,7 +50,7 @@ class ApplyThread(QThread):
             self.progress.emit(txt)
     def alert_window(self, msg: ApplyAlertMessage):
         self.alert.emit(msg)
-    
+
     def __init__(self, manager, settings: QSettings, reset_pages: Optional[list[Page]] = None):
         super().__init__()
         self.manager = manager
