@@ -4,18 +4,11 @@ import time
 from tempfile import TemporaryDirectory
 from typing import Optional
 import os.path
-from pathlib import Path
-
-from cryptography import x509
-from cryptography.hazmat.primitives.serialization import Encoding
-from uuid import uuid4
 
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtCore import QSettings, QCoreApplication
 
 from pymobiledevice3 import usbmux
-from pymobiledevice3.ca import create_keybag_file
-from pymobiledevice3.services.mobile_config import MobileConfigService
 from pymobiledevice3.lockdown import create_using_usbmux
 from pymobiledevice3.exceptions import MuxException, PasswordRequiredError, ConnectionTerminatedError, AccessDeniedError, InvalidServiceError
 from pymobiledevice3.services.installation_proxy import InstallationProxyService
@@ -24,6 +17,7 @@ from pymobiledevice3.services.afc import AfcService
 
 from devicemanagement.constants import Device, Version
 from devicemanagement.data_singleton import DataSingleton
+from devicemanagement.skip_setup import add_skip_setup_files
 from .preference_manager import PreferenceManager
 
 from gui.apply_worker import ApplyAlertMessage
@@ -96,23 +90,47 @@ def show_apply_error(e: Exception, update_label=lambda x: None, files_list: list
         return ApplyAlertMessage(type(e).__name__ + ": " + repr(e), detailed_txt=files_str + "TRACEBACK:\n\n" + str(traceback.format_exc()))
 
 class DeviceManager:
-    ## Class Functions
+    """
+    Main device management class for Nugget.
+
+    This class handles:
+    - Device detection and connection via usbmuxd
+    - Tweak application and management
+    - Restore operations (Sparserestore and BookRestore)
+    - User preferences and settings
+
+    Attributes:
+        devices: List of connected iOS devices
+        data_singleton: Shared application state
+        current_device_index: Index of currently selected device
+        pref_manager: User preferences manager
+    """
+
     def __init__(self):
+        """Initialize the DeviceManager with empty device list and default settings."""
         self.devices: list[Device] = []
         self.data_singleton = DataSingleton()
         self.current_device_index = 0
-
-        # preferences
         self.pref_manager = PreferenceManager(None)
-    
+
     def get_devices(self, settings: QSettings, show_alert=lambda x: None):
+        """
+        Detect and connect to iOS devices via usbmuxd.
+
+        Scans for connected devices and creates Device objects for each.
+        Sets the first device as current if any are found.
+
+        Args:
+            settings: QSettings instance for persisting device info
+            show_alert: Callback for displaying error alerts
+        """
         self.devices.clear()
         if self.pref_manager.settings == None:
             self.pref_manager.settings = settings
         # handle errors when failing to get connected devices
         try:
             connected_devices = usbmux.list_devices()
-        except:
+        except Exception:
             sysmsg = QCoreApplication.tr("If you are on Linux, make sure you have usbmuxd and libimobiledevice installed.")
             if os.name == 'nt':
                 sysmsg = QCoreApplication.tr("Make sure you have the \"Apple Devices\" app from the Microsoft Store or iTunes from Apple's website.")
@@ -150,7 +168,7 @@ class DeviceManager:
                             settings.setValue(device.serial + "_cpu", cpu)
                         else:
                             cpu = cpu_type
-                    except:
+                    except Exception:
                         show_alert(ApplyAlertMessage(txt=QCoreApplication.tr("Click \"Show Details\" for the traceback."), detailed_txt=str(traceback.format_exc())))
                     dev = Device(
                             udid=device.serial,
@@ -176,7 +194,7 @@ class DeviceManager:
                 except Exception as e:
                     print(f"ERROR with lockdown device with UUID {device.serial}")
                     show_alert(ApplyAlertMessage(txt=f"{type(e).__name__}: {repr(e)}", detailed_txt=str(traceback.format_exc())))
-        
+
         if len(self.devices) > 0:
             self.set_current_device(index=0)
         else:
@@ -210,55 +228,55 @@ class DeviceManager:
                     tweaks[TweakID.SpoofHardware].value[0] = self.data_singleton.current_device.hardware
                     tweaks[TweakID.SpoofCPU].value[0] = self.data_singleton.current_device.cpu
             self.current_device_index = index
-        
+
     def get_current_device_name(self) -> str:
         if self.data_singleton.current_device == None:
             return QCoreApplication.tr("No Device")
         else:
             return self.data_singleton.current_device.name
-        
+
     def get_current_device_version(self) -> str:
         if self.data_singleton.current_device == None:
             return ""
         else:
             return self.data_singleton.current_device.version
-    
+
     def get_current_device_build(self) -> str:
         if self.data_singleton.current_device == None:
             return ""
         else:
             return self.data_singleton.current_device.build
-    
+
     def get_current_device_udid(self) -> str:
         if self.data_singleton.current_device == None:
             return ""
         else:
             return self.data_singleton.current_device.udid
-        
+
     def get_current_device_model(self) -> str:
         if self.data_singleton.current_device == None:
             return ""
         else:
             return self.data_singleton.current_device.model
-        
+
     def get_current_device_supported(self) -> bool:
         if self.data_singleton.current_device == None:
             return False
         else:
             return self.data_singleton.current_device.supported()
-    
+
     def get_current_device_uses_bookrestore(self) -> bool:
         if self.data_singleton.current_device == None:
             return False
         else:
             return self.data_singleton.current_device.has_bookrestore()
-    
+
     def get_current_device_patched(self) -> bool:
         if self.data_singleton.current_device == None:
             return True
         else:
             return self.data_singleton.current_device.is_exploit_fully_patched()
-        
+
     def current_device_books_container_uuid_callback(self, uuid: Optional[str]=None) -> Optional[str | None]:
         # if there is no argument, return the existing uuid
         if uuid is None:
@@ -266,7 +284,7 @@ class DeviceManager:
         self.data_singleton.current_device.books_container_uuid = uuid
         # save it to settings
         self.pref_manager.settings.setValue(self.data_singleton.current_device.udid + "_books_container_uuid", uuid)
-        
+
     def get_app_hashes(self, bundle_ids: list[str]) -> dict:
         apps = InstallationProxyService(lockdown=self.data_singleton.current_device.ld).get_apps(application_type="Any", calculate_sizes=False)
         results = {}
@@ -274,7 +292,7 @@ class DeviceManager:
             app_info = apps[bundle_id]
             results[bundle_id] = app_info["Container"].removeprefix("/private/var/mobile/Containers/Data/Application/")
         return results
-    
+
     def send_app_hashes_afc(self, hashes: dict) -> str:
         # create a temporary file to send it as
         with TemporaryDirectory() as tmpdir:
@@ -296,7 +314,6 @@ class DeviceManager:
                 with open(tmpf, "w", encoding='UTF-8') as in_file:
                     in_file.write(hashes[key])
                 afc.push(tmpf, f"/Documents/{fname}")
-        
 
     def reset_device_pairing(self):
         # first, unpair it
@@ -306,138 +323,21 @@ class DeviceManager:
         # next, pair it again
         self.data_singleton.current_device.ld.pair()
         QMessageBox.information(None, QCoreApplication.tr("Pairing Reset"), QCoreApplication.tr("Your device's pairing was successfully reset. Refresh the device list before applying."))
-        
 
     def add_skip_setup(self, files_to_restore: list[FileToRestore], restoring_domains: bool):
-        # TODO: Probably should move this to its own file
+        """
+        Add skip setup configuration files if enabled.
+
+        This adds configuration files that skip the iOS setup wizard after restore.
+        See devicemanagement/skip_setup.py for implementation details.
+        """
         if self.pref_manager.skip_setup and (not self.get_current_device_supported() or restoring_domains):
-            # get the already existing cloud config info
-            cloud_config_plist = MobileConfigService(lockdown=self.data_singleton.current_device.ld).get_cloud_configuration()
-            # add the 2 skip setup files
-            cloud_config_plist["SkipSetup"] = [
-                    'Location',
-                    'Restore',
-                    'SIMSetup',
-                    'Android',
-                    'AppleID',
-                    'IntendedUser',
-                    'TOS',
-                    'Siri',
-                    'ScreenTime',
-                    'Diagnostics',
-                    'SoftwareUpdate',
-                    'Passcode',
-                    'Biometric',
-                    'Payment',
-                    'Zoom',
-                    'DisplayTone',
-                    'MessagingActivationUsingPhoneNumber',
-                    'HomeButtonSensitivity',
-                    'CloudStorage',
-                    'ScreenSaver',
-                    'TapToSetup',
-                    'Keyboard',
-                    'PreferredLanguage',
-                    'SpokenLanguage',
-                    'WatchMigration',
-                    'OnBoarding',
-                    'TVProviderSignIn',
-                    'TVHomeScreenSync',
-                    'Privacy',
-                    'TVRoom',
-                    'iMessageAndFaceTime',
-                    'AppStore',
-                    'Safety',
-                    'Multitasking',
-                    'ActionButton',
-                    'TermsOfAddress',
-                    'AccessibilityAppearance',
-                    'Welcome',
-                    'Appearance',
-                    'RestoreCompleted',
-                    'UpdateCompleted',
-                    'WiFi',
-                    'Display',
-                    'Tone',
-                    'LanguageAndLocale',
-                    'TouchID',
-                    'TrueToneDisplay',
-                    'FileVault',
-                    'iCloudStorage',
-                    'iCloudDiagnostics',
-                    'Registration',
-                    'DeviceToDeviceMigration',
-                    'UnlockWithWatch',
-                    'Accessibility',
-                    'All',
-                    'ExpressLanguage',
-                    'Language',
-                    'N/A',
-                    'Region',
-                    'Avatar',
-                    'DeviceProtection',
-                    'Key',
-                    'LockdownMode',
-                    'Wallpaper',
-                    'PrivacySubtitle',
-                    'SecuritySubtitle',
-                    'DataSubtitle',
-                    'AppleIDSubtitle',
-                    'AppearanceSubtitle',
-                    'PreferredLang',
-                    'OnboardingSubtitle',
-                    'AppleTVSubtitle',
-                    'Intelligence',
-                    'WebContentFiltering',
-                    'CameraButton',
-                    'AdditionalPrivacySettings',
-                    'EnableLockdownMode',
-                    'OSShowcase',
-                    'SafetyAndHandling',
-                    'Tips',
-                    "AgeBasedSafetySettings",
-                ]
-            cloud_config_plist["AllowPairing"] = True
-            cloud_config_plist["ConfigurationWasApplied"] = True
-            cloud_config_plist["CloudConfigurationUIComplete"] = True
-            cloud_config_plist["IsSupervised"] = False
-            cloud_config_plist["ConfigurationSource"] = 0
-            cloud_config_plist["PostSetupProfileWasInstalled"] = True
-            if self.pref_manager.supervised == True:
-                cloud_config_plist["IsSupervised"] = True
-                # create/add the keybag
-                if self.pref_manager.organization_name != None and self.pref_manager.organization_name != "":
-                    with TemporaryDirectory() as temp_dir:
-                        keybag_file = Path(temp_dir) / 'keybag'
-                        create_keybag_file(keybag_file, self.pref_manager.organization_name)
-                        cer = x509.load_pem_x509_certificate(keybag_file.read_bytes())
-                        public_key = cer.public_bytes(Encoding.DER)
-                        # make sure the mdm is removable
-                        cloud_config_plist["OrganizationName"] = self.pref_manager.organization_name
-                        cloud_config_plist['OrganizationMagic'] = str(uuid4())
-                        cloud_config_plist['IsMDMUnremovable'] = False
-                        cloud_config_plist['SupervisorHostCertificates'] = [public_key]
-                else:
-                    # remove keybag info
-                    if 'OrganizationMagic' in cloud_config_plist:
-                        cloud_config_plist.pop('OrganizationMagic')
-                    if 'SupervisorHostCertificates' in cloud_config_plist:
-                        cloud_config_plist.pop('SupervisorHostCertificates')
-            files_to_restore.append(FileToRestore(
-                contents=plistlib.dumps(cloud_config_plist),
-                restore_path="Library/ConfigurationProfiles/CloudConfigurationDetails.plist",
-                domain="SysSharedContainerDomain-systemgroup.com.apple.configurationprofiles"
-            ))
-            purplebuddy_plist: dict = {
-                "SetupDone": True,
-                "SetupFinishedAllSteps": True,
-                "UserChoseLanguage": True
-            }
-            files_to_restore.append(FileToRestore(
-                contents=plistlib.dumps(purplebuddy_plist),
-                restore_path="mobile/com.apple.purplebuddy.plist",
-                domain="ManagedPreferencesDomain"
-            ))
+            add_skip_setup_files(
+                files_to_restore=files_to_restore,
+                lockdown_client=self.data_singleton.current_device.ld,
+                supervised=self.pref_manager.supervised,
+                organization_name=self.pref_manager.organization_name,
+            )
 
     def get_domain_for_path(self, path: str, owner: int = 501, use_bookrestore: bool = False) -> str:
         # returns Domain: str?, Path: str
@@ -472,9 +372,19 @@ class DeviceManager:
                     new_path = new_path.replace(parts[0] + "/", "")
                 return new_path, new_domain
         return path, ""
-    
+
     def concat_file(self, contents: str, path: str, files_to_restore: list[FileToRestore], owner: int = 501, group: int = 501, use_bookrestore: bool = False):
-        # TODO: try using inodes here instead
+        """
+        Add a file to the restore list with proper domain mapping.
+
+        Args:
+            contents: File contents as bytes
+            path: Target path on device
+            files_to_restore: List to append the file to
+            owner: File owner UID (default: 501 for mobile)
+            group: File group GID (default: 501 for mobile)
+            use_bookrestore: Whether to use BookRestore method
+        """
         file_path, domain = self.get_domain_for_path(path, owner=owner, use_bookrestore=use_bookrestore)
         files_to_restore.append(FileToRestore(
             contents=contents,
@@ -482,7 +392,193 @@ class DeviceManager:
             domain=domain,
             owner=owner, group=group
         ))
-    
+
+    def _load_gestalt_plist(self):
+        """Load the MobileGestalt plist from file or saved data."""
+        if self.data_singleton.gestalt_path is None:
+            return None
+
+        if self.data_singleton.gestalt_path == self.data_singleton.SAVED_GESTALT_STRING:
+            return self.pref_manager.get_mga_data(self.get_current_device_udid())
+
+        with open(self.data_singleton.gestalt_path, "rb") as in_fp:
+            return plistlib.load(in_fp)
+
+    def _process_tweak(self, tweak, tweak_context: dict):
+        """
+        Process a single tweak and update the context.
+
+        Args:
+            tweak: The tweak instance to process
+            tweak_context: Dictionary containing shared state:
+                - gestalt_plist: MobileGestalt plist data
+                - flag_plist: Feature flags plist
+                - eligibility_files: Eligibility tweak files
+                - ai_file: AI eligibility file
+                - basic_plists: Basic plist tweaks
+                - basic_plists_ownership: Plist ownership info
+                - files_data: Raw file data
+                - uses_domains: Whether tweaks use domains
+                - use_bookrestore: Whether to use BookRestore
+                - files_to_restore: Files list
+                - tmp_dirs: Temporary directories list
+                - update_label: Progress callback
+        """
+        if isinstance(tweak, FeatureFlagTweak):
+            tweak_context["flag_plist"] = tweak.apply_tweak(tweak_context["flag_plist"])
+
+        elif isinstance(tweak, EligibilityTweak):
+            tweak_context["eligibility_files"] = tweak.apply_tweak()
+
+        elif isinstance(tweak, AITweak):
+            tweak_context["ai_file"] = tweak.apply_tweak()
+
+        elif isinstance(tweak, (BasicPlistTweak, RdarFixTweak, AdvancedPlistTweak)):
+            tweak_context["basic_plists"] = tweak.apply_tweak(
+                tweak_context["basic_plists"], self.pref_manager.allow_risky_tweaks
+            )
+            tweak_context["basic_plists_ownership"][tweak.file_location] = tweak.owner
+            if tweak.enabled and isinstance(tweak, RdarFixTweak):
+                if Version(self.get_current_device_version()) >= Version("26.0"):
+                    tweak_context["use_bookrestore"] = True
+
+        elif isinstance(tweak, NullifyFileTweak):
+            tweak.apply_tweak(tweak_context["files_data"])
+            if tweak.enabled and tweak.file_location.value.startswith("/var/mobile/"):
+                tweak_context["uses_domains"] = True
+
+        elif isinstance(tweak, (PosterboardTweak, TemplatesTweak)):
+            tmp_dir = TemporaryDirectory()
+            tweak_context["tmp_dirs"].append(tmp_dir)
+            tweak.apply_tweak(
+                files_to_restore=tweak_context["files_to_restore"],
+                output_dir=fix_windows_path(tmp_dir.name),
+                templates=tweaks[TweakID.Templates].templates,
+                version=self.get_current_device_version(),
+                update_label=tweak_context["update_label"],
+            )
+            if tweak.uses_domains():
+                tweak_context["uses_domains"] = True
+            elif not tweak.is_empty():
+                tweak_context["use_bookrestore"] = True
+
+        elif isinstance(tweak, StatusBarTweak):
+            tweak.apply_tweak(files_to_restore=tweak_context["files_to_restore"])
+            if tweak.enabled:
+                tweak_context["uses_domains"] = True
+
+        else:
+            # MobileGestalt tweaks
+            if tweak_context["gestalt_plist"] is not None:
+                tweak_context["gestalt_plist"] = tweak.apply_tweak(
+                    tweak_context["gestalt_plist"]
+                )
+                if tweak.enabled:
+                    tweak_context["use_bookrestore"] = True
+            elif tweak.enabled:
+                raise NuggetException(
+                    QCoreApplication.tr(
+                        "No mobilegestalt file provided! Please select your file to apply mobilegestalt tweaks."
+                    )
+                )
+
+    def _add_generated_files(self, tweak_context: dict):
+        """
+        Add all generated files to the restore list.
+
+        Args:
+            tweak_context: Context dictionary with processed tweak data
+        """
+        files_to_restore = tweak_context["files_to_restore"]
+        use_bookrestore = tweak_context["use_bookrestore"]
+
+        # Feature flags
+        if len(tweak_context["flag_plist"]) > 0:
+            self.concat_file(
+                contents=plistlib.dumps(tweak_context["flag_plist"]),
+                path=FileLocation.featureflags.value,
+                files_to_restore=files_to_restore,
+            )
+
+        # Gestalt data
+        if tweak_context["gestalt_plist"] is not None and use_bookrestore:
+            gestalt_data = plistlib.dumps(tweak_context["gestalt_plist"])
+            self.concat_file(
+                contents=gestalt_data,
+                path=FileLocation.mga.value,
+                files_to_restore=files_to_restore,
+                use_bookrestore=True,
+            )
+
+        # Eligibility files
+        if tweak_context["eligibility_files"]:
+            eligibility_files = tweak_context["eligibility_files"]
+            if not self.get_current_device_supported():
+                for file in eligibility_files:
+                    self.concat_file(
+                        contents=file.contents,
+                        path=file.restore_path,
+                        files_to_restore=files_to_restore,
+                        use_bookrestore=use_bookrestore,
+                    )
+            else:
+                files_to_restore.extend(eligibility_files)
+
+        # AI eligibility file
+        if tweak_context["ai_file"] is not None:
+            self.concat_file(
+                contents=tweak_context["ai_file"].contents,
+                path=tweak_context["ai_file"].restore_path,
+                files_to_restore=files_to_restore,
+                use_bookrestore=use_bookrestore,
+            )
+
+        # Basic plists
+        for location, plist in tweak_context["basic_plists"].items():
+            ownership = tweak_context["basic_plists_ownership"].get(location, 501)
+            self.concat_file(
+                contents=plistlib.dumps(plist),
+                path=location.value,
+                files_to_restore=files_to_restore,
+                owner=ownership,
+                group=ownership,
+                use_bookrestore=use_bookrestore,
+            )
+
+        # Raw file data
+        for location, data in tweak_context["files_data"].items():
+            ownership = data.owner if isinstance(data, NullifyFileTweak) else 501
+            self.concat_file(
+                contents=data,
+                path=location.value,
+                files_to_restore=files_to_restore,
+                owner=ownership,
+                group=ownership,
+                use_bookrestore=use_bookrestore,
+            )
+
+    def _add_ssl_truststore(self, files_to_restore: list[FileToRestore]):
+        """Add SSL TrustStore if enabled in preferences."""
+        if self.pref_manager.restore_truststore:
+            with open(get_bundle_files("files/SSLconf/TrustStore.sqlite3"), "rb") as f:
+                certsDB = f.read()
+
+            files_to_restore.append(
+                FileToRestore(
+                    contents=certsDB,
+                    restore_path="trustd/private/TrustStore.sqlite3",
+                    domain="ProtectedDomain",
+                    owner=501,
+                    group=501,
+                    mode=_FileMode.S_IRUSR
+                    | _FileMode.S_IWUSR
+                    | _FileMode.S_IRGRP
+                    | _FileMode.S_IWGRP
+                    | _FileMode.S_IROTH
+                    | _FileMode.S_IWOTH,
+                )
+            )
+
     ## APPLYING OR REMOVING TWEAKS AND RESTORING
     def start_restore(self, files_to_restore: list[FileToRestore], use_bookrestore: bool, update_label=lambda x: None):
         self.update_label = update_label
@@ -547,8 +643,9 @@ class DeviceManager:
                     try:
                         new_ld = create_using_usbmux(serial=self.get_current_device_udid(), pair_timeout=180)
                         connected = True
-                    except:
-                        pass
+                    except (MuxException, ConnectionRefusedError, OSError):
+                        # Device may not be ready yet, keep trying
+                        time.sleep(1)
                 cleanup_server_folder()
                 if not connected:
                     raise NuggetException("Failed to reconnect to the device. Please reboot it manually after the restore.")
@@ -569,183 +666,88 @@ class DeviceManager:
             prog = f" ({progress:6.1f}% )"
         self.update_label(QCoreApplication.tr("Restoring to device...{0}{1}").format(prog, self.do_not_unplug))
     def apply_changes(self, update_label=lambda x: None, show_alert=lambda x: None):
-        try:
-            # set the tweaks and apply
-            # first open the file in read mode
-            update_label(QCoreApplication.tr("Applying changes to files..."))
-            gestalt_plist = None
-            if self.data_singleton.gestalt_path != None:
-                if self.data_singleton.gestalt_path == self.data_singleton.SAVED_GESTALT_STRING:
-                    gestalt_plist = self.pref_manager.get_mga_data(self.get_current_device_udid())
-                else:
-                    with open(self.data_singleton.gestalt_path, 'rb') as in_fp:
-                        gestalt_plist = plistlib.load(in_fp)
-            # create the other plists
-            flag_plist: dict = {}
-            eligibility_files = None
-            ai_file = None
-            basic_plists: dict = {}
-            basic_plists_ownership: dict = {}
-            files_data: dict = {}
-            uses_domains: bool = False
-            use_bookrestore: bool = False
-            # create the restore file list
-            files_to_restore: list[FileToRestore] = [
-            ]
-            tmp_dirs = [] # temporary directory for unzipping pb and template files
+        """
+        Apply all enabled tweaks to the connected device.
 
-            # set the plist keys
+        This method:
+        1. Loads MobileGestalt plist if available
+        2. Processes all enabled tweaks
+        3. Generates restore files
+        4. Restores files to device via Sparserestore or BookRestore
+
+        Args:
+            update_label: Callback for progress updates
+            show_alert: Callback for displaying alerts
+        """
+        files_to_restore: list[FileToRestore] = []
+        tmp_dirs = []
+
+        try:
+            update_label(QCoreApplication.tr("Applying changes to files..."))
+
+            # Initialize tweak processing context
+            tweak_context = {
+                "gestalt_plist": self._load_gestalt_plist(),
+                "flag_plist": {},
+                "eligibility_files": None,
+                "ai_file": None,
+                "basic_plists": {},
+                "basic_plists_ownership": {},
+                "files_data": {},
+                "uses_domains": False,
+                "use_bookrestore": False,
+                "files_to_restore": files_to_restore,
+                "tmp_dirs": tmp_dirs,
+                "update_label": update_label,
+            }
+
+            # Process all tweaks
             for tweak_name in tweaks:
-                tweak = tweaks[tweak_name]
-                if isinstance(tweak, FeatureFlagTweak):
-                    flag_plist = tweak.apply_tweak(flag_plist)
-                elif isinstance(tweak, EligibilityTweak):
-                    eligibility_files = tweak.apply_tweak()
-                elif isinstance(tweak, AITweak):
-                    ai_file = tweak.apply_tweak()
-                elif isinstance(tweak, BasicPlistTweak) or isinstance(tweak, RdarFixTweak) or isinstance(tweak, AdvancedPlistTweak):
-                    basic_plists = tweak.apply_tweak(basic_plists, self.pref_manager.allow_risky_tweaks)
-                    basic_plists_ownership[tweak.file_location] = tweak.owner
-                    if tweak.enabled and isinstance(tweak, RdarFixTweak) and Version(self.get_current_device_version()) >= Version("26.0"):
-                        use_bookrestore = True
-                elif isinstance(tweak, NullifyFileTweak):
-                    tweak.apply_tweak(files_data)
-                    if tweak.enabled and tweak.file_location.value.startswith("/var/mobile/"):
-                        uses_domains = True
-                elif isinstance(tweak, PosterboardTweak) or isinstance(tweak, TemplatesTweak):
-                    tmp_dirs.append(TemporaryDirectory())
-                    tweak.apply_tweak(
-                        files_to_restore=files_to_restore,
-                        output_dir=fix_windows_path(tmp_dirs[len(tmp_dirs)-1].name),
-                        templates=tweaks[TweakID.Templates].templates,
-                        version=self.get_current_device_version(), update_label=update_label
-                    )
-                    if tweak.uses_domains():
-                        uses_domains = True
-                    elif not tweak.is_empty():
-                        use_bookrestore = True
-                elif isinstance(tweak, StatusBarTweak):
-                    tweak.apply_tweak(files_to_restore=files_to_restore)
-                    if tweak.enabled:
-                        uses_domains = True
-                else:
-                    if gestalt_plist != None:
-                        gestalt_plist = tweak.apply_tweak(gestalt_plist)
-                        if tweak.enabled:
-                            use_bookrestore = True
-                    elif tweak.enabled:
-                        # no mobilegestalt file provided but applying mga tweaks, give warning
-                        update_label("Failed.")
-                        raise NuggetException(QCoreApplication.tr("No mobilegestalt file provided! Please select your file to apply mobilegestalt tweaks."))
-            # set the custom gestalt keys
-            if gestalt_plist != None:
-                gestalt_plist = CustomGestaltTweaks.apply_tweaks(gestalt_plist)
+                self._process_tweak(tweaks[tweak_name], tweak_context)
+
+            # Apply custom gestalt tweaks
+            if tweak_context["gestalt_plist"] is not None:
+                tweak_context["gestalt_plist"] = CustomGestaltTweaks.apply_tweaks(
+                    tweak_context["gestalt_plist"]
+                )
                 if len(CustomGestaltTweaks.custom_tweaks) > 0:
-                    use_bookrestore = True
-            
-            gestalt_data = None
-            if gestalt_plist != None:
-                gestalt_data = plistlib.dumps(gestalt_plist)
-            
+                    tweak_context["use_bookrestore"] = True
+
             # Generate backup
             update_label(QCoreApplication.tr("Generating backup..."))
-            if len(flag_plist) > 0:
-                self.concat_file(
-                    contents=plistlib.dumps(flag_plist),
-                    path=FileLocation.featureflags.value,
-                    files_to_restore=files_to_restore
-                )
-            self.add_skip_setup(files_to_restore, uses_domains and (not use_bookrestore or self.pref_manager.bookrestore_apply_mode == BookRestoreApplyMethod.Restore))
-            if gestalt_data != None and use_bookrestore:
-                self.concat_file(
-                    contents=gestalt_data,
-                    path=FileLocation.mga.value,
-                    files_to_restore=files_to_restore, use_bookrestore=True
-                )
-            if eligibility_files:
-                new_eligibility_files: dict[FileToRestore] = []
-                if not self.get_current_device_supported():
-                    # update the files
-                    for file in eligibility_files:
-                        self.concat_file(
-                            contents=file.contents,
-                            path=file.restore_path,
-                            files_to_restore=new_eligibility_files, use_bookrestore=use_bookrestore
-                        )
-                else:
-                    new_eligibility_files = eligibility_files
-                files_to_restore += new_eligibility_files
-            if ai_file != None:
-                self.concat_file(
-                    contents=ai_file.contents,
-                    path=ai_file.restore_path,
-                    files_to_restore=files_to_restore, use_bookrestore=use_bookrestore
-                )
-            for location, plist in basic_plists.items():
-                if location in basic_plists_ownership:
-                    ownership = basic_plists_ownership[location]
-                else:
-                    ownership = 501
-                self.concat_file(
-                    contents=plistlib.dumps(plist),
-                    path=location.value,
-                    files_to_restore=files_to_restore,
-                    owner=ownership, group=ownership, use_bookrestore=use_bookrestore
-                )
-            for location, data in files_data.items():
-                if isinstance(data, NullifyFileTweak):
-                    ownership = data.owner
-                else:
-                    ownership = 501
-                self.concat_file(
-                    contents=data,
-                    path=location.value,
-                    files_to_restore=files_to_restore,
-                    owner=ownership, group=ownership, use_bookrestore=use_bookrestore
-                )
 
-            # Restore Mobileconfig Profiles
-            # Read multiple configuration files from a directory
-            # config_files = glob.glob('path/to/configuration/files/*.stub')
+            # Add skip setup files
+            should_skip_setup = tweak_context["uses_domains"] and (
+                not tweak_context["use_bookrestore"]
+                or self.pref_manager.bookrestore_apply_mode
+                == BookRestoreApplyMethod.Restore
+            )
+            self.add_skip_setup(files_to_restore, should_skip_setup)
 
-            # for idx, config_file in enumerate(config_files):
-            #     with open(config_file, 'rb') as f:
-            #         content = f.read()
+            # Add generated files to restore list
+            self._add_generated_files(tweak_context)
 
-            #     original_file_name = config_file.split('/')[-1]
-            #     files_to_restore.append(FileToRestore(
-            #         contents=content,
-            #         restore_path=f"Library/ConfigurationProfiles/{original_file_name}",
-            #         domain="SysSharedContainerDomain-systemgroup.com.apple.configurationprofiles"
-            #     ))
+            # Add SSL TrustStore if enabled
+            if tweak_context["uses_domains"]:
+                self._add_ssl_truststore(files_to_restore)
 
-            # Restore SSL Configuration Profiles
-            if uses_domains and self.pref_manager.restore_truststore:
-                with open(get_bundle_files('files/SSLconf/TrustStore.sqlite3'), 'rb') as f:
-                    certsDB = f.read()
-
-                files_to_restore.append(FileToRestore(
-                    contents=certsDB,
-                    restore_path="trustd/private/TrustStore.sqlite3",
-                    domain="ProtectedDomain",
-                    owner=501, group=501,
-                    mode=_FileMode.S_IRUSR | _FileMode.S_IWUSR  | _FileMode.S_IRGRP | _FileMode.S_IWGRP | _FileMode.S_IROTH | _FileMode.S_IWOTH
-                ))
-
-            # restore to the device
-            final_alert = self.start_restore(files_to_restore, use_bookrestore, update_label)
+            # Restore to device
+            final_alert = self.start_restore(
+                files_to_restore, tweak_context["use_bookrestore"], update_label
+            )
             update_label(QCoreApplication.tr("Success!"))
+
         except Exception as e:
             final_alert = show_apply_error(e, update_label, files_list=files_to_restore)
+
         finally:
             close_dl_connection()
-            if len(tmp_dirs) > 0:
-                for tmp_dir in tmp_dirs:
-                    try:
-                        tmp_dir.cleanup()
-                    except Exception as e:
-                        # ignore clean up errors
-                        print(str(e))
+            # Cleanup temporary directories
+            for tmp_dir in tmp_dirs:
+                try:
+                    tmp_dir.cleanup()
+                except Exception as e:
+                    print(f"Cleanup error: {e}")
             show_alert(final_alert)
 
     ## RESETTING TWEAKS
@@ -815,7 +817,7 @@ class DeviceManager:
                     files_to_null.append(FileLocation.coreMotion.value)
                     files_to_null.append(FileLocation.pasteboard.value)
                     files_to_null.append(FileLocation.notes.value)
-            
+
             # add the files to null from the list
             for file_path in files_to_null:
                 self.concat_file(
@@ -824,7 +826,7 @@ class DeviceManager:
                     files_to_restore=files_to_restore,
                     use_bookrestore=use_bookrestore
                 )
-            
+
             if not use_bookrestore:
                 self.add_skip_setup(files_to_restore, uses_domains)
 

@@ -1,3 +1,15 @@
+"""
+Tweak classes for Nugget.
+
+This module defines the base Tweak class and various specialized tweak types
+for modifying iOS system files, including:
+- BasicPlistTweak: Simple plist key modifications
+- AdvancedPlistTweak: Multiple plist key modifications
+- MobileGestaltTweak: MobileGestalt.plist modifications
+- FeatureFlagTweak: iOS feature flag toggles
+- NullifyFileTweak: File deletion/nullification
+"""
+
 import re
 
 from PySide6.QtCore import QCoreApplication
@@ -5,7 +17,22 @@ from PySide6.QtCore import QCoreApplication
 from exceptions.nugget_exception import NuggetException
 from .basic_plist_locations import FileLocation
 
+
 class Tweak:
+    """
+    Base class for all tweaks.
+
+    Provides common functionality for enabling/disabling tweaks
+    and storing key-value data.
+
+    Attributes:
+        key: The key/identifier for this tweak
+        value: The value to apply
+        owner: File owner UID (default: 501 for mobile user)
+        group: File group GID (default: 501)
+        enabled: Whether this tweak is active
+    """
+
     def __init__(
             self,
             key: str,
@@ -19,18 +46,30 @@ class Tweak:
         self.enabled = False
 
     def set_enabled(self, value: bool):
+        """Enable or disable this tweak."""
         self.enabled = value
+
     def toggle_enabled(self):
+        """Toggle the enabled state of this tweak."""
         self.enabled = not self.enabled
+
     def set_value(self, new_value: any, toggle_enabled: bool = True):
+        """Set the tweak value and optionally enable it."""
         self.value = new_value
         if toggle_enabled:
             self.enabled = True
 
     def apply_tweak(self):
+        """Apply this tweak. Must be implemented by subclasses."""
         raise NotImplementedError
-    
+
 class NullifyFileTweak(Tweak):
+    """
+    Tweak that nullifies (empties) a file on the device.
+
+    Used to reset or remove files by replacing them with empty content.
+    """
+
     def __init__(
             self,
             file_location: FileLocation,
@@ -40,11 +79,20 @@ class NullifyFileTweak(Tweak):
         self.file_location = file_location
 
     def apply_tweak(self, other_tweaks: dict):
+        """Add this file to the nullify list if enabled."""
         if self.enabled:
             other_tweaks[self.file_location] = b""
-    
+
 
 class BasicPlistTweak(Tweak):
+    """
+    Tweak that modifies a single key in a plist file.
+
+    Attributes:
+        file_location: Target plist file location
+        is_risky: Whether this tweak is considered risky (requires explicit permission)
+    """
+
     def __init__(
             self,
             file_location: FileLocation,
@@ -58,6 +106,7 @@ class BasicPlistTweak(Tweak):
         self.is_risky = is_risky
 
     def apply_tweak(self, other_tweaks: dict, risky_allowed: bool = False) -> dict:
+        """Apply this plist modification if enabled and allowed."""
         if not self.enabled or (self.is_risky and not risky_allowed):
             return other_tweaks
         if self.file_location in other_tweaks:
@@ -65,7 +114,7 @@ class BasicPlistTweak(Tweak):
         else:
             other_tweaks[self.file_location] = {self.key: self.value}
         return other_tweaks
-    
+
 class AdvancedPlistTweak(BasicPlistTweak):
     def __init__(
         self,
@@ -88,7 +137,7 @@ class AdvancedPlistTweak(BasicPlistTweak):
             plist[key] = self.value[key]
         other_tweaks[self.file_location] = plist
         return other_tweaks
-    
+
 
 class RdarFixTweak(BasicPlistTweak):
     def __init__(self):
@@ -108,7 +157,7 @@ class RdarFixTweak(BasicPlistTweak):
         elif (model == "iPhone12,8" or model == "iPhone14,6"):
             self.mode = 3
         return self.mode
-    
+
     def get_rdar_title(self) -> str:
         if self.mode == 1 or self.mode == 3:
             if self.di_type == -1:
@@ -119,7 +168,7 @@ class RdarFixTweak(BasicPlistTweak):
                 return QCoreApplication.tr("Revert Status Bar Fix")
             return QCoreApplication.tr("Dynamic Island Status Bar Fix")
         return "hide"
-    
+
     def set_di_type(self, type: int):
         self.di_type = type
 
@@ -171,6 +220,16 @@ class RdarFixTweak(BasicPlistTweak):
 
 
 class MobileGestaltTweak(Tweak):
+    """
+    Tweak that modifies MobileGestalt.plist values.
+
+    MobileGestalt stores device capabilities and properties.
+    Modifying it can enable/disable features like Dynamic Island, Boot Chime, etc.
+
+    Attributes:
+        subkey: Optional subkey for nested values
+    """
+
     def __init__(
             self,
             key: str, subkey: str = None,
@@ -181,6 +240,7 @@ class MobileGestaltTweak(Tweak):
         self.subkey = subkey
 
     def apply_tweak(self, plist: dict):
+        """Apply this MobileGestalt modification."""
         if not self.enabled:
             return plist
         new_value = self.value
@@ -189,7 +249,7 @@ class MobileGestaltTweak(Tweak):
         else:
             plist["CacheExtra"][self.key][self.subkey] = new_value
         return plist
-    
+
 class MobileGestaltPickerTweak(Tweak):
     def __init__(
             self,
@@ -211,14 +271,14 @@ class MobileGestaltPickerTweak(Tweak):
             if self.subkey == "ArtworkDeviceSubType":
                 plist["CacheExtra"]["YlEtTtHlNesRBMal1CqRaA"] = 1
         return plist
-    
+
     def set_selected_option(self, new_option: int, is_enabled: bool = True):
         self.selected_option = new_option
         self.enabled = is_enabled
 
     def get_selected_option(self) -> int:
         return self.selected_option
-    
+
 class MobileGestaltMultiTweak(Tweak):
     def __init__(self, keyValues: dict):
         super().__init__(key=None)
@@ -231,7 +291,7 @@ class MobileGestaltMultiTweak(Tweak):
         for key in self.keyValues:
             plist["CacheExtra"][key] = self.keyValues[key]
         return plist
-    
+
 class MobileGestaltCacheDataTweak(Tweak):
     def __init__(self, slice_start: int, slice_length: int):
         super().__init__(key=None)
@@ -254,7 +314,7 @@ class MobileGestaltCacheDataTweak(Tweak):
             if sum(c != "0" for c in value) >= 3:
                 offset = self.slice_start + match.start(1)
                 break
-        
+
         # Error handling
         # Thanks Huy for the extra checks
         if offset is None:
@@ -272,7 +332,7 @@ class MobileGestaltCacheDataTweak(Tweak):
                 failed_str + QCoreApplication.tr("Left offset out of range.")
                 + f'\nLeft Offset: {loffset}, Data Length: {len(data)}'
             )
-        
+
         for side_offset in [roffset, loffset]:
             offset_name = "Right" if side_offset == roffset else "Left"
             # check valid values
@@ -296,10 +356,22 @@ class MobileGestaltCacheDataTweak(Tweak):
         data = "".join(data_list)
         plist["CacheData"] = bytes.fromhex(data)
         return plist
-        
 
-    
+
+
 class FeatureFlagTweak(Tweak):
+    """
+    Tweak that toggles iOS feature flags.
+
+    Feature flags control experimental or hidden iOS features.
+
+    Attributes:
+        flag_category: The category/domain for the flags (e.g., "SpringBoard")
+        flag_names: List of flag names to toggle
+        is_list: Whether flags should be set as dict with 'Enabled' key
+        inverted: Whether to invert the enabled state
+    """
+
     def __init__(
             self,
                 flag_category: str, flag_names: list,
@@ -310,8 +382,9 @@ class FeatureFlagTweak(Tweak):
         self.flag_names = flag_names
         self.is_list = is_list
         self.inverted = inverted
-        
+
     def apply_tweak(self, plist: dict):
+        """Apply feature flag modifications."""
         to_enable = self.enabled
         if self.inverted:
             to_enable = not self.enabled

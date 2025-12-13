@@ -75,11 +75,11 @@ async def create_tunnel(udid, progress_callback = lambda x: None):
                 raise NuggetException("No administrator permission")
         tunnel_process = subprocess.Popen(f'{sudo_cmd} "{sys.executable}" -m pymobiledevice3 lockdown start-tunnel --script-mode --udid {udid}', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         del sudo_cmd
-        
+
     atexit.register(exit_func, tunnel_process)
-    
+
     rsd_val = None
-    
+
     while True:
         output = tunnel_process.stdout.readline()
         if output:
@@ -87,7 +87,7 @@ async def create_tunnel(udid, progress_callback = lambda x: None):
             if line:
                 rsd_val = line
                 break
-            
+
         if tunnel_process.poll() is not None:
             error = tunnel_process.stderr.read().decode()
             if error:
@@ -98,7 +98,7 @@ async def create_tunnel(udid, progress_callback = lambda x: None):
                 else:
                     raise NuggetException("Error Creating Tunnel.\n\nIf this continues, try setting \"BookRestore Apply Method\" to \"Restore\" in Nugget's settings.", detailed_text=error)
             break
-    
+
     if rsd_val is None:
         raise NuggetException("Tunnel process ended without returning connection details. Check if device is connected/trusted.")
 
@@ -110,7 +110,7 @@ async def create_tunnel(udid, progress_callback = lambda x: None):
         port = int(rsd_str.split(" ")[1])
     except (IndexError, ValueError):
         raise NuggetException(f"Failed to parse tunnel output: '{rsd_str}'. Expected 'Address Port'.")
-    
+
     return {"address": address, "port": port}
 
 def create_local_server() -> str:
@@ -143,8 +143,10 @@ def cleanup_server_folder():
     global server_folder
     global old_dir
     try:
-        shutil.rmtree(server_folder)
-    except:
+        if server_folder:
+            shutil.rmtree(server_folder)
+    except (OSError, PermissionError):
+        # Folder may already be deleted or locked
         pass
     server_folder = None
     if old_dir is not None:
@@ -161,7 +163,7 @@ async def create_connection_context(files: list[FileToRestore], service_provider
                 server_folder = create_server_folder()
             _run_async_rsd_connection(available_address["address"], available_address["port"], files, current_device_uuid_callback, progress_callback, transfer_mode)
             cleanup_server_folder()
-        except:
+        except Exception:
             cleanup_server_folder()
             raise
     else:
@@ -174,7 +176,7 @@ def _run_async_rsd_connection(address, port, files, current_device_uuid_callback
             try:
                 async with RemoteServiceDiscoveryService((address, port)) as rsd:
                     loop = asyncio.get_running_loop()
-                    
+
                     def run_blocking_callback():
                         with DvtSecureSocketProxyService(rsd) as dvt:
                             apply_bookrestore_files(files, rsd, dvt, current_device_uuid_callback, progress, transfer_mode)
@@ -211,7 +213,8 @@ def remove_db_files(db_path):
         if os.path.exists(fpath):
             try:
                 os.remove(fpath)
-            except:
+            except (OSError, PermissionError):
+                # File may be locked or already deleted
                 pass
 
 def close_dl_connection():
@@ -287,7 +290,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
 
     afc = AfcService(lockdown=lockdown_client)
     pc = ProcessControl(dvt)
-    
+
     # Get Container UUID
     uuid = current_device_uuid_callback().strip()
     if len(uuid) < 10:
@@ -304,11 +307,11 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
                     .split("/Documents/BLDownloads")[0]
             current_device_uuid_callback(uuid)
             break
-    
+
     sqlite_path = os.path.join(br_files, "downloads.28.sqlitedb")
-    
+
     bldb_local_prefix = f"/private/var/containers/Shared/SystemGroup/{uuid}/Documents/BLDatabaseManager/BLDatabaseManager.sqlite"
-    
+
     temp_dir = tempfile.gettempdir()
     temp_db_path = os.path.join(temp_dir, f"nugget_db_{uuid}.sqlite")
     if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
@@ -374,7 +377,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
                 print(f"including {file.restore_path}")
                 media_folder = file_name
                 afc.set_file_contents(media_folder, file.contents)
-        
+
         def fast_upload(local_path, remote_path):
             content = b''
             if os.path.exists(local_path):
@@ -399,15 +402,16 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
                     f'netsh advfirewall firewall delete rule name="{firewall_rule_name}"',
                     shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
                 )
-            except:
+            except (subprocess.SubprocessError, OSError):
+                # Firewall rule cleanup is non-critical
                 pass
 
     procs = OsTraceService(lockdown=lockdown_client).get_pid_list().get("Payload")
     pid_itunesstored = next((pid for pid, p in procs.items() if p['ProcessName'] == 'itunesstored'), None)
     if pid_itunesstored:
         pc.kill(pid_itunesstored)
-    
-    timeout = time.time() + 120 
+
+    timeout = time.time() + 120
     progress_callback("Waiting for itunesstored to finish download..." + "\n" + "(This might take a minute)")
     for syslog_entry in OsTraceService(lockdown=lockdown_client).syslog():
         if time.time() > timeout:
@@ -422,12 +426,12 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
         pc.kill(pid_bookassetd)
     if pid_books:
         pc.kill(pid_books)
-    
+
     try:
         pc.launch("com.apple.iBooks")
     except Exception as e:
         raise NuggetException("Error launching Books app", detailed_text=repr(e))
-    
+
     progress_callback("Waiting for file overwrite to complete..." + "\n" + "(This might take a minute)")
     success_message = "[Install-Mgr]: Marking download as [finished]"
     num_replaced = 0
@@ -449,7 +453,7 @@ def apply_bookrestore_files(files: list[FileToRestore], lockdown_client: Lockdow
     if transfer_mode == BookRestoreFileTransferMethod.LocalHost:
         close_dl_connection()
         remove_db_files(temp_dl_manager)
-        
+
     progress_callback("Respringing")
     procs = OsTraceService(lockdown=lockdown_client).get_pid_list().get("Payload")
     pid = next((pid for pid, p in procs.items() if p['ProcessName'] == 'backboardd'), None)

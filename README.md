@@ -125,7 +125,7 @@ Make sure you have installed the [requirements](#requirements) if you are on Win
 ## Requirements:
 <details>
 <summary>Windows</summary>
-  
+
   - Either the [Apple Devices (from Microsoft Store)][AppleDevices] App or [iTunes (from Apple website)][iTunes]
 </details>
 
@@ -173,24 +173,96 @@ On iOS 26.1 and below, you may need to get the mobilegestalt file that is specif
 3. Save the file and share it to your computer.
 4. Place it in the same folder as the python file (or specify the path in the program)
 
+## Development
+
+### Project Structure
+```
+Nugget/
+├── main_app.py           # Application entry point
+├── compile.py            # PyInstaller compilation script
+├── gui/                  # User interface
+│   ├── main_window.py    # Main window controller
+│   ├── pages/            # Individual page implementations
+│   └── apply_worker.py   # Background worker threads
+├── devicemanagement/     # Device handling
+│   ├── device_manager.py # Core device operations
+│   ├── constants.py      # Device/Version classes
+│   └── skip_setup.py     # Skip setup configuration
+├── tweaks/               # Tweak system
+│   ├── tweaks.py         # Global tweaks registry
+│   ├── tweak_classes.py  # Base tweak classes
+│   └── posterboard/      # PosterBoard tweaks
+├── restore/              # Restore operations
+│   ├── restore.py        # Sparserestore implementation
+│   └── bookrestore.py    # BookRestore implementation
+├── controllers/          # Utility controllers
+├── utils/                # Utilities (logging, etc.)
+└── translations/         # i18n files
+```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed architecture documentation.
+
+### Code Style
+- Python 3.8+ compatible
+- Use type hints where practical
+- Add docstrings to public classes and methods
+- Use centralized logging from `utils/logger.py`
+
 ## Building
+
+### Compile UI Files
 To compile `mainwindow.ui` for Python, run the following command:
-```py
+```bash
 pyside6-uic qt/mainwindow.ui -o qt/mainwindow_ui.py
 ```
 
 To compile the resources file for Python, run the following command:
-```py
+```bash
 pyside6-rcc resources.qrc -o resources_rc.py
 ```
 
+### Compile Translations
 To create and compile languages, you can use the following commands:
-```py
-pyside6-lupdate gui/main_window.py gui/pages/main/*.py gui/pages/tools/*.py gui/dialogs.py qt/mainwindow.ui devicemanagement/device_manager.py exceptions/*.py tweaks/*.py tweaks/posterboard/*.py tweaks/posterboard/template_options/*.py controllers/*.py -ts translations/Nugget_{language code}.ts # generate/update the language file
-pyside6-lrelease translations/Nugget_{language code}.ts -qm translations/Nugget_{language code}.qm # compile to binary
+```bash
+# Generate/update the language file
+pyside6-lupdate gui/main_window.py gui/pages/main/*.py gui/pages/tools/*.py gui/dialogs.py qt/mainwindow.ui devicemanagement/device_manager.py exceptions/*.py tweaks/*.py tweaks/posterboard/*.py tweaks/posterboard/template_options/*.py controllers/*.py -ts translations/Nugget_{language code}.ts
+
+# Compile to binary
+pyside6-lrelease translations/Nugget_{language code}.ts -qm translations/Nugget_{language code}.qm
 ```
 
-The application itself can be compiled by running `compile.py`.
+### Build Executable
+
+#### macOS
+```bash
+# Using the build script (recommended)
+./build_macos.sh
+
+# Or manually
+python compile.py
+```
+
+The compiled app will be in `dist/Nugget.app`.
+
+#### Windows
+```bash
+python compile.py
+```
+
+Requires ffmpeg binaries in `ffmpeg/bin/` directory.
+
+#### Cross-architecture (macOS)
+```bash
+# Build for specific architecture
+python compile.py --target-arch=x86_64
+python compile.py --target-arch=arm64
+```
+
+### Code Signing (macOS)
+To sign the app, create `secrets_nugget/compile_config.py`:
+```python
+CODESIGN_HASH = "Your Developer ID Application certificate hash"
+```
 
 ## Sparserestore/BookRestore Info
 This uses the sparserestore exploit to write to files outside of the intended restore location, like mobilegestalt. Read the [Getting the File](#getting-the-file) section to learn how to get your mobilegestalt file.

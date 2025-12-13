@@ -114,7 +114,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def updateInterfaceForNewDevice(self):
         # update the home page
         self.pages[Page.Home].updatePhoneInfo()
-    
+
     def updateAppVersionLabel(self):
         new_text: str = self.ui.appVersionLbl.text()
         new_text = new_text.replace("%VERSION", App_Version)
@@ -194,7 +194,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     else:
                         tag = " (@ WiFi)"
                 self.ui.devicePicker.addItem(f"{device.name}{tag}")
-            
+
             # show all pages
             self.ui.sidebarDiv1.show()
             self.ui.statusBarPageBtn.show()
@@ -204,7 +204,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.templatesPageBtn.show()
             self.ui.posterboardPageBtn.show()
             self.ui.miscOptionsBtn.show()
-            
+
             self.ui.sidebarDiv2.show()
             self.ui.applyPageBtn.show()
 
@@ -219,7 +219,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.resetPairBtn.show()
             self.ui.pocketPosterHelperBtn.show()
             self.ui.showRiskyChk.show()
-        
+
         # update the selected device
         self.ui.devicePicker.setCurrentIndex(0)
 
@@ -260,7 +260,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.dynamicIslandDrp.removeItem(6)
                 self.ui.dynamicIslandDrp.removeItem(5)
                 self.ui.dynamicIslandDrp.removeItem(5)
-            except:
+            except (IndexError, RuntimeError):
+                # Items may not exist, ignore
                 pass
             if TweakID.RdarFix in tweaks:
                 self.pages[Page.Gestalt].set_rdar_fix_label()
@@ -310,7 +311,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.advancedPageBtn.show()
             else:
                 self.ui.advancedPageBtn.hide()
-            
+
             # hide the ai content if not on
             if device_ver >= Version("18.1") and (not TweakID.AIGestalt in tweaks or not tweaks[TweakID.AIGestalt].enabled):
                 self.ui.aiEnablerContent.hide()
@@ -399,7 +400,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.disableTendiesLimitChk.setChecked(disable_tendies_limit)
             self.ui.showAllSpoofableChk.setChecked(show_all_spoofable)
             self.ui.trustStoreChk.setChecked(restore_truststore)
-            
+
             self.ui.brApplyModeDrp.setCurrentIndex(br_apply_mode)
             self.ui.brTransferModeDrp.setCurrentIndex(br_transfer_mode)
 
@@ -425,14 +426,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.device_manager.pref_manager.skip_setup = skip_setup
             self.device_manager.pref_manager.supervised = supervised
             self.device_manager.pref_manager.organization_name = organization_name
-        except:
-            pass
-    
+        except Exception as e:
+            print(f"Error loading settings: {e}")
+
 
     ## SIDE BAR FUNCTIONS
     def on_homePageBtn_clicked(self):
         self.ui.pages.setCurrentIndex(Page.Home.value)
-    
+
     def on_gestaltPageBtn_clicked(self):
         self.pages[Page.Gestalt].load()
         self.ui.mgaScrollArea.verticalScrollBar().setValue(0) # reset scroll to top
@@ -441,7 +442,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_featureFlagsPageBtn_clicked(self):
         self.pages[Page.FeatureFlags].load()
         self.ui.pages.setCurrentIndex(Page.FeatureFlags.value)
-    
+
     def on_euEnablerPageBtn_clicked(self):
         self.pages[Page.EUEnabler].load()
         self.ui.pages.setCurrentIndex(Page.EUEnabler.value)
