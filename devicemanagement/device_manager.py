@@ -259,6 +259,56 @@ class DeviceManager:
                     tweaks[TweakID.SpoofCPU].value[0] = self.data_singleton.current_device.cpu
             self.current_device_index = index
 
+    def run_preflight(self) -> PreflightResult:
+        """
+        Run non-destructive checks before applying tweaks.
+
+        This is designed to catch common blockers early (device not connected,
+        not trusted/unlocked, etc.) and provide actionable remediation steps.
+        """
+        checks: list[PreflightCheck] = []
+
+        dev = self.data_singleton.current_device
+        if dev is None:
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.BLOCK,
+                    title=QCoreApplication.tr("No device connected"),
+                    message=QCoreApplication.tr("Please connect an iPhone/iPad and refresh the device list."),
+                )
+            )
+            return PreflightResult(checks=checks)
+
+        # Trust / lockdown availability
+        try:
+            _ = dev.ld.all_values
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.OK,
+                    title=QCoreApplication.tr("Device connection"),
+                    message=QCoreApplication.tr("Device is connected and trusted."),
+                )
+            )
+        except PasswordRequiredError:
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.BLOCK,
+                    title=QCoreApplication.tr("Device locked / not trusted"),
+                    message=QCoreApplication.tr("Unlock your device and tap “Trust” when prompted, then refresh and try again."),
+                )
+            )
+        except Exception as e:
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.BLOCK,
+                    title=QCoreApplication.tr("Device connection failed"),
+                    message=QCoreApplication.tr("Failed to query device via Lockdown."),
+                    details=f"{type(e).__name__}: {e!r}",
+                )
+            )
+
+        return PreflightResult(checks=checks)
+
     def get_current_device_name(self) -> str:
         if self.data_singleton.current_device == None:
             return QCoreApplication.tr("No Device")
