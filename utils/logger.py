@@ -18,7 +18,10 @@ Usage:
 import logging
 import sys
 import os
-from typing import Optional
+import platform
+from datetime import datetime, timezone
+from importlib import metadata
+from typing import Any, Mapping, Optional
 
 
 # Create a custom formatter
@@ -70,24 +73,32 @@ def setup_logger(
     """
     logger = logging.getLogger(name)
 
-    # Avoid adding handlers multiple times
-    if logger.handlers:
-        return logger
-
     logger.setLevel(level)
 
-    # Console handler
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(level)
-    console_handler.setFormatter(NuggetFormatter(use_colors=True))
-    logger.addHandler(console_handler)
+    # Console handler (avoid duplicates)
+    has_console = any(
+        isinstance(h, logging.StreamHandler) and getattr(h, "stream", None) is sys.stdout
+        for h in logger.handlers
+    )
+    if not has_console:
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(level)
+        console_handler.setFormatter(NuggetFormatter(use_colors=True))
+        logger.addHandler(console_handler)
 
     # File handler (optional)
     if log_file:
-        file_handler = logging.FileHandler(log_file, encoding="utf-8")
-        file_handler.setLevel(level)
-        file_handler.setFormatter(NuggetFormatter(use_colors=False))
-        logger.addHandler(file_handler)
+        abs_log_file = os.path.abspath(log_file)
+        has_file = any(
+            isinstance(h, logging.FileHandler)
+            and os.path.abspath(getattr(h, "baseFilename", "")) == abs_log_file
+            for h in logger.handlers
+        )
+        if not has_file:
+            file_handler = logging.FileHandler(abs_log_file, encoding="utf-8")
+            file_handler.setLevel(level)
+            file_handler.setFormatter(NuggetFormatter(use_colors=False))
+            logger.addHandler(file_handler)
 
     return logger
 
@@ -107,6 +118,114 @@ def get_logger(module_name: str) -> logging.Logger:
 
 # Default logger instance
 logger = setup_logger()
+
+# Track the active log file path (if enabled)
+_active_log_file: Optional[str] = None
+
+
+def get_default_log_dir(app_name: str = "Nugget") -> str:
+    """
+    Return a platform-appropriate log directory and ensure it exists.
+    """
+    if sys.platform == "darwin":
+        base_dir = os.path.join(os.path.expanduser("~"), "Library", "Logs", app_name)
+    elif os.name == "nt":
+        base_dir = os.path.join(os.getenv("APPDATA") or os.path.expanduser("~"), app_name, "logs")
+    else:
+        state_home = os.getenv("XDG_STATE_HOME") or os.path.join(
+            os.path.expanduser("~"), ".local", "state"
+        )
+        base_dir = os.path.join(state_home, app_name.lower(), "logs")
+
+    os.makedirs(base_dir, exist_ok=True)
+    return base_dir
+
+
+def get_default_log_file(app_name: str = "Nugget", filename: str = "nugget.log") -> str:
+    """
+    Return the default log file path for Nugget.
+    """
+    return os.path.join(get_default_log_dir(app_name=app_name), filename)
+
+
+def enable_file_logging(log_file: Optional[str] = None, level: int = logging.DEBUG) -> str:
+    """
+    Enable file logging for Nugget (idempotent). Returns the log file path.
+    """
+    global _active_log_file
+    if log_file is None:
+        log_file = get_default_log_file()
+    _active_log_file = os.path.abspath(log_file)
+    setup_logger(name="Nugget", level=level, log_file=_active_log_file)
+    return _active_log_file
+
+
+def get_active_log_file() -> Optional[str]:
+    return _active_log_file
+
+
+def _safe_pkg_version(dist_name: str) -> str:
+    try:
+        return metadata.version(dist_name)
+    except Exception:
+        return "unknown"
+
+
+def collect_diagnostics(
+    *,
+    app_version: Optional[str] = None,
+    app_build: Optional[int] = None,
+    alert_text: Optional[str] = None,
+    traceback_text: Optional[str] = None,
+    device_info: Optional[Mapping[str, Any]] = None,
+    extra: Optional[Mapping[str, Any]] = None,
+    log_file: Optional[str] = None,
+) -> str:
+    """
+    Build a diagnostics text blob suitable for copying into bug reports.
+    """
+    now = datetime.now(timezone.utc).isoformat()
+    if log_file is None:
+        log_file = _active_log_file
+
+    lines: list[str] = []
+    lines.append("=== Nugget Diagnostics ===")
+    lines.append(f"timestamp_utc: {now}")
+    if app_version is not None:
+        lines.append(f"nugget_version: {app_version}")
+    if app_build is not None:
+        lines.append(f"nugget_build: {app_build}")
+    lines.append(f"os: {platform.platform()}")
+    lines.append(f"python: {sys.version.replace(os.linesep, ' ')}")
+    lines.append(f"pymobiledevice3: {_safe_pkg_version('pymobiledevice3')}")
+    lines.append(f"PySide6: {_safe_pkg_version('PySide6')}")
+    if log_file:
+        lines.append(f"log_file: {log_file}")
+
+    if device_info:
+        lines.append("")
+        lines.append("--- device ---")
+        for k, v in device_info.items():
+            lines.append(f"{k}: {v}")
+
+    if extra:
+        lines.append("")
+        lines.append("--- extra ---")
+        for k, v in extra.items():
+            lines.append(f"{k}: {v}")
+
+    if alert_text:
+        lines.append("")
+        lines.append("--- alert ---")
+        lines.append(alert_text)
+
+    if traceback_text:
+        lines.append("")
+        lines.append("--- traceback/details ---")
+        lines.append(traceback_text)
+
+    lines.append("")
+    return "\n".join(lines)
 
 
 # Module-specific loggers
