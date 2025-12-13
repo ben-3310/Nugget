@@ -352,6 +352,45 @@ class DeviceManager:
                 )
             )
 
+        # Find My requirement (best-effort: we cannot reliably query the toggle via lockdown)
+        checks.append(
+            PreflightCheck(
+                status=PreflightStatus.WARN,
+                title=QCoreApplication.tr("Find My"),
+                message=QCoreApplication.tr(
+                    "Find My must be disabled to apply tweaks. If you get a Find My error, disable it and try again."
+                ),
+                remediation=QCoreApplication.tr(
+                    "Settings → [your name] → Find My → disable Find My iPhone"
+                ),
+            )
+        )
+
+        # Developer Mode requirement (best-effort: we cannot reliably query this state pre-apply)
+        if dev.has_bookrestore() and self.pref_manager.bookrestore_apply_mode == BookRestoreApplyMethod.AFC:
+            checks.append(
+                PreflightCheck(
+                    status=PreflightStatus.WARN,
+                    title=QCoreApplication.tr("Developer Mode"),
+                    message=QCoreApplication.tr(
+                        "BookRestore with the AFC method may require Developer Mode to be enabled."
+                    ),
+                    remediation=QCoreApplication.tr(
+                        "Settings → Privacy & Security → Developer Mode"
+                    ),
+                )
+            )
+            if os.name == "nt":
+                checks.append(
+                    PreflightCheck(
+                        status=PreflightStatus.WARN,
+                        title=QCoreApplication.tr("Administrator privileges"),
+                        message=QCoreApplication.tr(
+                            "On Windows, some BookRestore operations may require running Nugget as Administrator."
+                        ),
+                    )
+                )
+
         # iOS 26.2+ explicitly blocks MobileGestalt + AI Enabler tweaks (per project policy)
         if device_ver >= Version("26.2"):
             blocked_enabled: list[str] = []
