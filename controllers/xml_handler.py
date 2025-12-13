@@ -1,6 +1,37 @@
 import xml.etree.ElementTree as tree
+import ast
 
 tree.register_namespace('', "http://www.apple.com/CoreAnimation/1.0")
+
+_ALLOWED_AST_NODES = (
+    ast.Expression,
+    ast.BinOp,
+    ast.UnaryOp,
+    ast.Name,
+    ast.Constant,
+    ast.Add,
+    ast.Sub,
+    ast.Mult,
+    ast.Div,
+    ast.Mod,
+    ast.Pow,
+    ast.UAdd,
+    ast.USub,
+    ast.Load,
+)
+
+def _validate_equation_ast(node: ast.AST) -> None:
+    for child in ast.walk(node):
+        if not isinstance(child, _ALLOWED_AST_NODES):
+            raise ValueError(f"Unsupported expression element: {type(child).__name__}")
+        if isinstance(child, ast.Name) and child.id not in {"x", "y", "z", "a"}:
+            raise ValueError(f"Unsupported variable: {child.id}")
+
+def _safe_eval_equation(expr: str, mapped: dict[str, float]) -> float:
+    parsed = ast.parse(expr, mode="eval")
+    _validate_equation_ast(parsed)
+    compiled = compile(parsed, filename="<nuggetOffset>", mode="eval")
+    return eval(compiled, {"__builtins__": {}}, mapped)
 
 def parse_equation(eq: str, val: str):
     eqns = eq.split(',')
@@ -14,7 +45,7 @@ def parse_equation(eq: str, val: str):
     results = []
     mapped = dict(zip(keys, value))
     for eqn in eqns:
-        results.append(str(eval(eqn, {}, mapped)))
+        results.append(str(_safe_eval_equation(eqn, mapped)))
     # map back to string
     return ' '.join(results)
 

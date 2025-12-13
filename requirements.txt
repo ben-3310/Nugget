@@ -7,3 +7,4 @@ ffmpeg-python
 opencv-python
 pyperclip
 pyuac; sys_platform == 'windows'
+requests

@@ -98,7 +98,7 @@ def concat_regular_file(file: FileToRestore, files_list: list[FileToRestore], la
 # merge all files that have duplicates and returns the list without duplicates
 def merge_duplicates(original_files: list[FileToRestore]) -> list[FileToRestore]:
     no_dupe_files: list[FileToRestore] = []
-    existing_locations: dict[str: int] = {}
+    existing_locations: dict[str, int] = {}
     for file in original_files:
         if file.domain == None:
             file_loc = "-"

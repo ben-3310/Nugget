@@ -53,11 +53,6 @@ class Device:
         return self.has_exploit()
 
 class Version:
-    def __init__(self, major: int, minor: int = 0, patch: int = 0):
-        self.major = major
-        self.minor = minor
-        self.patch = patch
-
     def __init__(self, ver: str):
         nums: list[str] = ver.split(".")
         self.major = int(nums[0])

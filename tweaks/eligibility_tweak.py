@@ -4,22 +4,28 @@ from restore.restore import FileToRestore
 from devicemanagement.constants import Version
 
 import plistlib
-import sys
-from pathlib import Path
-from os import path, getcwd
+from os import path
 
 class InvalidRegionCodeException(Exception):
     "Region code must be exactly 2 characters long!"
     pass
 
+def _deep_replace(obj, old: str, new: str):
+    if isinstance(obj, str):
+        return obj.replace(old, new)
+    if isinstance(obj, dict):
+        return {_deep_replace(k, old, new): _deep_replace(v, old, new) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_deep_replace(v, old, new) for v in obj]
+    if isinstance(obj, tuple):
+        return tuple(_deep_replace(v, old, new) for v in obj)
+    return obj
+
 def replace_region_code(plist_path: str, original_code: str = "US", new_code: str = "US"):
     with open(plist_path, 'rb') as f:
         plist_data = plistlib.load(f)
-    
-    plist_str = str(plist_data)
-    updated_plist_str = plist_str.replace(original_code, new_code)
-    updated_plist_data = eval(updated_plist_str)  # Convert string back to dictionary
 
+    updated_plist_data = _deep_replace(plist_data, original_code, new_code)
     return plistlib.dumps(updated_plist_data)
 
 class EligibilityTweak(Tweak):

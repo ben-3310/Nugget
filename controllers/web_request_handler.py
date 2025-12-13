@@ -6,6 +6,8 @@ Nugget_Repo = "leminlimez/Nugget/releases/latest"
 
 last_fetched_version: str = None
 
+_REQUEST_TIMEOUT_S = 5
+
 def is_update_available(version: str, build: int) -> bool:
     # check github for if version < tag (or == tag but build > 0)
     latest_version = get_latest_version()
@@ -23,7 +25,7 @@ def get_latest_version() -> str:
         return last_fetched_version
     # fetch with web requests
     try:
-        response = get(f"https://api.github.com/repos/{Nugget_Repo}")
+        response = get(f"https://api.github.com/repos/{Nugget_Repo}", timeout=_REQUEST_TIMEOUT_S)
         response.raise_for_status()  # To raise an exception for 4xx/5xx responses
 
         data = response.json()  # Parse the JSON response
