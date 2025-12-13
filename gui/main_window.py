@@ -16,7 +16,7 @@ from gui.dialogs import GestaltDialog, UpdateAppDialog
 from gui.pages.reset_dialog import ResetDialog
 from gui.apply_worker import ApplyThread, ApplyAlertMessage, RefreshDevicesThread, set_sudo_pwd, set_sudo_complete, get_sudo_pwd
 from gui.pages.pages_list import Page
-from restore.bookrestore import BookRestoreFileTransferMethod, BookRestoreApplyMethod
+from restore.bookrestore_types import BookRestoreFileTransferMethod, BookRestoreApplyMethod
 
 from tweaks.tweaks import tweaks, TweakID
 

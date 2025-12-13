@@ -1,7 +1,7 @@
 import plistlib
 
 from PySide6.QtCore import QSettings
-from restore.bookrestore import BookRestoreFileTransferMethod, BookRestoreApplyMethod
+from restore.bookrestore_types import BookRestoreFileTransferMethod, BookRestoreApplyMethod
 
 class PreferenceManager:
     def __init__(self, settings: QSettings):

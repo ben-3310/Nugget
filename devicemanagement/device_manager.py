@@ -36,7 +36,7 @@ from tweaks.basic_plist_locations import FileLocation
 from restore import reboot_device
 from restore.restore import restore_files, FileToRestore
 from restore.bookrestore import perform_bookrestore, create_server_folder, create_local_server, cleanup_server_folder, close_dl_connection, generate_bldbmanager, br_files
-from restore.bookrestore import BookRestoreFileTransferMethod, BookRestoreApplyMethod
+from restore.bookrestore_types import BookRestoreFileTransferMethod, BookRestoreApplyMethod
 from restore.mbdb import _FileMode
 
 def show_error_msg(txt: str, title: str = "Error!", icon = QMessageBox.Critical, detailed_txt: str = None):
